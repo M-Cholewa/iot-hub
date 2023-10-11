@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "mo/f7E0VzQlbTbjHows/5v9SAh3VDHLyL2VfjOGS+8I=",
+  "Source": "iot-hub-backend",
+  "BasePath": "_content/iot-hub-backend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

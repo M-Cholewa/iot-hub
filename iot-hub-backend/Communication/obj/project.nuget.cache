@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "m7Fre9NovFo170eAtrPipsnN3+uKtUHcPjVJJ2vXrI1nHmRw+9Pv5rpQ4LuTEws7dDuGew3PJNF3MAbSnJ5R/Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\DoDeptania\\Desktop\\mateus\\klasa4\\ztpai\\projekt\\iot-hub-backend\\Communication\\Communication.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\DoDeptania\\.nuget\\packages\\rabbitmq.client\\6.5.0\\rabbitmq.client.6.5.0.nupkg.sha512",
+    "C:\\Users\\DoDeptania\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\DoDeptania\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
