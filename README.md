@@ -1,57 +1,74 @@
-# Project Name
+# IoT Hub
 
-A brief introduction to your project.
+IoT Hub is a full-stack application that mimics the functionality of Azure IoT Hub. It consists of a C# .NET Core 6.0 backend and a React frontend. The backend is containerized with Docker, along with RabbitMQ for message queuing.
 
 ## Table of Contents
 
-- [Project Name](#project-name)
-  - [Table of Contents](#table-of-contents)
+- [IoT Hub](#iot-hub)
   - [Description](#description)
-  - [Features](#features)
+  - [Project Structure](#project-structure)
+  - [Prerequisites](#prerequisites)
   - [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
   - [Usage](#usage)
-  - [Contributing](#contributing)
-  - [License](#license)
-  - [Contact](#contact)
 
 ## Description
 
-Provide a brief description of your project, including its purpose and key features.
+IoT Hub is a versatile platform for managing Internet of Things (IoT) devices and data. It provides the core functionalities of Azure IoT Hub, making it suitable for IoT application development, experimentation, and testing.
 
-## Features
+## Project Structure
 
-List the main features and functionalities of your project.
+The project is organized as follows:
+
+- `iot-hub-backend`: Contains the C# .NET Core 6.0 backend.
+- `iot-hub-frontend`: Holds the React frontend.
+- Docker: The backend and RabbitMQ are containerized using Docker.
+
+## Prerequisites
+
+Before you begin, ensure you have the following prerequisites installed:
+
+- Docker
+- .NET Core 6.0 SDK
+- Node.js
+- npm or yarn
 
 ## Getting Started
 
-Explain how to get started with your project, including any prerequisites and installation instructions.
+To get the project up and running, follow these steps:
 
-### Prerequisites
+### Backend
 
-List any software, libraries, or tools that need to be installed before someone can use your project.
+1. Navigate to the `iot-hub-backend` directory.
+2. Build the Docker image for the backend:
 
-### Installation
+   ```bash
+   docker build -t iot-hub-backend .
+   ```
 
-Provide step-by-step instructions for installing your project. You can include code snippets if necessary.
+3. Run the Docker container for the backend:
 
-## Usage
+   ```bash
+   docker run -p 5000:5000 iot-hub-backend
+   ```
 
-Demonstrate how your project can be used. Include examples, screenshots, and code snippets if applicable.
+4. The backend should now be accessible at `http://localhost:3000`.
 
-## Contributing
+### Frontend
 
-Explain how others can contribute to your project, whether it's through bug reports, feature suggestions, or code contributions.
+1. Navigate to the `iot-hub-frontend` directory.
+2. Install frontend dependencies:
 
-## License
+   ```bash
+   npm install
+   ```
 
-Specify the license under which your project is distributed. You can use an open-source license like MIT or Apache.
+3. Start the frontend development server:
 
-## Contact
+   ```bash
+   npm start
+   ```
 
-Provide information on how users can contact you or the project team. Include your email, social media profiles, or a link to your GitHub profile.
+4. The frontend should be accessible at `http://localhost:3000`.
 
----
-
-Feel free to customize this template to suit your project's specific needs. Adding more details, images, and links can make your README.md file even more informative and attractive to potential users and contributors.
