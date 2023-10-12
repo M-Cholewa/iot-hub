@@ -18,16 +18,11 @@ C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\obj\Debug\net6.0\Business.AssemblyInfoInputs.cache
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\obj\Debug\net6.0\Business.AssemblyInfo.cs
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\obj\Debug\net6.0\Business.csproj.CoreCompileInputs.cache
-C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\bin\Debug\net6.0\MessageProcessing.deps.json
-C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\bin\Debug\net6.0\MessageProcessing.runtimeconfig.json
-C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\bin\Debug\net6.0\MessageProcessing.exe
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\bin\Debug\net6.0\Business.deps.json
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\bin\Debug\net6.0\Business.dll
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\bin\Debug\net6.0\Business.pdb
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\bin\Debug\net6.0\Communication.dll
-C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\bin\Debug\net6.0\MessageProcessing.dll
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\bin\Debug\net6.0\Communication.pdb
-C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\bin\Debug\net6.0\MessageProcessing.pdb
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\obj\Debug\net6.0\Business.csproj.CopyComplete
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\obj\Debug\net6.0\Business.dll
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\obj\Debug\net6.0\refint\Business.dll

@@ -3,19 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Communication.DeviceConnection;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
 public class MessageProcessing
 {
+
+    private readonly RabbitMQConnectionConfig _rabbitMQConnection;
+
+    public MessageProcessing(RabbitMQConnectionConfig rabbitMQConnection)
+    {
+        _rabbitMQConnection = rabbitMQConnection;
+    }
+
+
+
     /// <summary>
     /// Main program function
     /// </summary>
-    public static void Run()
+    public void Run()
     {
-
-
-        var factory = new ConnectionFactory { HostName = "localhost" };
+        var factory = new RabbitMQ.Client.ConnectionFactory
+        {
+            Uri = new Uri(_rabbitMQConnection.UriString)
+        };
+        
         using var connection = factory.CreateConnection();
         using var channel = connection.CreateModel();
 
@@ -40,7 +53,5 @@ public class MessageProcessing
 
         Console.WriteLine(" Press [enter] to exit.");
         Console.ReadLine();
-
-        //System.Console.WriteLine("Hello World!");
     }
 }

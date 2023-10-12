@@ -12,7 +12,9 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    build:
+      context: .
+      dockerfile: RabbitMQ/Dockerfile
     container_name: 'rabbitmq'
     ports:
         - 5672:5672

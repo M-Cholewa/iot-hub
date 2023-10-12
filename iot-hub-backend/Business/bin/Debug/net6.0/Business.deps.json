@@ -67,19 +67,10 @@
       },
       "Communication/1.0.0": {
         "dependencies": {
-          "MessageProcessing": "1.0.0",
           "RabbitMQ.Client": "6.5.0"
         },
         "runtime": {
           "Communication.dll": {}
-        }
-      },
-      "MessageProcessing/1.0.0": {
-        "dependencies": {
-          "RabbitMQ.Client": "6.5.0"
-        },
-        "runtime": {
-          "MessageProcessing.dll": {}
         }
       }
     }
@@ -133,11 +124,6 @@
       "hashPath": "system.threading.channels.7.0.0.nupkg.sha512"
     },
     "Communication/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "MessageProcessing/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

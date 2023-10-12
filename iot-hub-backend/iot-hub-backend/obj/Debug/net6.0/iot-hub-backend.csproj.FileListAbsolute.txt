@@ -5,9 +5,6 @@ C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\obj\Debug\net6.0\iot-hub-backend.csproj.CoreCompileInputs.cache
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\obj\Debug\net6.0\iot-hub-backend.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\obj\Debug\net6.0\iot-hub-backend.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\MessageProcessing.deps.json
-C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\MessageProcessing.runtimeconfig.json
-C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\MessageProcessing.exe
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\appsettings.json
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\iot-hub-backend.exe
@@ -25,10 +22,8 @@ C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\System.Threading.Channels.dll
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\Business.dll
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\Communication.dll
-C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\MessageProcessing.dll
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\Business.pdb
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\Communication.pdb
-C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\MessageProcessing.pdb
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\obj\Debug\net6.0\staticwebassets.build.json
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\obj\Debug\net6.0\staticwebassets.development.json
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\obj\Debug\net6.0\scopedcss\bundle\iot-hub-backend.styles.css

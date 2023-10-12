@@ -2,9 +2,6 @@ C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debu
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\obj\Debug\docker-compose.dcproj.CoreCompileInputs.cache
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\iot-hub-backend.deps.json
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\iot-hub-backend.runtimeconfig.json
-C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\MessageProcessing.deps.json
-C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\MessageProcessing.runtimeconfig.json
-C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\MessageProcessing.exe
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\appsettings.Development.json
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\appsettings.json
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\iot-hub-backend.exe

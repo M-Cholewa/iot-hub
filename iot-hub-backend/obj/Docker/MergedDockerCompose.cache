@@ -31,11 +31,13 @@ services:
       bind:
         create_host_path: true
   rabbitmq:
+    build:
+      context: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend
+      dockerfile: RabbitMQ/Dockerfile
     container_name: rabbitmq
     environment:
       RABBITMQ_DEFAULT_PASS: mypass
       RABBITMQ_DEFAULT_USER: user
-    image: rabbitmq:3-management-alpine
     networks:
       default: null
     ports:
