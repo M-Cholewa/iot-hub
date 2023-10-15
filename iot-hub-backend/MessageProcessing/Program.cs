@@ -12,7 +12,11 @@ builder.Configuration.AddUserSecrets<Program>();
 var rabbitMQConnectionConfig = builder.Configuration.GetSection("RabbitMQConnectionConfig").Get<Communication.DeviceConnection.RabbitMQConnectionConfig>();
 builder.Services.AddSingleton(rabbitMQConnectionConfig!);
 
+// add main function
+builder.Services.AddHostedService<MessageProcessing>();
+
+var app = builder.Build();
 
 // * ======================= START APP ======================= *
-var mp = new MessageProcessing(rabbitMQConnectionConfig!);
-mp.Run();
+
+app.Run();

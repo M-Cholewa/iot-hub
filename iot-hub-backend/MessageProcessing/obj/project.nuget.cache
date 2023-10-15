@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "wqjj8Qq+U83v9tEEen+b3e7DvBBNWaw7x+Fq3QTJIxqEg626o3ICAPt6gJJsgzzejF585qAeZEhl9QtAXNE61A==",
+  "dgSpecHash": "8DJZHO4sQMM4oWxVJi9ZwJcIFlX11/qlnafyKusMIVQKV3bthid9XPPT+tax6Zo40MDp+OLykjbe49M71iHBUw==",
   "success": true,
   "projectFilePath": "C:\\Users\\DoDeptania\\Desktop\\mateus\\klasa4\\ztpai\\projekt\\iot-hub-backend\\MessageProcessing\\MessageProcessing.csproj",
   "expectedPackageFiles": [
@@ -31,6 +31,7 @@
     "C:\\Users\\DoDeptania\\.nuget\\packages\\microsoft.extensions.options\\7.0.1\\microsoft.extensions.options.7.0.1.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\7.0.0\\microsoft.extensions.options.configurationextensions.7.0.0.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "C:\\Users\\DoDeptania\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.17.0\\microsoft.visualstudio.azure.containers.tools.targets.1.17.0.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\rabbitmq.client\\6.5.0\\rabbitmq.client.6.5.0.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\system.diagnostics.diagnosticsource\\7.0.1\\system.diagnostics.diagnosticsource.7.0.1.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\system.diagnostics.eventlog\\7.0.0\\system.diagnostics.eventlog.7.0.0.nupkg.sha512",

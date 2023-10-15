@@ -1,0 +1,61 @@
+name: dockercompose1018870522549456708
+services:
+  iot-hub-backend:
+    build:
+      context: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend
+      dockerfile: iot-hub-backend/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: iothubbackend
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 443
+      protocol: tcp
+    volumes:
+    - type: bind
+      source: C:\Users\DoDeptania\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\DoDeptania\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+  messageprocessing:
+    build:
+      context: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend
+      dockerfile: MessageProcessing/Dockerfile
+    image: messageprocessing
+    networks:
+      default: null
+  rabbitmq:
+    build:
+      context: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend
+      dockerfile: RabbitMQ/Dockerfile
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_PASS: mypass
+      RABBITMQ_DEFAULT_USER: user
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 5672
+      published: "5672"
+      protocol: tcp
+    - mode: ingress
+      target: 15672
+      published: "15672"
+      protocol: tcp
+networks:
+  default:
+    name: dockercompose1018870522549456708_default
