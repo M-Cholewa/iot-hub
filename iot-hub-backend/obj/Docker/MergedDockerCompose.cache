@@ -30,6 +30,26 @@ services:
       read_only: true
       bind:
         create_host_path: true
+  messageprocessing:
+    build:
+      context: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend
+      dockerfile: MessageProcessing/Dockerfile
+    image: messageprocessing
+    networks:
+      default: null
+    volumes:
+    - type: bind
+      source: C:\Users\DoDeptania\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\DoDeptania\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
   rabbitmq:
     build:
       context: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend
@@ -48,6 +68,10 @@ services:
     - mode: ingress
       target: 15672
       published: "15672"
+      protocol: tcp
+    - mode: ingress
+      target: 1883
+      published: "1883"
       protocol: tcp
 networks:
   default:

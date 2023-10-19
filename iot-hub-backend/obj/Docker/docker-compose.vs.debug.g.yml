@@ -30,7 +30,7 @@ services:
     tty: true
   messageprocessing:
     image: messageprocessing:dev
-    container_name: MessageProcessing_1
+    container_name: MessageProcessing
     build:
       target: base
       labels:

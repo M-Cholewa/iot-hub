@@ -21,7 +21,7 @@ services:
       com.microsoft.visual-studio.project-name: "iot-hub-backend"
     tty: true
   messageprocessing:
-    container_name: MessageProcessing_1
+    container_name: MessageProcessing
     build:
       labels:
         com.microsoft.created-by: "visual-studio"

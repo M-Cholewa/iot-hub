@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using Communication.DeviceConnection;
 using Microsoft.Extensions.Hosting;
@@ -12,18 +14,17 @@ public class MessageProcessing : IHostedService, IDisposable
 {
 
     private ManualResetEvent _exitEvent;
-    private IConnection _connection;
-    private IModel _channel;
+    private ConnectionFactory _factory;
+    private IConnection? _connection;
+    private IModel? _channel;
 
     public MessageProcessing(RabbitMQConnectionConfig rabbitMQConnection)
     {
-        var factory = new ConnectionFactory
+        _factory = new ConnectionFactory
         {
             Uri = new Uri(rabbitMQConnection.UriString)
         };
 
-        _connection = factory.CreateConnection();
-        _channel = _connection.CreateModel();
         _exitEvent = new ManualResetEvent(false);
 
         Console.CancelKeyPress += (sender, eArgs) =>
@@ -37,11 +38,35 @@ public class MessageProcessing : IHostedService, IDisposable
     /// </summary>
     public Task StartAsync(CancellationToken cancellationToken)
     {
+        // try to connect to the broker
+        while (true)
+        {
+            try
+            {
+                _connection = _factory.CreateConnection();
+                _channel = _connection.CreateModel();
+
+                break;
+            }
+            catch
+            {
+                Console.WriteLine($" [*] Couldnt connect to RabbitMQ");
+                Thread.Sleep(2500);
+            }
+        }
+
+        Console.WriteLine($" [*] Connected to RabbitMQ");
+
         _channel.QueueDeclare(queue: "telemetry_queue",
+
                      durable: false,
                      exclusive: false,
                      autoDelete: false,
-                     arguments: null);
+        arguments: null);
+
+        _channel.QueueBind(queue: "telemetry_queue",
+                  exchange: "amq.topic",
+                  routingKey: "telemetry_queue");
 
         Console.WriteLine(" [*] Waiting for messages.");
 
@@ -70,7 +95,7 @@ public class MessageProcessing : IHostedService, IDisposable
 
     public void Dispose()
     {
-        _channel.Close();
-        _connection.Close();
+        _channel?.Close();
+        _connection?.Close();
     }
 }
