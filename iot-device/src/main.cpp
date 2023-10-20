@@ -1,16 +1,21 @@
 /*********
   Rui Santos
-  Complete project details at https://randomnerdtutorials.com  
+  Complete project details at https://randomnerdtutorials.com
 *********/
 
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <Wire.h>
+#include "nlohmann/json.hpp"
+#include "Domain/RabbitMQ/RPC/RpcRequest.cpp"
+
+using json = nlohmann::json;
+using namespace std;
 
 // Replace the next variables with your SSID/Password combination
-const char* ssid = "Bestconnect_184";
-const char* password = "456123789";
-const char* mqtt_server = "192.168.100.110";
+const char *ssid = "Bestconnect_184";
+const char *password = "456123789";
+const char *mqtt_server = "192.168.100.110";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -19,12 +24,13 @@ char msg[50];
 int value = 0;
 
 void setup_wifi();
-void callback(char* topic, byte* message, unsigned int length);
+void callback(char *topic, byte *message, unsigned int length);
 
 // LED Pin
 const int ledPin = 4;
 
-void setup() {
+void setup()
+{
   Serial.begin(921600);
   setup_wifi();
   client.setServer(mqtt_server, 1883);
@@ -33,7 +39,8 @@ void setup() {
   pinMode(ledPin, OUTPUT);
 }
 
-void setup_wifi() {
+void setup_wifi()
+{
   delay(10);
   // We start by connecting to a WiFi network
   Serial.println();
@@ -42,7 +49,8 @@ void setup_wifi() {
 
   WiFi.begin(ssid, password);
 
-  while (WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED)
+  {
     delay(500);
     Serial.print(".");
   }
@@ -53,45 +61,69 @@ void setup_wifi() {
   Serial.println(WiFi.localIP());
 }
 
-void callback(char* topic, byte* message, unsigned int length) {
+void callback(char *topic, byte *message, unsigned int length)
+{
   Serial.print("Message arrived on topic: ");
   Serial.print(topic);
   Serial.print(". Message: ");
   String messageTemp;
-  
-  for (int i = 0; i < length; i++) {
-    Serial.print((char)message[i]);
+
+  for (int i = 0; i < length; i++)
+  {
     messageTemp += (char)message[i];
   }
-  Serial.println();
 
-  // Feel free to add more if statements to control more GPIOs with MQTT
+  try
+  {
+    auto j = json::parse(messageTemp);
 
-  // If a message is received on the topic esp32/output, you check if the message is either "on" or "off". 
-  // Changes the output state according to the message
-  if (String(topic) == "esp32/output") {
-    Serial.print("Changing output to ");
-    if(messageTemp == "on"){
-      Serial.println("on");
-      digitalWrite(ledPin, HIGH);
-    }
-    else if(messageTemp == "off"){
-      Serial.println("off");
-      digitalWrite(ledPin, LOW);
-    }
+    // conversion: json -> Room
+    auto req = RpcRequest(j);
+
+    // do weird things to send string to serial
+    String reqString = String(string("  >> CorelationId: " + req.CorelationId +
+                                     ", Message: " + req.Message +
+                                     ", ReplyTo: " + req.ReplyTo)
+                                  .c_str());
+
+    Serial.print(reqString);
+
+    Serial.println();
+
+    char repTo[req.ReplyTo.length() + 1];
+    char repMsg[] = "{\"Hello\":1}";
+
+    strncpy(repTo, req.ReplyTo.c_str(), sizeof(repTo));
+    repTo[sizeof(repTo) - 1] = '\0'; // for safety
+
+    Serial.print(repTo);
+    Serial.println();
+
+    client.publish(repTo, repMsg);
+  }
+  catch (exception ex)
+  {
+    Serial.print("EXCEPTON: - ");
+    Serial.print(ex.what());
+    Serial.println();
   }
 }
 
-void reconnect() {
+void reconnect()
+{
   // Loop until we're reconnected
-  while (!client.connected()) {
+  while (!client.connected())
+  {
     Serial.print("Attempting MQTT connection...");
     // Attempt to connect
-    if (client.connect("ESP8266Client", "mqtt-test", "mqtt-test")) {
+    if (client.connect("ESP8266Client", "mqtt-test", "mqtt-test"))
+    {
       Serial.println("connected");
       // Subscribe
-      client.subscribe("somequeue");
-    } else {
+      client.subscribe("rpc_queue");
+    }
+    else
+    {
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" try again in 5 seconds");
@@ -100,21 +132,24 @@ void reconnect() {
     }
   }
 }
-void loop() {
-  if (!client.connected()) {
+void loop()
+{
+  if (!client.connected())
+  {
     reconnect();
   }
   client.loop();
 
   long now = millis();
-  if (now - lastMsg > 5000) {
+  if (now - lastMsg > 5000)
+  {
     lastMsg = now;
-    
+
     // Temperature in Celsius
-    // Uncomment the next line to set temperature in Fahrenheit 
+    // Uncomment the next line to set temperature in Fahrenheit
     // (and comment the previous temperature line)
-    //temperature = 1.8 * bme.readTemperature() + 32; // Temperature in Fahrenheit
-    
+    // temperature = 1.8 * bme.readTemperature() + 32; // Temperature in Fahrenheit
+
     // Convert the value to a char array
     float temperature = 21.37;
     char tempString[8];

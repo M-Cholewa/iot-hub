@@ -28,3 +28,5 @@ C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\obj\Debug\net6.0\refint\Business.dll
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\obj\Debug\net6.0\Business.pdb
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\obj\Debug\net6.0\ref\Business.dll
+C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\bin\Debug\net6.0\Domain.dll
+C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\Business\bin\Debug\net6.0\Domain.pdb

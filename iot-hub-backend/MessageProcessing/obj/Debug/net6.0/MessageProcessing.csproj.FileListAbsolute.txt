@@ -54,3 +54,5 @@ C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\MessageP
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\MessageProcessing\bin\Debug\net6.0\Communication.dll
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\MessageProcessing\bin\Debug\net6.0\Business.pdb
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\MessageProcessing\bin\Debug\net6.0\Communication.pdb
+C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\MessageProcessing\bin\Debug\net6.0\Domain.dll
+C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\MessageProcessing\bin\Debug\net6.0\Domain.pdb

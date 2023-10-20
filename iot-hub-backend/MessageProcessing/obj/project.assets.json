@@ -745,6 +745,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "Domain": "1.0.0",
           "RabbitMQ.Client": "6.5.0"
         },
         "compile": {
@@ -752,6 +753,16 @@
         },
         "runtime": {
           "bin/placeholder/Communication.dll": {}
+        }
+      },
+      "Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Domain.dll": {}
         }
       }
     }
@@ -1867,6 +1878,11 @@
       "type": "project",
       "path": "../Communication/Communication.csproj",
       "msbuildProject": "../Communication/Communication.csproj"
+    },
+    "Domain/1.0.0": {
+      "type": "project",
+      "path": "../Domain/Domain.csproj",
+      "msbuildProject": "../Domain/Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {

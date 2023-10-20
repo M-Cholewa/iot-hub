@@ -67,10 +67,16 @@
       },
       "Communication/1.0.0": {
         "dependencies": {
+          "Domain": "1.0.0",
           "RabbitMQ.Client": "6.5.0"
         },
         "runtime": {
           "Communication.dll": {}
+        }
+      },
+      "Domain/1.0.0": {
+        "runtime": {
+          "Domain.dll": {}
         }
       }
     }
@@ -124,6 +130,11 @@
       "hashPath": "system.threading.channels.7.0.0.nupkg.sha512"
     },
     "Communication/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Domain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
