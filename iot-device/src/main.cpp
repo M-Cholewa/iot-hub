@@ -8,6 +8,7 @@
 #include <Wire.h>
 #include "nlohmann/json.hpp"
 #include "Domain/RabbitMQ/RPC/RpcRequest.cpp"
+#include "Domain/RabbitMQ/RPC/RpcResponse.cpp"
 
 using json = nlohmann::json;
 using namespace std;
@@ -16,6 +17,7 @@ using namespace std;
 const char *ssid = "Bestconnect_184";
 const char *password = "456123789";
 const char *mqtt_server = "192.168.100.110";
+const char *deviceid = "esp-32-device";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -78,28 +80,23 @@ void callback(char *topic, byte *message, unsigned int length)
     auto j = json::parse(messageTemp);
 
     // conversion: json -> Room
-    auto req = RpcRequest(j);
+    auto rpcRequest = RpcRequest(j);
 
     // do weird things to send string to serial
-    String reqString = String(string("  >> CorelationId: " + req.CorelationId +
-                                     ", Message: " + req.Message +
-                                     ", ReplyTo: " + req.ReplyTo)
+    String reqString = String(string("  >> CorelationId: " + rpcRequest.CorelationId +
+                                     ", MethodName: " + rpcRequest.MethodName +
+                                     ", ArgumentsJson: " + rpcRequest.ArgumentsJson +
+                                     ", ReplyTo: " + rpcRequest.ReplyTo)
                                   .c_str());
 
     Serial.print(reqString);
 
     Serial.println();
 
-    char repTo[req.ReplyTo.length() + 1];
-    char repMsg[] = "{\"Hello\":1}";
+    auto rpcResponse = RpcResponse(rpcRequest.MethodName, rpcRequest.CorelationId, "{\"Hello\":1}");
+    string responseStringJson = rpcResponse.to_json().dump();
 
-    strncpy(repTo, req.ReplyTo.c_str(), sizeof(repTo));
-    repTo[sizeof(repTo) - 1] = '\0'; // for safety
-
-    Serial.print(repTo);
-    Serial.println();
-
-    client.publish(repTo, repMsg);
+    client.publish(rpcRequest.ReplyTo.c_str(), responseStringJson.c_str());
   }
   catch (exception ex)
   {
@@ -120,7 +117,7 @@ void reconnect()
     {
       Serial.println("connected");
       // Subscribe
-      client.subscribe("rpc_queue");
+      client.subscribe(deviceid);
     }
     else
     {

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "FHzqUo7fSiOtX5lJbSNKCqZeYOGIecGawr1OAVVhJ28jQYIPNwHO6NmCmjsmxFrBi9APFDydiKqPUcR0/aq83g==",
+  "dgSpecHash": "q6ZJAr5m8GhQHCXVl0qfS5DP3jJ9yN1si3TVhIl7KnNCjZ+NwgxSq3gaIOmfMKjrsrsZ+lDOWwuyXKhN3ioGTw==",
   "success": true,
   "projectFilePath": "C:\\Users\\DoDeptania\\Desktop\\mateus\\klasa4\\ztpai\\projekt\\iot-hub-backend\\Communication\\Communication.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\DoDeptania\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\rabbitmq.client\\6.5.0\\rabbitmq.client.6.5.0.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512"

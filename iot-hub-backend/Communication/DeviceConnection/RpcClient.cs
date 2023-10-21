@@ -1,4 +1,6 @@
-﻿using Domain.RabbitMQ.RPC;
+﻿using Communication.Config;
+using Domain.RabbitMQ.RPC;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
@@ -7,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Communication.DeviceConnection
@@ -16,17 +19,23 @@ namespace Communication.DeviceConnection
         public string UriString { get; set; } = "?";
     }
 
+    public enum RpcResult
+    {
+        SUCCESS,
+        ERROR_TIMEOUT,
+        ERROR_OTHER,
+    }
+
     public class RpcClient : IRpcClient
     {
-        private const string QUEUE_NAME = "rpc_queue";
-
         private readonly IConnection connection;
         private readonly IModel channel;
-        private readonly string replyQueueName;
         private readonly ConcurrentDictionary<string, TaskCompletionSource<RpcResponse?>> callbackMapper = new();
+        private readonly ILogger<RpcClient> _logger;
 
-        public RpcClient(RabbitMQConnectionConfig rabbitMQConnection)
+        public RpcClient(RabbitMQConnectionConfig rabbitMQConnection, ILogger<RpcClient> logger)
         {
+            _logger = logger;
 
             var factory = new RabbitMQ.Client.ConnectionFactory
             {
@@ -35,13 +44,13 @@ namespace Communication.DeviceConnection
 
             connection = factory.CreateConnection();
             channel = connection.CreateModel();
-            // declare a server-named queue
-            replyQueueName = channel.QueueDeclare().QueueName;
 
-            // as the device is using MQTT and server is using AMQP, we must bind this queue to the default MQTT exchange which is amq.topic
-            channel.QueueBind(queue: replyQueueName,
-              exchange: "amq.topic",
-              routingKey: replyQueueName);
+            // create reply queue
+            channel.QueueDeclare(queue: RabbitMQConfig.RPC_REPLY_QUEUE_NAME);
+            // bind to mqtt
+            channel.QueueBind(queue: RabbitMQConfig.RPC_REPLY_QUEUE_NAME,
+              exchange: RabbitMQConfig.MQTT_EXCHANGE,
+              routingKey: RabbitMQConfig.RPC_REPLY_QUEUE_NAME);
 
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (model, ea) =>
@@ -58,19 +67,44 @@ namespace Communication.DeviceConnection
             };
 
             channel.BasicConsume(consumer: consumer,
-                                 queue: replyQueueName,
+                                 queue: RabbitMQConfig.RPC_REPLY_QUEUE_NAME,
                                  autoAck: true);
+
         }
 
-        public Task<RpcResponse?> CallAsync(string message, CancellationToken cancellationToken = default)
+        public async Task<(RpcResult, RpcResponse?)> CallMethodAsync(string deviceId, string methodName, string argumentsJson, CancellationToken cancellationToken = default)
         {
             var correlationId = Guid.NewGuid().ToString();
-            RpcRequest req = new(replyQueueName, message, correlationId);
+
+            var task = Call(deviceId, methodName, argumentsJson, correlationId, cancellationToken);
+
+            //return response or timeout
+            try
+            {
+                if (await Task.WhenAny(task, Task.Delay(RabbitMQConfig.RPC_TIMEOUT_MS, cancellationToken)) == task)
+                {
+                    return (RpcResult.SUCCESS, await task);
+                }
+                else
+                {
+                    return (RpcResult.ERROR_TIMEOUT, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("RpcClient CallMethodAsync" + ex.Message);
+                return (RpcResult.ERROR_OTHER, null);
+            }
+        }
+
+        private Task<RpcResponse?> Call(string deviceId, string methodName, string argumentsJson, string correlationId, CancellationToken cancellationToken = default)
+        {
+            RpcRequest req = new(methodName, argumentsJson, correlationId, RabbitMQConfig.RPC_REPLY_QUEUE_NAME);
             var tcs = new TaskCompletionSource<RpcResponse?>();
             callbackMapper.TryAdd(correlationId, tcs);
 
-            channel.BasicPublish(exchange: "amq.topic",
-                                 routingKey: QUEUE_NAME,
+            channel.BasicPublish(exchange: RabbitMQConfig.MQTT_EXCHANGE,
+                                 routingKey: deviceId,
                                  body: req.GetJsonBytes());
 
             cancellationToken.Register(() => callbackMapper.TryRemove(correlationId, out _));

@@ -9,25 +9,28 @@ class RpcRequest
 {
 public:
     string ReplyTo;
-    string Message;
+    string MethodName;
+    string ArgumentsJson;
     string CorelationId;
 
-    RpcRequest(string replyTo, string message, string corelationId)
+    RpcRequest(string replyTo, string methodName, string argumentsJson, string corelationId)
     {
         ReplyTo = replyTo;
-        Message = message;
+        MethodName = methodName;
+        ArgumentsJson = argumentsJson;
         CorelationId = corelationId;
     }
 
     RpcRequest(const json &j)
     {
         j.at("ReplyTo").get_to(ReplyTo);
-        j.at("Message").get_to(Message);
+        j.at("MethodName").get_to(MethodName);
+        j.at("ArgumentsJson").get_to(ArgumentsJson);
         j.at("CorelationId").get_to(CorelationId);
     }
 
     json to_json()
     {
-        return json{{Nameof(ReplyTo), ReplyTo}, {Nameof(Message), Message}, {Nameof(CorelationId), CorelationId}};
+        return json{{Nameof(ReplyTo), ReplyTo}, {Nameof(MethodName), MethodName}, {Nameof(ArgumentsJson), ArgumentsJson}, {Nameof(CorelationId), CorelationId}};
     }
 };

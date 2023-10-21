@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "mLvRcQO+LklTISdXuNETzdzm6H9YYBx3hCOgQ5ESDnLfW0YJhUZaqYuxAWh6zjajpWoHTaJzU5dyGn4ZCqY3LQ==",
+  "dgSpecHash": "BxYDAMD4vUISVdeT8wy1cXtmDTScqUTM9MNcjdE12HgvG1BI5SVRI+TDtl3nr6PeSWaM+4x5jxdUSrCGWdn5Qg==",
   "success": true,
   "projectFilePath": "C:\\Users\\DoDeptania\\Desktop\\mateus\\klasa4\\ztpai\\projekt\\iot-hub-backend\\iot-hub-backend\\iot-hub-backend.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\DoDeptania\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\DoDeptania\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.17.0\\microsoft.visualstudio.azure.containers.tools.targets.1.17.0.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\rabbitmq.client\\6.5.0\\rabbitmq.client.6.5.0.nupkg.sha512",

@@ -9,13 +9,15 @@ namespace Domain.RabbitMQ.RPC
     public class RpcRequest
     {
         public string ReplyTo { get; set; }
-        public string Message { get; set; }
+        public string MethodName { get; set; }
+        public string ArgumentsJson { get; set; }
         public string CorelationId { get; set; }
 
-        public RpcRequest(string replyTo, string message, string corelationId)
+        public RpcRequest(string methodName, string argumentsJson, string corelationId, string replyTo)
         {
             ReplyTo = replyTo;
-            Message = message;
+            MethodName = methodName;
+            ArgumentsJson = argumentsJson;
             CorelationId = corelationId;
         }
 

@@ -746,6 +746,7 @@
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "Domain": "1.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "7.0.0",
           "RabbitMQ.Client": "6.5.0"
         },
         "compile": {

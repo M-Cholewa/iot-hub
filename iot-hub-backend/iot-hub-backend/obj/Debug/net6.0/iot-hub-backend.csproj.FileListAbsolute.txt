@@ -35,3 +35,4 @@ C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\obj\Debug\net6.0\ref\iot-hub-backend.dll
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\Domain.dll
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\Domain.pdb
+C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\iot-hub-backend\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll

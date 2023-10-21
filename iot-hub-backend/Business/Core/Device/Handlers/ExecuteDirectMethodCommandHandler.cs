@@ -26,7 +26,7 @@ namespace Business.Core.Device.Handlers
         {
 
             //Console.WriteLine(" [x] Requesting fib({0})", n);
-            var response = await _rpcClient.CallAsync(request.MethodName);
+            var response = await _rpcClient.CallMethodAsync("esp-32-device", request.MethodName, request.Payload);
             Console.WriteLine(" [.] Got '{0}'", response);
 
             return new ExecuteDirectMethodCommandResult { IsSuccess = false };

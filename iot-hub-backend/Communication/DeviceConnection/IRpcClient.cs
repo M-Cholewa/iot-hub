@@ -9,7 +9,6 @@ namespace Communication.DeviceConnection
 {
     public interface IRpcClient : IDisposable
     {
-        public Task<RpcResponse?> CallAsync(string message, CancellationToken cancellationToken = default);
-
+        public Task<(RpcResult, RpcResponse?)> CallMethodAsync(string deviceId, string methodName, string argumentsJson, CancellationToken cancellationToken = default);
     }
 }
