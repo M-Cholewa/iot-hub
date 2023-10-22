@@ -8,7 +8,7 @@ services:
         com.microsoft.created-by: visual-studio
         com.microsoft.visual-studio.project-name: iot-hub-backend
       target: base
-    container_name: iot-hub-backend
+    container_name: ASP.Net-Backend
     entrypoint:
     - tail
     - -f
@@ -133,7 +133,7 @@ services:
     build:
       context: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend
       dockerfile: RabbitMQ/Dockerfile
-    container_name: rabbitmq
+    container_name: RabbitMQ
     environment:
       RABBITMQ_DEFAULT_PASS: mypass
       RABBITMQ_DEFAULT_USER: user

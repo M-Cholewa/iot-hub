@@ -4,6 +4,7 @@ services:
     build:
       context: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend
       dockerfile: iot-hub-backend/Dockerfile
+    container_name: ASP.Net-Backend
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: https://+:443;http://+:80
@@ -34,6 +35,7 @@ services:
     build:
       context: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend
       dockerfile: MessageProcessing/Dockerfile
+    container_name: MessageProcessing
     image: messageprocessing
     networks:
       default: null
@@ -54,7 +56,7 @@ services:
     build:
       context: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend
       dockerfile: RabbitMQ/Dockerfile
-    container_name: rabbitmq
+    container_name: RabbitMQ
     environment:
       RABBITMQ_DEFAULT_PASS: mypass
       RABBITMQ_DEFAULT_USER: user

@@ -3,7 +3,6 @@ version: '3.4'
 services:
   iot-hub-backend:
     image: iothubbackend:dev
-    container_name: iot-hub-backend
     build:
       target: base
       labels:
@@ -30,7 +29,6 @@ services:
     tty: true
   messageprocessing:
     image: messageprocessing:dev
-    container_name: MessageProcessing
     build:
       target: base
       labels:

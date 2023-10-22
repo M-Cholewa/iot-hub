@@ -6,7 +6,8 @@
     <ProjectGuid>1d518d6e-48af-45bc-b27d-fe21a5bd487b</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>iot-hub-backend</DockerServiceName>
+    <DockerComposeProjectName>iot-hub-project</DockerComposeProjectName>
+	<DockerServiceName>iot-hub-backend</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

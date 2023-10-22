@@ -2,7 +2,6 @@ version: '3.4'
 
 services:
   iot-hub-backend:
-    container_name: iot-hub-backend
     build:
       labels:
         com.microsoft.created-by: "visual-studio"
@@ -21,7 +20,6 @@ services:
       com.microsoft.visual-studio.project-name: "iot-hub-backend"
     tty: true
   messageprocessing:
-    container_name: MessageProcessing
     build:
       labels:
         com.microsoft.created-by: "visual-studio"
