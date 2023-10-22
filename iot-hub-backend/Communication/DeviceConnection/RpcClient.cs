@@ -78,23 +78,29 @@ namespace Communication.DeviceConnection
 
             var task = Call(deviceId, methodName, argumentsJson, correlationId, cancellationToken);
 
+            (RpcResult, RpcResponse?) result;
+
             //return response or timeout
             try
             {
                 if (await Task.WhenAny(task, Task.Delay(RabbitMQConfig.RPC_TIMEOUT_MS, cancellationToken)) == task)
                 {
-                    return (RpcResult.SUCCESS, await task);
+                    result = (RpcResult.SUCCESS, await task);
                 }
                 else
                 {
-                    return (RpcResult.ERROR_TIMEOUT, null);
+                    result = (RpcResult.ERROR_TIMEOUT, null);
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError("RpcClient CallMethodAsync" + ex.Message);
-                return (RpcResult.ERROR_OTHER, null);
+                result = (RpcResult.ERROR_OTHER, null);
             }
+
+            // remove callback no matter what
+            callbackMapper.TryRemove(correlationId, out _);
+            return result;
         }
 
         private Task<RpcResponse?> Call(string deviceId, string methodName, string argumentsJson, string correlationId, CancellationToken cancellationToken = default)
