@@ -4,7 +4,7 @@ services:
   iot-hub-backend:
     container_name: "ASP.Net-Backend"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
       - ASPNETCORE_URLS=https://+:443;http://+:80
     ports:
       - "80"
@@ -20,11 +20,22 @@ services:
         - 15672:15672
         - 1883:1883
     environment:
-        - RABBITMQ_DEFAULT_USER=user
-        - RABBITMQ_DEFAULT_PASS=mypass
+        - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+        - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+        - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
 
   messageprocessing:
     container_name: "MessageProcessing"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  postgresql:
+    restart: always
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - ./docker/postgres/:/docker-entrypoint-initdb.d/

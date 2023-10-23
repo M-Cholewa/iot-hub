@@ -17,3 +17,9 @@ services:
     build:
       context: .
       dockerfile: RabbitMQ/Dockerfile
+
+  postgresql:
+    image: postgres:16.0
+    build:
+      context: .
+      dockerfile: PostgreSQL/Dockerfile
