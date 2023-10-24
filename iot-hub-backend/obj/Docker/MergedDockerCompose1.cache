@@ -127,6 +127,7 @@ services:
     build:
       context: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend
       dockerfile: PostgreSQL/Dockerfile
+    container_name: PostgreSQL
     environment:
       POSTGRES_DB: iothub
       POSTGRES_PASSWORD: dbpass

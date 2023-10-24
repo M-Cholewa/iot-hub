@@ -56,3 +56,13 @@ C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debu
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\MessageProcessing.pdb
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\Domain.dll
 C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\Domain.pdb
+C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\libman.json
+C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\Microsoft.EntityFrameworkCore.dll
+C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\Npgsql.dll
+C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\bin\Debug\Microsoft.AspNetCore.Cryptography.Internal.dll

@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "dzWQJLldlmm4F+3v/gJiXINHIGZH+TzJbmlSct1RrqliZ2t1Kgj28UwsO3GBEBP7Y6B8wDDEQjAlz9nEkZP4Kw==",
+  "dgSpecHash": "ERPRqsvHEsVMBKsVUoVxLF3d1qP9L0hajRjJQAmpdnwMQrhZFIDE48+xlgScVAu2cJAk1pbSyYR2wZiyHQ3Nyw==",
   "success": true,
   "projectFilePath": "C:\\Users\\DoDeptania\\Desktop\\mateus\\klasa4\\ztpai\\projekt\\iot-hub-backend\\Business\\Business.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\DoDeptania\\.nuget\\packages\\mediatr\\12.1.1\\mediatr.12.1.1.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\DoDeptania\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\7.0.13\\microsoft.aspnetcore.cryptography.internal.7.0.13.nupkg.sha512",
+    "C:\\Users\\DoDeptania\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\7.0.13\\microsoft.aspnetcore.cryptography.keyderivation.7.0.13.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\DoDeptania\\.nuget\\packages\\rabbitmq.client\\6.5.0\\rabbitmq.client.6.5.0.nupkg.sha512",
