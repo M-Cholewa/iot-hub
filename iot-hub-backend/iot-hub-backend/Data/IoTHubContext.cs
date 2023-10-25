@@ -20,7 +20,6 @@ namespace iot_hub_backend.Data
             {
                 user.Property(u => u.Email).HasColumnType("varchar(200)").IsRequired();
                 user.Property(u => u.PasswordHash).HasColumnType("varchar(200)").IsRequired();
-                user.Property(u => u.Roles).HasColumnType("varchar(200)");
             });
 
             modelBuilder.Entity<User>().HasIndex(user => user.Email).IsUnique();

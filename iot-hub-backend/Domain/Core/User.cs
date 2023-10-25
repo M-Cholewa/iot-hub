@@ -16,6 +16,6 @@ namespace Domain.Core
 
         public string? PasswordHash { get; set; }
 
-        public string? Roles { get; set; }
+        public List<string>? Roles { get; set; }
     }
 }
