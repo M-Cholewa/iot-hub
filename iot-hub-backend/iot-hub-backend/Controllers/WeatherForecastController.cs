@@ -28,13 +28,15 @@ namespace iot_hub_backend.Controllers
         private readonly IMediator _mediator;
         private readonly IoTHubContext _context;
         private readonly Business.Infrastructure.Security.IPasswordHasher _passHasher;
+        private readonly JwtSettings _jwtSettings;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMediator mediator, IoTHubContext context, IPasswordHasher passHasher)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMediator mediator, IoTHubContext context, IPasswordHasher passHasher, JwtSettings jwtSettings)
         {
             _logger = logger;
             _mediator = mediator;
             _context = context;
             _passHasher = passHasher;
+            _jwtSettings = jwtSettings;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -50,7 +52,6 @@ namespace iot_hub_backend.Controllers
         }
 
 
-        //[Authorize(Policy = IdentityData.AdminUserPolicyName)]
         [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "true")]
         [HttpPost("ExecuteDirectMethod")]
@@ -64,7 +65,7 @@ namespace iot_hub_backend.Controllers
         [HttpPost("token")]
         public IActionResult GenerateToken([FromBody]TokenGenerationRequest request)
         {
-            var TokenSecret = 
+            var TokenSecret = _jwtSettings.Key!;
             var TokenLifetime = TimeSpan.FromHours(8);
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -80,15 +81,6 @@ namespace iot_hub_backend.Controllers
 
             foreach(var claimPair in request.CustomClaims)
             {
-                //var jsonElement = (JsonElement)claimPair.Value;
-                //var valueType = jsonElement.ValueKind switch
-                //{
-                //    JsonValueKind.True => ClaimValueTypes.Boolean,
-                //    JsonValueKind.False => ClaimValueTypes.Boolean,
-                //    JsonValueKind.Number => ClaimValueTypes.Double,
-                //    _ => ClaimValueTypes.String
-                //};
-
                 var claim = new Claim(claimPair.Key, claimPair.Value.ToString()!, ClaimValueTypes.Boolean);
                 claims.Add(claim);
             }
@@ -97,8 +89,8 @@ namespace iot_hub_backend.Controllers
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.Add(TokenLifetime),
-                Issuer = "http://localhost:51186/",
-                Audience = "http://localhost:3000/",
+                Issuer = _jwtSettings.Issuer,
+                Audience = _jwtSettings.Audience,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256),
             };
 
@@ -121,7 +113,7 @@ namespace iot_hub_backend.Controllers
         }
 
         [HttpPost("Login")]
-        public ActionResult<bool> Login(string email, string password)
+        public ActionResult<string?> Login(string email, string password)
         {
             var usr = _context.Users.Where(x => x.Email == email).First();
 

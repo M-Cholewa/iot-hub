@@ -13,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+builder.Services.AddSingleton(jwtSettings);
+
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -21,8 +24,6 @@ builder.Services.AddAuthentication(x =>
 })
     .AddJwtBearer(x =>
     {
-        var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
-
         x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
         {
             ValidIssuer = jwtSettings.Issuer,
