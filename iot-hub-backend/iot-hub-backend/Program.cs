@@ -64,9 +64,10 @@ builder.Services.AddScoped<Business.Infrastructure.Security.IPasswordHasher, Bus
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Business.Core.Device.Commands.ExecuteDirectMethodCommand>());
 
-var rabbitMQConnectionConfig = builder.Configuration.GetSection("RabbitMQConnectionConfig").Get<Communication.DeviceConnection.RabbitMQConnectionConfig>();
-builder.Services.AddSingleton(rabbitMQConnectionConfig);
-builder.Services.AddSingleton<Communication.DeviceConnection.IRpcClient, Communication.DeviceConnection.RpcClient>();
+// configure MQTT
+var mqttConnectionConfig = builder.Configuration.GetSection("MQTTConnectionConfig").Get<Communication.MQTT.Config.MQTTConnectionConfig>();
+builder.Services.AddSingleton(mqttConnectionConfig);
+builder.Services.AddSingleton<Communication.MQTT.IRpcClient, Communication.MQTT.RpcClient>();
 
 // CORS
 builder.Services.AddCors(options =>

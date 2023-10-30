@@ -123,6 +123,64 @@ services:
       target: /src
       bind:
         create_host_path: true
+  mqttserver:
+    build:
+      context: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend
+      dockerfile: MQTTServer/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: MQTTServer
+      target: base
+    container_name: MQTTServer
+    entrypoint:
+    - tail
+    - -f
+    - /dev/null
+    environment:
+      NUGET_FALLBACK_PACKAGES: ""
+    image: mqttserver:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net6.0/MQTTServer.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 1883
+      published: "1883"
+      protocol: tcp
+    tty: true
+    volumes:
+    - type: bind
+      source: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend\MQTTServer
+      target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\DoDeptania\vsdbg\vs2017u5
+      target: /remote_debugger
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\DoDeptania\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\DoDeptania\.nuget\packages\
+      target: /root/.nuget/packages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend
+      target: /src
+      bind:
+        create_host_path: true
   postgresql:
     build:
       context: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend
@@ -147,30 +205,6 @@ services:
       target: /docker-entrypoint-initdb.d
       bind:
         create_host_path: true
-  rabbitmq:
-    build:
-      context: C:\Users\DoDeptania\Desktop\mateus\klasa4\ztpai\projekt\iot-hub-backend
-      dockerfile: RabbitMQ/Dockerfile
-    container_name: RabbitMQ
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      RABBITMQ_DEFAULT_PASS: mypass
-      RABBITMQ_DEFAULT_USER: user
-    networks:
-      default: null
-    ports:
-    - mode: ingress
-      target: 5672
-      published: "5672"
-      protocol: tcp
-    - mode: ingress
-      target: 15672
-      published: "15672"
-      protocol: tcp
-    - mode: ingress
-      target: 1883
-      published: "1883"
-      protocol: tcp
 networks:
   default:
     name: iot-hub-project_default

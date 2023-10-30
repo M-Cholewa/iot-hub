@@ -10,6 +10,7 @@
     <DockerComposeEnvFilePath>.env</DockerComposeEnvFilePath>
   </PropertyGroup>
   <ItemGroup>
+    <None Include=".env - Copy" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
@@ -17,7 +18,5 @@
     <None Include=".dockerignore" />
     <None Include=".env" />
     <None Include="PostgreSQL\Dockerfile" />
-    <None Include="RabbitMQ\Dockerfile" />
-    <None Include="RabbitMQ\init.sh" />
   </ItemGroup>
 </Project>

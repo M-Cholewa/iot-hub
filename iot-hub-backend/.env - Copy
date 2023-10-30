@@ -1,0 +1,9 @@
+﻿ASPNETCORE_ENVIRONMENT=Development
+RABBITMQ_DEFAULT_USER=user
+RABBITMQ_DEFAULT_PASS=mypass
+RABBIT_IOT_USER=mqtt-test
+RABBIT_IOT_PWD=mqtt-test
+RABBITMQ_PID_FILE=/var/lib/rabbitmq/mnesia/rabbitmq
+POSTGRES_DB=iothub
+POSTGRES_USER=dbuser
+POSTGRES_PASSWORD=dbpass

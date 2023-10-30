@@ -8,9 +8,9 @@ HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 // add users secrets
 builder.Configuration.AddUserSecrets<Program>();
 
-// configure rabbitmq
-var rabbitMQConnectionConfig = builder.Configuration.GetSection("RabbitMQConnectionConfig").Get<Communication.DeviceConnection.RabbitMQConnectionConfig>();
-builder.Services.AddSingleton(rabbitMQConnectionConfig!);
+// configure MQTT
+var mqttConnectionConfig = builder.Configuration.GetSection("MQTTConnectionConfig").Get<Communication.MQTT.Config.MQTTConnectionConfig>();
+builder.Services.AddSingleton(mqttConnectionConfig!);
 
 // add main function
 builder.Services.AddHostedService<MessageProcessing>();
