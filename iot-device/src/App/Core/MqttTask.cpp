@@ -28,7 +28,7 @@ void MqttTask::callback(char *topic, byte *message, unsigned int length)
     DebugSerial::Get()->print(topic);
     DebugSerial::Get()->print(". Message: ");
 
-    String messageTemp;
+    string messageTemp;
 
     for (int i = 0; i < length; i++)
     {
@@ -48,11 +48,24 @@ void MqttTask::callback(char *topic, byte *message, unsigned int length)
         DebugSerial::Get()->print(String(reqString.c_str()));
         DebugSerial::Get()->println();
 
-        auto it = topicHandlerMap.find(topic);
+        // auto it = topicHandlerMap.find(topic);
 
-        if (it != topicHandlerMap.end())
+        bool _found = false;
+
+        for (auto const &x : topicHandlerMap)
         {
-            auto handlerResult = it->second->Handle(rpcRequest.ArgumentsJson);
+
+            String topicString = String(topic);
+            String topisStringEnd = String("/") + MqttConfig::DeviceId + String(".") + x.first.c_str();
+
+            if (!topicString.endsWith(topisStringEnd))
+            {
+                continue;
+            }
+
+            _found = true;
+
+            auto handlerResult = x.second->Handle(rpcRequest.ArgumentsJson);
             RpcResponse rpcResponse = RpcResponse(handlerResult);
 
             string responseStringJson = rpcResponse
@@ -64,7 +77,8 @@ void MqttTask::callback(char *topic, byte *message, unsigned int length)
 
             client.publish(resTopicCharArray, resStringJsonCharArray);
         }
-        else
+
+        if (!_found)
         {
             DebugSerial::Get()->print("No handler found for RPC function: ");
             DebugSerial::Get()->print(topic);
@@ -93,7 +107,12 @@ void MqttTask::reconnect()
             // Subscribe
             for (auto const &x : topicHandlerMap)
             {
-                client.subscribe(x.first.c_str()); // first -> key
+                string topic = string(MqttConfig::RpcTopicBase) + x.first; // first -> key
+
+                DebugSerial::Get()->print("Subscribing to topic: ");
+                DebugSerial::Get()->println(topic.c_str());
+
+                client.subscribe(topic.c_str());
             }
         }
         else
@@ -133,4 +152,4 @@ void MqttTask::Loop()
 
 // maps incomming message on RPC topic to specific handler
 const std::map<string, std::shared_ptr<IRpcHandler>> MqttTask::topicHandlerMap = {
-    {MqttConfig::RpcTopicBase + "ping", std::make_shared<PingRpcHandler>()}};
+    {"ping", std::make_shared<PingRpcHandler>()}};
