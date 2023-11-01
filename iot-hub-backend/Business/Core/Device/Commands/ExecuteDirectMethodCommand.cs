@@ -15,7 +15,7 @@ namespace Business.Core.Device.Commands
 
     public class ExecuteDirectMethodCommand : IRequest<ExecuteDirectMethodCommandResult>
     {
-        public long DeviceId { get; set; }
+        public Guid DeviceId { get; set; }
         public string MethodName { get; set; } = "?";
         public string Payload { get; set; } = "?";
 
