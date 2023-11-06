@@ -1,8 +1,3 @@
-/*********
-  Rui Santos
-  Complete project details at https://randomnerdtutorials.com
-*********/
-
 #include "App/Core/WifiTask.hpp"
 #include "App/Core/MqttTask.hpp"
 #include "App/Serial/DebugSerial.hpp"
@@ -10,9 +5,6 @@
 using namespace std;
 
 long lastMsg = 0;
-
-// LED Pin
-const int ledPin = 4;
 
 WifiTask wifiTask = WifiTask();
 MqttTask mqttTask = MqttTask(wifiTask.GetWifiClient());
@@ -27,8 +19,6 @@ void setup()
 
   // setup mqtt
   mqttTask.Setup();
-
-  pinMode(ledPin, OUTPUT);
 
   DebugSerial::Get()->print("Setup complete");
 }
