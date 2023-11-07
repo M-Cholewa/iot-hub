@@ -13,17 +13,6 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
-  rabbitmq:
-    container_name: "RabbitMQ"
-    ports:
-        - 5672:5672
-        - 15672:15672
-        - 1883:1883
-    environment:
-        - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-        - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
-        - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
-
   messageprocessing:
     container_name: "MessageProcessing"
     volumes:
@@ -40,3 +29,10 @@ services:
       - 5432:5432
     volumes:
       - ./docker/postgres/:/docker-entrypoint-initdb.d/
+
+  mqttserver:
+    container_name: "MQTTServer"
+    ports:
+      - 1883:1883
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro

@@ -6,10 +6,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Business.Core.Device.Commands;
-using Communication.DeviceConnection;
+using Communication.MQTT;
 using MediatR;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 
 namespace Business.Core.Device.Handlers
 {
