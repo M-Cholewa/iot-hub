@@ -1,4 +1,4 @@
-//#define CREATE_DB
+#define CREATE_DB
 
 using iot_hub_backend.Data;
 using iot_hub_backend.Infrastructure.Security;

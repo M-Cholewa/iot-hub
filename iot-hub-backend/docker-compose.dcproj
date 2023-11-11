@@ -10,7 +10,7 @@
     <DockerComposeEnvFilePath>.env</DockerComposeEnvFilePath>
   </PropertyGroup>
   <ItemGroup>
-    <None Include=".env - Copy" />
+    <None Include=".env_Copy" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
