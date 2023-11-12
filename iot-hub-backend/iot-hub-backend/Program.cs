@@ -1,5 +1,6 @@
 #define CREATE_DB
 
+using Business.Core.Device.Commands;
 using iot_hub_backend.Data;
 using iot_hub_backend.Infrastructure.Security;
 using iot_hub_backend.Swagger;
@@ -41,8 +42,8 @@ builder.Services.AddAuthentication(x =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy(IdentityData.AdminUserPolicyName, p =>
-        p.RequireClaim(IdentityData.AdminUserClaimName, "true"));
+    options.AddPolicy(Policies.UserPolicyName, p =>
+        p.RequireClaim(ClaimNames.UserRole, "true"));
 });
 
 builder.Services.AddControllers();
@@ -62,7 +63,7 @@ option =>
 // For user password
 builder.Services.AddScoped<Business.Infrastructure.Security.IPasswordHasher, Business.Infrastructure.Security.PasswordHasher>();
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Business.Core.Device.Commands.ExecuteDirectMethodCommand>());
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<ExecuteDirectMethodCommand>());
 
 // configure MQTT
 var mqttConnectionConfig = builder.Configuration.GetSection("MQTTConnectionConfig").Get<Communication.MQTT.Config.MQTTConnectionConfig>();

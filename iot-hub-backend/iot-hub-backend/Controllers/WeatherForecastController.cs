@@ -27,7 +27,7 @@ namespace iot_hub_backend.Controllers
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IMediator _mediator;
         private readonly IoTHubContext _context;
-        private readonly Business.Infrastructure.Security.IPasswordHasher _passHasher;
+        //private readonly Business.Infrastructure.Security.IPasswordHasher _passHasher;
         private readonly JwtSettings _jwtSettings;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger, IMediator mediator, IoTHubContext context, IPasswordHasher passHasher, JwtSettings jwtSettings)
@@ -53,7 +53,7 @@ namespace iot_hub_backend.Controllers
 
 
         [Authorize]
-        [RequiresClaim(IdentityData.AdminUserClaimName, "true")]
+        [RequiresClaim(ClaimNames.UserRole, "true")]
         [HttpPost("ExecuteDirectMethod")]
         public async Task<ExecuteDirectMethodCommandResult> ExecuteDirectMethod([FromBody] ExecuteDirectMethodCommand cmd)
         {
@@ -62,43 +62,43 @@ namespace iot_hub_backend.Controllers
             return res;
         }
 
-        [HttpPost("token")]
-        public IActionResult GenerateToken([FromBody]TokenGenerationRequest request)
-        {
-            var TokenSecret = _jwtSettings.Key!;
-            var TokenLifetime = TimeSpan.FromHours(8);
+        //[HttpPost("token")]
+        //public IActionResult GenerateToken([FromBody]TokenGenerationRequest request)
+        //{
+        //    var TokenSecret = _jwtSettings.Key!;
+        //    var TokenLifetime = TimeSpan.FromHours(8);
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(TokenSecret);
+        //    var tokenHandler = new JwtSecurityTokenHandler();
+        //    var key = Encoding.UTF8.GetBytes(TokenSecret);
 
-            var claims = new List<Claim>
-            {
-                new(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
-                new(JwtRegisteredClaimNames.Sub, request.Email),
-                new(JwtRegisteredClaimNames.Email, request.Email),
-                new("userid", request.Id.ToString()),
-            };
+        //    var claims = new List<Claim>
+        //    {
+        //        new(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
+        //        new(JwtRegisteredClaimNames.Sub, request.Email),
+        //        new(JwtRegisteredClaimNames.Email, request.Email),
+        //        new("userid", request.Id.ToString()),
+        //    };
 
-            foreach(var claimPair in request.CustomClaims)
-            {
-                var claim = new Claim(claimPair.Key, claimPair.Value.ToString()!, ClaimValueTypes.Boolean);
-                claims.Add(claim);
-            }
+        //    foreach(var claimPair in request.CustomClaims)
+        //    {
+        //        var claim = new Claim(claimPair.Key, claimPair.Value.ToString()!, ClaimValueTypes.Boolean);
+        //        claims.Add(claim);
+        //    }
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.Add(TokenLifetime),
-                Issuer = _jwtSettings.Issuer,
-                Audience = _jwtSettings.Audience,
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256),
-            };
+        //    var tokenDescriptor = new SecurityTokenDescriptor
+        //    {
+        //        Subject = new ClaimsIdentity(claims),
+        //        Expires = DateTime.UtcNow.Add(TokenLifetime),
+        //        Issuer = _jwtSettings.Issuer,
+        //        Audience = _jwtSettings.Audience,
+        //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256),
+        //    };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var jwt = tokenHandler.WriteToken(token);
+        //    var token = tokenHandler.CreateToken(tokenDescriptor);
+        //    var jwt = tokenHandler.WriteToken(token);
 
-            return Ok(jwt);
-        }
+        //    return Ok(jwt);
+        //}
 
         [HttpPost("CreateUser")]
         public async Task<ActionResult<Domain.Core.User>> CreateUser([FromBody] AddUserCommand cmd)
@@ -112,30 +112,30 @@ namespace iot_hub_backend.Controllers
             return Ok(user);
         }
 
-        [HttpPost("Login")]
-        public ActionResult<string?> Login(string email, string password)
-        {
-            var usr = _context.Users.Where(x => x.Email == email).First();
+        //[HttpPost("Login")]
+        //public ActionResult<string?> Login(string email, string password)
+        //{
+        //    var usr = _context.Users.Where(x => x.Email == email).First();
 
-            if (usr == null)
-            {
-                // no user with this mail
+        //    if (usr == null)
+        //    {
+        //        // no user with this mail
 
-                return StatusCode(StatusCodes.Status401Unauthorized, false);
-            }
+        //        return StatusCode(StatusCodes.Status401Unauthorized, false);
+        //    }
 
-            var isPwdCorrect = _passHasher.VerifyHashedPassword(usr.PasswordHash!, password);
+        //    var isPwdCorrect = _passHasher.VerifyHashedPassword(usr.PasswordHash!, password);
 
-            if (isPwdCorrect)
-            {
-                return StatusCode(StatusCodes.Status200OK, true);
-            }
-            else
-            {
-                return StatusCode(StatusCodes.Status401Unauthorized, false);
-            }
+        //    if (isPwdCorrect)
+        //    {
+        //        return StatusCode(StatusCodes.Status200OK, true);
+        //    }
+        //    else
+        //    {
+        //        return StatusCode(StatusCodes.Status401Unauthorized, false);
+        //    }
 
-        }
+        //}
 
     }
 }
