@@ -1,5 +1,6 @@
 ﻿using Domain.Core;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 using System.Security.Principal;
 
 namespace Domain.Data
