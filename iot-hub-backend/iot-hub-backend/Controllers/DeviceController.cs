@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Domain.Core;
 using Domain.Data;
+using iot_hub_backend.Infrastructure.Extensions;
 
 namespace iot_hub_backend.Controllers
 {
@@ -18,6 +19,11 @@ namespace iot_hub_backend.Controllers
         private readonly IMediator _mediator;
         private readonly IoTHubContext _context;
 
+        public DeviceController(IMediator mediator, IoTHubContext context)
+        {
+            _mediator = mediator;
+            _context = context;
+        }
 
         [HttpPost("ExecuteDirectMethod")]
         public async Task<ExecuteDirectMethodCommandResult> ExecuteDirectMethod([FromBody] ExecuteDirectMethodCommand cmd)
@@ -26,7 +32,7 @@ namespace iot_hub_backend.Controllers
         }
 
         [HttpPost("CreateDevice")]
-        public async Task<CreateDeviceComandResult> CreateDeviceComand([FromBody] CreateDeviceCommand cmd)
+        public async Task<CreateDeviceCommandResult> CreateDevice([FromBody] CreateDeviceCommand cmd)
         {
             return await _mediator.Send(cmd).ConfigureAwait(false);
         }
@@ -38,15 +44,22 @@ namespace iot_hub_backend.Controllers
         }
 
         [HttpPost("GetDevice")]
-        public async Task<Device> GetDevice(Guid id)
+        public Device? GetDevice(Guid id)
         {
-            return await _mediator.Send(cmd).ConfigureAwait(false);
+            return User.GetDevice(id, _context);
         }
 
         [HttpPost("GetDevices")]
-        public async Task<List<Device>> GetDevices()
+        public List<Device>? GetDeviceList()
         {
-            return await _mediator.Send(cmd).ConfigureAwait(false);
+            var user = User.GetUser(_context);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            return user.Devices;
         }
 
     }
