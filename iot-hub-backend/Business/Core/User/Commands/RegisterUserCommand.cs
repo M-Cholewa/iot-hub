@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace Business.Core.User.Commands
 {
-    public class AddUserCommandResult
+    public class RegisterUserCommandResult
     {
         public bool IsSuccess { get; set; } = false;
         public Domain.Core.User? ResultUser { get; set; }
     }
 
-    public class AddUserCommand : IRequest<AddUserCommandResult>
+    public class RegisterUserCommand : IRequest<RegisterUserCommandResult>
     {
         public string? Email { get; set; }
         public string? Password { get; set; }
 
-        public AddUserCommand()
+        public RegisterUserCommand()
         {
         }
     }
