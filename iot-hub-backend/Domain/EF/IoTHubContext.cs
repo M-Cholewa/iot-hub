@@ -14,9 +14,9 @@ namespace Domain.Data
         {
         }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             // =========== USER ===========
             modelBuilder.Entity<User>(user =>
             {
@@ -29,11 +29,10 @@ namespace Domain.Data
             // =========== DEVICE ===========
             modelBuilder.Entity<Device>(device =>
             {
-                device.Property(d => d.ApiKey).HasColumnType("varchar(200)").IsRequired();
                 device.Property(d => d.DeviceTwin).HasColumnType("varchar(4096)");
             });
 
-            modelBuilder.Entity<Device>().HasIndex(device => device.ApiKey).IsUnique();
+            modelBuilder.Entity<Device>().HasIndex(role => role.MQTTUser).IsUnique();
 
             // =========== ROLE ===========
             modelBuilder.Entity<Role>(role =>
@@ -43,12 +42,25 @@ namespace Domain.Data
 
             modelBuilder.Entity<Role>().HasIndex(role => role.Key).IsUnique();
 
+            // =========== MQTTUSER ===========
+            modelBuilder.Entity<MQTTUser>(mqttUser =>
+            {
+                mqttUser.Property(u => u.Username).HasColumnType("varchar(200)").IsRequired();
+                mqttUser.Property(u => u.PasswordHash).HasColumnType("varchar(200)").IsRequired();
+            });
+
             // =========== USER ROLE MAPPING ===========
             modelBuilder.Entity<User>().HasMany(u => u.Roles).WithMany(r => r.Users);
+
 
             // =========== DEVICE USER MAPPING ===========
             modelBuilder.Entity<Device>().HasOne(d => d.Owner).WithMany(u => u.Devices);
 
+            // =========== DEVICE MQTTUSER MAPPING ===========
+            modelBuilder.Entity<Device>().HasOne(d => d.MQTTUser).WithOne();
+
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
