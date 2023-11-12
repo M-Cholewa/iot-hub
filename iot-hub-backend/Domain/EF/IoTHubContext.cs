@@ -46,6 +46,7 @@ namespace Domain.Data
             // =========== MQTTUSER ===========
             modelBuilder.Entity<MQTTUser>(mqttUser =>
             {
+                mqttUser.HasKey(u => u.ClientID);
                 mqttUser.Property(u => u.Username).HasColumnType("varchar(200)").IsRequired();
                 mqttUser.Property(u => u.PasswordHash).HasColumnType("varchar(200)").IsRequired();
             });

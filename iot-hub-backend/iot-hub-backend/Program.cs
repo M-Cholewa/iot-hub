@@ -1,7 +1,7 @@
 #define CREATE_DB
 
 using Business.Core.Device.Commands;
-using iot_hub_backend.Data;
+using Domain.Data;
 using iot_hub_backend.Infrastructure.Security;
 using iot_hub_backend.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

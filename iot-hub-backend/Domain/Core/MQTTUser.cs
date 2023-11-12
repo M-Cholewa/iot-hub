@@ -9,7 +9,6 @@ namespace Domain.Core
 {
     public class MQTTUser
     {
-        [Key]
         public Guid ClientID { get; set; } // ClientID
         public string? Username { get; set; }
         public string? PasswordHash { get; set; }
