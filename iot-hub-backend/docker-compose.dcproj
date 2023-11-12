@@ -17,6 +17,6 @@
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
     <None Include=".env" />
-    <None Include="PostgreSQL\Dockerfile" />
+    <None Include="Dockerfiles\PostgreSQL\Dockerfile" />
   </ItemGroup>
 </Project>
