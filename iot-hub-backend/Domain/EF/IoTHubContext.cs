@@ -33,7 +33,7 @@ namespace Domain.Data
                 device.Property(d => d.DeviceTwin).HasColumnType("varchar(4096)");
             });
 
-            modelBuilder.Entity<Device>().HasIndex(role => role.MQTTUser).IsUnique();
+            //modelBuilder.Entity<Device>().HasIndex(role => role.MQTTUser).IsUnique();
 
             // =========== ROLE ===========
             modelBuilder.Entity<Role>(role =>
@@ -59,7 +59,7 @@ namespace Domain.Data
             modelBuilder.Entity<Device>().HasOne(d => d.Owner).WithMany(u => u.Devices);
 
             // =========== DEVICE MQTTUSER MAPPING ===========
-            modelBuilder.Entity<Device>().HasOne(d => d.MQTTUser).WithOne();
+            modelBuilder.Entity<Device>().HasOne(d => d.MQTTUser);
 
 
             base.OnModelCreating(modelBuilder);

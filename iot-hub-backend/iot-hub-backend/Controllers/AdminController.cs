@@ -19,12 +19,6 @@ namespace iot_hub_backend.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("Register")]
-        public async Task<RegisterUserCommandResult> RegisterUser([FromBody] RegisterUserCommand cmd)
-        {
-            return await _mediator.Send(cmd).ConfigureAwait(false);
-        }
-
         [HttpPost("RemoveUser")]
         public async Task<RemoveUserCommandResult> RemoveUser([FromBody] RemoveUserCommand cmd)
         {
