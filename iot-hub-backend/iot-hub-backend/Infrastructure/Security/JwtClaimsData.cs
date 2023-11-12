@@ -14,7 +14,11 @@ namespace iot_hub_backend.Infrastructure.Security
     public static class ClaimNames
     {
         public const string UserId = "userid";
-        public const string AdminRole = "ADMIN";
-        public const string UserRole = "USER";
+
+    }
+    public static class Roles
+    {
+        public const string Admin = "ADMIN";
+        public const string User = "USER";
     }
 }

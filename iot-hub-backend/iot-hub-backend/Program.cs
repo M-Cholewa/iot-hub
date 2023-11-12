@@ -4,10 +4,8 @@ using Business.Core.Device.Commands;
 using iot_hub_backend.Data;
 using iot_hub_backend.Infrastructure.Security;
 using iot_hub_backend.Swagger;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -43,7 +41,7 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy(Policies.UserPolicyName, p =>
-        p.RequireClaim(ClaimNames.UserRole, "true"));
+        p.RequireClaim(Roles.User, "true"));
 });
 
 builder.Services.AddControllers();

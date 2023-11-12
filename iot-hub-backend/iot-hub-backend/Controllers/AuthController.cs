@@ -18,7 +18,7 @@ namespace iot_hub_backend.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<string?>> Login([FromBody] LoginCommand cmd)
+        public async Task<ActionResult<string>> Login([FromBody] LoginCommand cmd)
         {
             var _login = await _mediator.Send(cmd).ConfigureAwait(false);
 

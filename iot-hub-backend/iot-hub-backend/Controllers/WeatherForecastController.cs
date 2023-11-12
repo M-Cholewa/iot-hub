@@ -35,27 +35,27 @@ namespace iot_hub_backend.Controllers
         }
 
 
-        [Authorize]
-        [RequiresClaim(ClaimNames.UserRole, "true")]
-        [HttpPost("ExecuteDirectMethod")]
-        public async Task<ExecuteDirectMethodCommandResult> ExecuteDirectMethod([FromBody] ExecuteDirectMethodCommand cmd)
-        {
-            var res = await _mediator.Send(cmd).ConfigureAwait(false);
+        //[Authorize]
+        //[RequiresClaim(ClaimNames.UserRole, "true")]
+        //[HttpPost("ExecuteDirectMethod")]
+        //public async Task<ExecuteDirectMethodCommandResult> ExecuteDirectMethod([FromBody] ExecuteDirectMethodCommand cmd)
+        //{
+        //    var res = await _mediator.Send(cmd).ConfigureAwait(false);
 
-            return res;
-        }
+        //    return res;
+        //}
 
-        [HttpPost("CreateUser")]
-        public async Task<ActionResult<Domain.Core.User>> CreateUser([FromBody] RegisterUserCommand cmd)
-        {
-            string pwdHash = _passHasher.HashPassword(cmd.Password!);
-            var user = new Domain.Core.User { Email = cmd.Email!, PasswordHash = pwdHash };
+        //[HttpPost("CreateUser")]
+        //public async Task<ActionResult<Domain.Core.User>> CreateUser([FromBody] RegisterUserCommand cmd)
+        //{
+        //    string pwdHash = _passHasher.HashPassword(cmd.Password!);
+        //    var user = new Domain.Core.User { Email = cmd.Email!, PasswordHash = pwdHash };
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+        //    _context.Users.Add(user);
+        //    await _context.SaveChangesAsync();
 
-            return Ok(user);
-        }
+        //    return Ok(user);
+        //}
 
 
     }

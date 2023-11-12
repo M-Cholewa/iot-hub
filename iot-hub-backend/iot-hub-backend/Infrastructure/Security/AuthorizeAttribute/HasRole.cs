@@ -3,11 +3,10 @@
 namespace iot_hub_backend.Infrastructure.Security.AuthorizeAttribute
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class HasRole : Attribute, IAuthorizationFilter
+    public class HasRole : RequiresClaim
     {
-        public void OnAuthorization(AuthorizationFilterContext context)
+        public HasRole(string roleName) : base(roleName, true.ToString())
         {
-
         }
     }
 }

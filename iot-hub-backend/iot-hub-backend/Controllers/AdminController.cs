@@ -15,29 +15,15 @@ namespace iot_hub_backend.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserCommand cmd)
+        public async Task<RegisterUserCommandResult> RegisterUser([FromBody] RegisterUserCommand cmd)
         {
-            var _register = await _mediator.Send(cmd).ConfigureAwait(false);
-
-            if (!_register.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest);
-            }
-
-            return Ok();
+            return await _mediator.Send(cmd).ConfigureAwait(false);
         }
 
         [HttpPost("RemoveUser")]
-        public async Task<IActionResult> RemoveUser([FromBody] RemoveUserCommand cmd)
+        public async Task<RemoveUserCommandResult> RemoveUser([FromBody] RemoveUserCommand cmd)
         {
-            var _remove = await _mediator.Send(cmd).ConfigureAwait(false);
-
-            if (!_remove.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest);
-            }
-
-            return Ok();
+            return await _mediator.Send(cmd).ConfigureAwait(false);
         }
     }
 }
