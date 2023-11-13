@@ -15,7 +15,6 @@ namespace Domain.Data
         {
         }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // =========== USER ===========
@@ -33,8 +32,6 @@ namespace Domain.Data
                 device.Property(d => d.DeviceTwin).HasColumnType("varchar(4096)");
             });
 
-            //modelBuilder.Entity<Device>().HasIndex(role => role.MQTTUser).IsUnique();
-
             // =========== ROLE ===========
             modelBuilder.Entity<Role>(role =>
             {
@@ -51,8 +48,10 @@ namespace Domain.Data
                 mqttUser.Property(u => u.PasswordHash).HasColumnType("varchar(200)").IsRequired();
             });
 
+            modelBuilder.Entity<MQTTUser>().HasIndex(user => user.Username).IsUnique();
+
             // =========== USER ROLE MAPPING ===========
-            modelBuilder.Entity<User>().HasMany(u => u.Roles).WithMany(r => r.Users);
+            modelBuilder.Entity<User>().HasMany(u => u.Roles).WithMany();
 
 
             // =========== DEVICE USER MAPPING ===========

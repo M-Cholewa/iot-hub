@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Business.Core.Device.Commands;
 using Communication.MQTT;
+using Domain.MQTT;
 using MediatR;
 
 namespace Business.Core.Device.Handlers
@@ -23,11 +24,12 @@ namespace Business.Core.Device.Handlers
         public async Task<ExecuteDirectMethodCommandResult> Handle(ExecuteDirectMethodCommand request, CancellationToken cancellationToken)
         {
 
-            //Console.WriteLine(" [x] Requesting fib({0})", n);
-            var response = await _rpcClient.CallMethodAsync("esp-32-device", request.MethodName, request.Payload);
-            Console.WriteLine(" [.] Got '{0}'", response);
+            var rpcCall = await _rpcClient.CallMethodAsync(request.DeviceId.ToString(), request.MethodName, request.Payload, cancellationToken);
+            Console.WriteLine(" [.] Got '{0}'", rpcCall);
 
-            return new ExecuteDirectMethodCommandResult { IsSuccess = false };
+            bool _success = (rpcCall.result == RpcResult.SUCCESS);
+
+            return new ExecuteDirectMethodCommandResult { IsSuccess = _success, ResultMsg = rpcCall.result.ToString(), RpcResponse = rpcCall.response };
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using Domain.Core;
+﻿using Business.Repository;
+using Domain.Core;
 using Domain.Data;
 using iot_hub_backend.Infrastructure.Security;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -25,13 +26,13 @@ namespace iot_hub_backend.Infrastructure.Extensions
         /// Get the user from the claims principal
         /// </summary>
         /// <param name="controllerUser"></param>
-        /// <param name="_context"></param>
+        /// <param name="_userRepository"></param>
         /// <returns></returns>
-        public static User? GetUser(this ClaimsPrincipal controllerUser, IoTHubContext _context)
+        public async static Task<User?> GetUser(this ClaimsPrincipal controllerUser, UserRepository _userRepository)
         {
             var userGuid = GetGuid(controllerUser);
 
-            return _context.Users.FirstOrDefault(u => u.Id == userGuid);
+            return await _userRepository.GetByIdAsync(userGuid);
         }
 
 
@@ -42,9 +43,9 @@ namespace iot_hub_backend.Infrastructure.Extensions
         /// <param name="deviceId"></param>
         /// <param name="_context"></param>
         /// <returns>The device if user has access to it</returns>
-        public static Device? GetDevice(this ClaimsPrincipal controllerUser, Guid deviceId, IoTHubContext _context)
+        public async static Task<Device?> GetDevice(this ClaimsPrincipal controllerUser, Guid deviceId, UserRepository _userRepository)
         {
-            var user = controllerUser.GetUser(_context);
+            var user = await controllerUser.GetUser(_userRepository);
 
             if (user == null || user.Devices == null)
             {

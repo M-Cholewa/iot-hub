@@ -9,8 +9,9 @@ namespace Domain.Core
     public class Device
     {
         public Guid Id { get; set; }
+        public string Name { get; set; } = "";
         public string? DeviceTwin { get; set; }
-        public User? Owner { get; set; }
-        public MQTTUser? MQTTUser { get; set; }
+        public virtual User? Owner { get; set; }
+        public virtual MQTTUser? MQTTUser { get; set; }
     }
 }

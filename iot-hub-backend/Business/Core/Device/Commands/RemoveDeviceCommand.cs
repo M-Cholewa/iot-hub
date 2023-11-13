@@ -10,6 +10,7 @@ namespace Business.Core.Device.Commands
     public class RemoveDeviceCommandResult
     {
         public bool IsSuccess { get; set; }
+        public string Message { get; set; } = "";
     }
 
     public class RemoveDeviceCommand : IRequest<RemoveDeviceCommandResult>

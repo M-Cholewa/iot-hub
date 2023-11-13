@@ -9,12 +9,17 @@ namespace Business.Core.Device.Commands
 {
     public class CreateDeviceCommandResult
     {
-        bool IsSuccess { get; set; }
-        Domain.Core.Device? ResultDevice { get; set; }
+        public bool IsSuccess { get; set; }
+        public string Message { get; set; } = "";
+        public Domain.Core.Device? ResultDevice { get; set; }
+        public string? MqttApiKey { get; set; }
     }
 
     public class CreateDeviceCommand : IRequest<CreateDeviceCommandResult>
     {
         public Domain.Core.Device? Device { get; set; }
+        public string? MqttUsername { get; set; } = "";
+        public string? MqttPassword { get; set; } = "";
+        public Domain.Core.User? Owner { get; set; }
     }
 }

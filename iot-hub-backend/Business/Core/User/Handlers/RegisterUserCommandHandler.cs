@@ -1,5 +1,6 @@
 ﻿using Business.Core.User.Commands;
 using Business.Infrastructure.Security;
+using Business.Repository;
 using Domain.Data;
 using MediatR;
 using System;
@@ -12,12 +13,12 @@ namespace Business.Core.User.Handlers
 {
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, RegisterUserCommandResult>
     {
-        private readonly IoTHubContext _context;
+        private readonly UserRepository _userRepository;
         private readonly Business.Infrastructure.Security.IPasswordHasher _passHasher;
 
-        public RegisterUserCommandHandler(IoTHubContext context, IPasswordHasher passHasher)
+        public RegisterUserCommandHandler(UserRepository userRepository, IPasswordHasher passHasher)
         {
-            _context = context;
+            _userRepository = userRepository;
             _passHasher = passHasher;
         }
 
@@ -26,14 +27,13 @@ namespace Business.Core.User.Handlers
 
             if(request.Password == null || request.Email == null)
             {
-                return new RegisterUserCommandResult() { IsSuccess = false };
+                return new RegisterUserCommandResult() { IsSuccess = false, Message = "Bad email or password" };
             }
 
             string pwdHash = _passHasher.HashPassword(request.Password);
-            var user = new Domain.Core.User { Email = request.Email, PasswordHash = pwdHash };
+            var user = new Domain.Core.User { Email = request.Email, PasswordHash = pwdHash, Roles = request.Roles };
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            user = await _userRepository.AddAsync(user);
 
             return new RegisterUserCommandResult() { IsSuccess = true, ResultUser = user };
         }

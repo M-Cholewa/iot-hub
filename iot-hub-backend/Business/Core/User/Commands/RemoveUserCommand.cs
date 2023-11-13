@@ -10,6 +10,7 @@ namespace Business.Core.User.Commands
     public class RemoveUserCommandResult
     {
         public bool IsSuccess { get; set; }
+        public string Message { get; set; } = "";
     }
 
     public class RemoveUserCommand : IRequest<RemoveUserCommandResult>

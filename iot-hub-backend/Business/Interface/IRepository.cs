@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Core
+namespace Business.Interface
 {
-    public class Role
+    public interface IRepository
     {
-        public Guid Id { get; set; }
-        public string? Key { get; set; }
-
     }
 }

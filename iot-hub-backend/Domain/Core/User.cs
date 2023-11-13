@@ -16,8 +16,8 @@ namespace Domain.Core
 
         public string? PasswordHash { get; set; }
 
-        public List<Role>? Roles { get; set; }
+        public virtual ICollection<Role>? Roles { get; set; }
 
-        public List<Device>? Devices { get; set; }
+        public virtual ICollection<Device>? Devices { get; set; }
     }
 }

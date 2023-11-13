@@ -1,5 +1,6 @@
 ﻿using Business.Core.Auth.Commands;
 using Business.Core.User.Commands;
+using Business.Repository;
 using iot_hub_backend.Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

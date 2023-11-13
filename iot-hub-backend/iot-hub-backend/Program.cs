@@ -1,6 +1,8 @@
 #define CREATE_DB
 
 using Business.Core.Device.Commands;
+using Business.Interface;
+using Business.Repository;
 using Domain.Data;
 using iot_hub_backend.Infrastructure.Security;
 using iot_hub_backend.Swagger;
@@ -9,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,6 +61,16 @@ option =>
     option.UseNpgsql(pgconn);
 });
 
+var assemblies = Assembly
+       .GetAssembly(typeof(BaseRepository<>))!
+       .GetExportedTypes()
+       .Where(t => !t.IsAbstract && t.GetInterfaces().Any(iface => iface == typeof(Business.Interface.IRepository)));
+
+foreach (var assembly in assemblies)
+{
+    builder.Services.AddScoped(assembly);
+}
+
 // For user password
 builder.Services.AddScoped<Business.Infrastructure.Security.IPasswordHasher, Business.Infrastructure.Security.PasswordHasher>();
 
@@ -80,6 +93,7 @@ builder.Services.AddCors(options =>
                     .AllowCredentials();
         });
 });
+
 
 var app = builder.Build();
 

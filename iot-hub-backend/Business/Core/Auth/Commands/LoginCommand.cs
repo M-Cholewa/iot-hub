@@ -11,6 +11,7 @@ namespace Business.Core.Auth.Commands
     {
         public bool IsSuccess { get; set; }
         public Domain.Core.User? User { get; set; }
+        public string Message { get; set; } = "";
     }
 
     public class LoginCommand : IRequest<LoginCommandResult>

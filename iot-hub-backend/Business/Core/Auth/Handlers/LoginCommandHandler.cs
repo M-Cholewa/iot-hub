@@ -1,5 +1,6 @@
 ﻿using Business.Core.Auth.Commands;
 using Business.Infrastructure.Security;
+using Business.Repository;
 using Domain.Data;
 using MediatR;
 using System.Security.Claims;
@@ -11,28 +12,28 @@ namespace Business.Core.Auth.Handlers
     {
 
         private readonly Business.Infrastructure.Security.IPasswordHasher _passHasher;
-        private readonly IoTHubContext _context;
+        private readonly UserRepository _userRepository;
 
-        public LoginCommandHandler(IPasswordHasher passHasher, IoTHubContext context)
+        public LoginCommandHandler(IPasswordHasher passHasher, UserRepository userRepository)
         {
             _passHasher = passHasher;
-            _context = context;
+            _userRepository = userRepository;
         }
 
         public async Task<LoginCommandResult> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
             if (request.Email == null || request.Password == null)
             {
-                return new LoginCommandResult() { IsSuccess = false };
+                return new LoginCommandResult() { IsSuccess = false, Message = "Bad email or password" };
             }
 
-            var usr = _context.Users.Where(x => x.Email == request.Email).First();
+            var usr = await _userRepository.GetByEmailAsync(request.Email);
 
             if (usr == null)
             {
                 // no user with this mail
 
-                return new LoginCommandResult() { IsSuccess = false };
+                return new LoginCommandResult() { IsSuccess = false, Message = "Bad email or password" };
             }
 
             var isPwdCorrect = _passHasher.VerifyHashedPassword(usr.PasswordHash!, request.Password);
@@ -41,7 +42,7 @@ namespace Business.Core.Auth.Handlers
             {
                 // wrong password
 
-                return new LoginCommandResult() { IsSuccess = false };
+                return new LoginCommandResult() { IsSuccess = false, Message = "Bad email or password" };
             }
 
             return new LoginCommandResult { IsSuccess = true, User = usr };

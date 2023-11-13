@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Domain.MQTT;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Business.Core.Device.Commands
     {
         public bool IsSuccess { get; set; } = false;
         public string ResultMsg { get; set; } = "?";
+        public RpcResponse? RpcResponse { get; set; }
     }
 
     public class ExecuteDirectMethodCommand : IRequest<ExecuteDirectMethodCommandResult>

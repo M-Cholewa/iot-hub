@@ -7,6 +7,8 @@ using MediatR;
 using Domain.Core;
 using Domain.Data;
 using iot_hub_backend.Infrastructure.Extensions;
+using Common;
+using Business.Repository;
 
 namespace iot_hub_backend.Controllers
 {
@@ -17,12 +19,12 @@ namespace iot_hub_backend.Controllers
     {
 
         private readonly IMediator _mediator;
-        private readonly IoTHubContext _context;
+        private readonly UserRepository _userRepository;
 
-        public DeviceController(IMediator mediator, IoTHubContext context)
+        public DeviceController(IMediator mediator, UserRepository userRepository)
         {
             _mediator = mediator;
-            _context = context;
+            _userRepository = userRepository;
         }
 
         [HttpPost("ExecuteDirectMethod")]
@@ -31,11 +33,21 @@ namespace iot_hub_backend.Controllers
             return await _mediator.Send(cmd).ConfigureAwait(false);
         }
 
+
         [HttpPost("CreateDevice")]
-        public async Task<CreateDeviceCommandResult> CreateDevice([FromBody] CreateDeviceCommand cmd)
+        public async Task<CreateDeviceCommandResult> CreateDevice(string deviceName)
         {
+
+            var owner =  await User.GetUser(_userRepository);
+            var mqttUsername = Password.Generate(8, 1);
+            var mqttPassword = Password.Generate(15, 4);
+            var device = new Device { Name = deviceName };
+
+            var cmd = new CreateDeviceCommand { Device = device, MqttPassword = mqttPassword, MqttUsername = mqttUsername, Owner = owner };
+
             return await _mediator.Send(cmd).ConfigureAwait(false);
         }
+
 
         [HttpPost("RemoveDevice")]
         public async Task<RemoveDeviceCommandResult> RemoveDevice([FromBody] RemoveDeviceCommand cmd)
@@ -43,23 +55,24 @@ namespace iot_hub_backend.Controllers
             return await _mediator.Send(cmd).ConfigureAwait(false);
         }
 
+
         [HttpPost("GetDevice")]
-        public Device? GetDevice(Guid id)
+        public async Task<Device?> GetDevice(Guid id)
         {
-            return User.GetDevice(id, _context);
+            return await User.GetDevice(id, _userRepository);
         }
 
         [HttpPost("GetDevices")]
-        public List<Device>? GetDeviceList()
+        public async Task<List<Device>?> GetDeviceList()
         {
-            var user = User.GetUser(_context);
+            var user = await User.GetUser(_userRepository);
 
             if (user == null)
             {
                 return null;
             }
 
-            return user.Devices;
+            return user.Devices?.ToList();
         }
 
     }

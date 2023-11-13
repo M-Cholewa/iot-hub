@@ -1,4 +1,5 @@
 ﻿using Business.Core.User.Commands;
+using Business.Repository;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,25 @@ namespace Business.Core.User.Handlers
 {
     public class RemoveUserCommandHandler : IRequestHandler<RemoveUserCommand, RemoveUserCommandResult>
     {
-        public Task<RemoveUserCommandResult> Handle(RemoveUserCommand request, CancellationToken cancellationToken)
+        private readonly UserRepository _userRepository;
+
+        public RemoveUserCommandHandler(UserRepository userRepository)
         {
-            throw new NotImplementedException();
+            _userRepository = userRepository;
+        }
+
+        public async Task<RemoveUserCommandResult> Handle(RemoveUserCommand request, CancellationToken cancellationToken)
+        {
+            var usr = await _userRepository.GetByIdAsync(request.Id);
+
+            if (usr == null)
+            {
+                return new RemoveUserCommandResult() { IsSuccess = false, Message = "User does not exist" };
+            }
+
+            await _userRepository.DeleteAsync(usr);
+
+            return new RemoveUserCommandResult() { IsSuccess = true };
         }
     }
 }
