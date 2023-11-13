@@ -20,7 +20,19 @@ namespace Business.Repository
 
         public async Task<User?> GetByEmailAsync(string email)
         {
-            return await _context.Users.Include(u => u.Roles).Where(u => u.Email == email).FirstAsync();
+            return await _context.Users.Where(u => u.Email == email).FirstAsync();
         }
+
+        public async Task AddDevice(Guid userId, Device device)
+        {
+            var user = await _context.Users.Where(u => u.Id == userId).FirstAsync() ?? throw new Exception("User not found");
+            user.Devices ??= new List<Device>();
+
+            user.Devices.Add(device);
+            await _context.SaveChangesAsync();
+        }
+
     }
+
+
 }

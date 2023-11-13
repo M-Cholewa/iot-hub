@@ -32,7 +32,7 @@ namespace iot_hub_backend.Infrastructure.Security
                         continue;
                     }
 
-                    var claim = new Claim(role.Key, true.ToString(), ClaimValueTypes.Boolean);
+                    var claim = new Claim(role.Key, "true", ClaimValueTypes.Boolean);
                     claims.Add(claim);
                 }
             }

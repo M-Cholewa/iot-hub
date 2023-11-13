@@ -15,18 +15,27 @@ namespace Business.Core.Device.Handlers
     {
         private readonly DeviceRepository _deviceRepository;
         private readonly MQTTUserRepository _mqttUserRepository;
+        private readonly UserRepository _userRepository;
         private readonly Business.Infrastructure.Security.IPasswordHasher _passHasher;
 
-        public CreateDeviceCommandHandler(DeviceRepository deviceRepository, MQTTUserRepository mqttUserRepository, IPasswordHasher passHasher)
+        public CreateDeviceCommandHandler(DeviceRepository deviceRepository, MQTTUserRepository mqttUserRepository, UserRepository userRepository, IPasswordHasher passHasher)
         {
             _deviceRepository = deviceRepository;
             _mqttUserRepository = mqttUserRepository;
+            _userRepository = userRepository;
             _passHasher = passHasher;
         }
 
         public async Task<CreateDeviceCommandResult> Handle(CreateDeviceCommand request, CancellationToken cancellationToken)
         {
-            if (request.Owner == null || request.Device == null || request.MqttPassword == null || request.MqttUsername == null)
+            if (request.Device == null || request.MqttPassword == null || request.MqttUsername == null)
+            {
+                return new CreateDeviceCommandResult() { IsSuccess = false, Message = "Bad request" };
+            }
+
+            var _owner = await _userRepository.GetByIdAsync(request.OwnerId);
+
+            if (_owner == null)
             {
                 return new CreateDeviceCommandResult() { IsSuccess = false, Message = "Bad request" };
             }
@@ -52,9 +61,18 @@ namespace Business.Core.Device.Handlers
                 return new CreateDeviceCommandResult() { IsSuccess = false, Message = "Failed to create MQTT user" };
             }
 
-            var device = new Domain.Core.Device { Name = request.Device.Name, Owner = request.Owner, MQTTUser = mqttUser };
+            var device = new Domain.Core.Device { Name = request.Device.Name, MQTTUser = mqttUser };
 
             device = await _deviceRepository.AddAsync(device);
+
+            try
+            {
+                await _userRepository.AddDevice(request.OwnerId, device);
+            }
+            catch
+            {
+                return new CreateDeviceCommandResult() { IsSuccess = false, Message = "Failed to add device to user" };
+            }
 
             var _apiKey = $"ClientID={device.MQTTUser!.ClientID};User=${request.MqttUsername};Pass=${request.MqttPassword}";
 

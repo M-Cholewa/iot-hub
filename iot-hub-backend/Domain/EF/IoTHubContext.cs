@@ -52,10 +52,7 @@ namespace Domain.Data
 
             // =========== USER ROLE MAPPING ===========
             modelBuilder.Entity<User>().HasMany(u => u.Roles).WithMany();
-
-
-            // =========== DEVICE USER MAPPING ===========
-            modelBuilder.Entity<Device>().HasOne(d => d.Owner).WithMany(u => u.Devices);
+            modelBuilder.Entity<User>().HasMany(u => u.Devices).WithMany();
 
             // =========== DEVICE MQTTUSER MAPPING ===========
             modelBuilder.Entity<Device>().HasOne(d => d.MQTTUser);

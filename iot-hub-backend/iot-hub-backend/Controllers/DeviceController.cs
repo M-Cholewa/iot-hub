@@ -38,12 +38,12 @@ namespace iot_hub_backend.Controllers
         public async Task<CreateDeviceCommandResult> CreateDevice(string deviceName)
         {
 
-            var owner =  await User.GetUser(_userRepository);
-            var mqttUsername = Password.Generate(8, 1);
-            var mqttPassword = Password.Generate(15, 4);
+            var ownerId =  User.GetGuid();
+            var mqttUsername = Password.Generate(30, 2);
+            var mqttPassword = Password.Generate(60, 4);
             var device = new Device { Name = deviceName };
 
-            var cmd = new CreateDeviceCommand { Device = device, MqttPassword = mqttPassword, MqttUsername = mqttUsername, Owner = owner };
+            var cmd = new CreateDeviceCommand { Device = device, MqttPassword = mqttPassword, MqttUsername = mqttUsername, OwnerId = ownerId };
 
             return await _mediator.Send(cmd).ConfigureAwait(false);
         }

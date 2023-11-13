@@ -1,4 +1,4 @@
-#define CREATE_DB
+//#define CREATE_DB
 
 using Business.Core.Device.Commands;
 using Business.Interface;
@@ -58,6 +58,7 @@ builder.Services.AddDbContext<IoTHubContext>(
 option =>
 {
     var pgconn = builder.Configuration.GetConnectionString("PostgreSQL");
+    option.UseLazyLoadingProxies();
     option.UseNpgsql(pgconn);
 });
 

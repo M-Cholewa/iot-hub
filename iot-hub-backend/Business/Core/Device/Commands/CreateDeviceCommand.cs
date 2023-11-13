@@ -20,6 +20,6 @@ namespace Business.Core.Device.Commands
         public Domain.Core.Device? Device { get; set; }
         public string? MqttUsername { get; set; } = "";
         public string? MqttPassword { get; set; } = "";
-        public Domain.Core.User? Owner { get; set; }
+        public Guid OwnerId { get; set; }
     }
 }
