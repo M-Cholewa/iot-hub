@@ -32,6 +32,16 @@ namespace Business.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task AddRole(Guid userId, Role role)
+        {
+            var user = await _context.Users.Where(u => u.Id == userId).FirstAsync() ?? throw new Exception("User not found");
+            user.Roles ??= new List<Role>();
+
+            user.Roles.Add(role);
+            await _context.SaveChangesAsync();
+        }
+
+
     }
 
 

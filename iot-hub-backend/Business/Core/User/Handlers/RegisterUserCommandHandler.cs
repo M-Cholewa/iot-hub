@@ -15,11 +15,13 @@ namespace Business.Core.User.Handlers
     {
         private readonly UserRepository _userRepository;
         private readonly Business.Infrastructure.Security.IPasswordHasher _passHasher;
+        private readonly RoleRepository _roleRepository;
 
-        public RegisterUserCommandHandler(UserRepository userRepository, IPasswordHasher passHasher)
+        public RegisterUserCommandHandler(UserRepository userRepository, IPasswordHasher passHasher, RoleRepository roleRepository)
         {
             _userRepository = userRepository;
             _passHasher = passHasher;
+            _roleRepository = roleRepository;
         }
 
         public async Task<RegisterUserCommandResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -30,8 +32,16 @@ namespace Business.Core.User.Handlers
                 return new RegisterUserCommandResult() { IsSuccess = false, Message = "Bad email or password" };
             }
 
+            var userRole = await _roleRepository.GetByKeyAsync(Domain.Core.Role.User).ConfigureAwait(false);
+            var roles = new List<Domain.Core.Role>();
+
+            if (userRole != null)
+            {
+                roles.Add(userRole);
+            }
+
             string pwdHash = _passHasher.HashPassword(request.Password);
-            var user = new Domain.Core.User { Email = request.Email, PasswordHash = pwdHash, Roles = request.Roles };
+            var user = new Domain.Core.User { Email = request.Email, PasswordHash = pwdHash, Roles = roles };
 
             user = await _userRepository.AddAsync(user);
 

@@ -16,9 +16,5 @@ namespace iot_hub_backend.Infrastructure.Security
         public const string UserId = "userid";
 
     }
-    public static class Roles
-    {
-        public const string Admin = "ADMIN";
-        public const string User = "USER";
-    }
+
 }

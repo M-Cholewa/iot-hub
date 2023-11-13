@@ -1,15 +1,15 @@
 ﻿using Business.Core.User.Commands;
 using iot_hub_backend.Infrastructure.Security.AuthorizeAttribute;
-using iot_hub_backend.Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Business.Repository;
+using Domain.Core;
 
 namespace iot_hub_backend.Controllers
 {
     [Authorize]
-    [HasRole(Roles.Admin)]
+    [HasRole(Role.Admin)]
     [ApiController]
     public class AdminController : ControllerBase
     {

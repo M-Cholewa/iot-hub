@@ -13,7 +13,7 @@ using Business.Repository;
 namespace iot_hub_backend.Controllers
 {
     [Authorize]
-    [HasRole(Roles.User)]
+    [HasRole(Role.User)]
     [ApiController]
     public class DeviceController : ControllerBase
     {

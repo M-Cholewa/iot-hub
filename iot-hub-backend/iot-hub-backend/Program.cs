@@ -3,6 +3,7 @@
 using Business.Core.Device.Commands;
 using Business.Interface;
 using Business.Repository;
+using Domain.Core;
 using Domain.Data;
 using iot_hub_backend.Infrastructure.Security;
 using iot_hub_backend.Swagger;
@@ -44,7 +45,7 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy(Policies.UserPolicyName, p =>
-        p.RequireClaim(Roles.User, "true"));
+        p.RequireClaim(Role.User, "true"));
 });
 
 builder.Services.AddControllers();
