@@ -7,67 +7,67 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MQTTnet.Protocol;
+using Business.Core.Auth.Commands;
+using MediatR;
 
 public class MQTTServer : IHostedService
 {
+    private MqttServer? mqttServer;
     private ManualResetEvent _exitEvent;
+    private readonly IMediator _mediator;
 
-    public MQTTServer()
+    public MQTTServer(IMediator mediator)
     {
+        _exitEvent = new ManualResetEvent(false);
 
-    }
-    public Task StartAsync(CancellationToken cancellationToken)
-    {
-        return Validating_Connections();
-    }
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        return Task.CompletedTask;
+        Console.CancelKeyPress += (sender, eArgs) =>
+        {
+            _exitEvent.Set();
+        };
+        _mediator = mediator;
     }
 
-    public static async Task Validating_Connections()
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
         /*
-         * This sample starts a simple MQTT server which will check for valid credentials and client ID.
-         *
          * See _Run_Minimal_Server_ for more information.
          */
+        Console.WriteLine("Starting MQTT Server...");
 
         var mqttFactory = new MqttFactory();
 
         var mqttServerOptions = new MqttServerOptionsBuilder().WithDefaultEndpoint().Build();
 
-        using (var mqttServer = mqttFactory.CreateMqttServer(mqttServerOptions))
+        mqttServer = mqttFactory.CreateMqttServer(mqttServerOptions);
+        // Setup connection validation before starting the server so that there is 
+        // no change to connect without valid credentials.
+        mqttServer.ValidatingConnectionAsync += async e =>
         {
-            // Setup connection validation before starting the server so that there is 
-            // no change to connect without valid credentials.
-            mqttServer.ValidatingConnectionAsync += e =>
+            // Parse string to Guid
+            if (Guid.TryParse(e.ClientId, out var clientId) == false)
             {
-                //if (e.ClientId != "ValidClientId")
-                //{
-                //    e.ReasonCode = MqttConnectReasonCode.ClientIdentifierNotValid;
-                //}
-
-                if (e.UserName != "mqtt-test" && e.UserName != "user")
-                {
-                    e.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
-                }
-
-                if (e.Password != "mqtt-test" && e.Password != "mypass")
-                {
-                    e.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
-                }
-
-                return Task.CompletedTask;
-            };
+                e.ReasonCode = MqttConnectReasonCode.ClientIdentifierNotValid;
+                return;
+            }
 
 
-            await mqttServer.StartAsync();
+            var cmd = new MQTTLoginCommand() { ClientId = clientId, Username = e.UserName, Password = e.Password };
+            var result = await _mediator.Send(cmd).ConfigureAwait(false);
 
-            Console.WriteLine("Press Enter to exit.");
-            Console.ReadLine();
+            e.ReasonCode = result.MqttConnectReasonCode;
+        };
 
+
+        await mqttServer.StartAsync();
+        Console.WriteLine("MQTT Server started...");
+        Console.WriteLine(" Press [CTRL+C] to exit.");
+
+    }
+
+    public async Task StopAsync(CancellationToken cancellationToken)
+    {
+        if (mqttServer != null)
+        {
             await mqttServer.StopAsync();
         }
     }

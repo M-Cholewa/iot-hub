@@ -18,7 +18,7 @@ namespace Business.Repository
 
         public async Task<Domain.Core.Role?> GetByKeyAsync(string key)
         {
-            return await _context.Roles.Where(r => r.Key == key).FirstAsync();
+            return await _context.Roles.Where(r => r.Key == key).FirstOrDefaultAsync();
         }
 
 

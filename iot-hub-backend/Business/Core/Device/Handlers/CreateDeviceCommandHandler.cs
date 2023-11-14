@@ -67,7 +67,7 @@ namespace Business.Core.Device.Handlers
 
             try
             {
-                await _userRepository.AddDevice(request.OwnerId, device);
+                await _userRepository.AddDevice(_owner, device);
             }
             catch
             {
