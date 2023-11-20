@@ -1,4 +1,4 @@
-#define CREATE_DB
+//#define CREATE_DB
 
 using Business.Core.Device.Commands;
 using Business.Interface;
