@@ -36,6 +36,9 @@ foreach (var assembly in assemblies)
     builder.Services.AddScoped(assembly);
 }
 
+// For user password
+builder.Services.AddScoped<Business.Infrastructure.Security.IPasswordHasher, Business.Infrastructure.Security.PasswordHasher>();
+
 // MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<ExecuteDirectMethodCommand>());
 

@@ -44,6 +44,7 @@ namespace Communication.MQTT
 
                 var mqttClientOptions = new MqttClientOptionsBuilder()
                     .WithTcpServer(_mqttConnectionConfig.ServerAddress)
+                    .WithClientId(_mqttConnectionConfig.ClientId.ToString())
                     .WithCredentials(_mqttConnectionConfig.Login, _mqttConnectionConfig.Password)
                 .Build();
 

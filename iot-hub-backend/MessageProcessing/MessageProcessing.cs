@@ -32,6 +32,7 @@ public class MessageProcessing : IHostedService
 
         var mqttClientOptions = new MqttClientOptionsBuilder()
             .WithTcpServer(_mqttConnectionConfig.ServerAddress)
+            .WithClientId(_mqttConnectionConfig.ClientId.ToString())
             .WithCredentials(_mqttConnectionConfig.Login, _mqttConnectionConfig.Password)
         .Build();
 
@@ -44,7 +45,7 @@ public class MessageProcessing : IHostedService
 
         var mqttSubscribeOptions = mqttFactory
             .CreateSubscribeOptionsBuilder()
-            .WithTopicFilter(f => f.WithTopic("telemetry_queue"))
+            .WithTopicFilter(f => f.WithTopic("telemetry_queue/"))
             .Build();
 
         // try to connect to the broker

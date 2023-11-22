@@ -8,6 +8,7 @@ namespace Communication.MQTT.Config
 {
     public class MQTTConnectionConfig
     {
+        public Guid ClientId { get; set; }
         public string? Login { get; set; }
         public string? Password { get; set; }
         public string? ServerAddress { get; set; }
