@@ -18,5 +18,6 @@
     <None Include=".dockerignore" />
     <None Include=".env" />
     <None Include="Dockerfiles\PostgreSQL\Dockerfile" />
+    <None Include="Dockerfiles\PostgreSQL\pgsql-dump.sql" />
   </ItemGroup>
 </Project>

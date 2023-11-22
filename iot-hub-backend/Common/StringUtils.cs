@@ -45,7 +45,7 @@ namespace Common
                     }
                     else
                     {
-                        characterBuffer[iter] = Punctuations[i - 62];
+                        characterBuffer[iter] = Punctuations[(i - 62) % Punctuations.Length];
                         count++;
                     }
                 }

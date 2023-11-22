@@ -28,7 +28,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./docker/postgres/:/docker-entrypoint-initdb.d/
+      - ./Dockerfiles/PostgreSQL/pgsql-dump.sql:/docker-entrypoint-initdb.d/pgsql-dump.sql
 
   mqttserver:
     container_name: "MQTTServer"
