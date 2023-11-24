@@ -14,12 +14,12 @@ namespace iot_hub_backend.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly RoleRepository _roleRepository;
+        private readonly UserRepository _userRepository;
 
-        public AdminController(IMediator mediator, RoleRepository roleRepository)
+        public AdminController(IMediator mediator, UserRepository userRepository)
         {
             _mediator = mediator;
-            _roleRepository = roleRepository;
+            _userRepository = userRepository;
         }
 
         [HttpPost("RemoveUser")]
@@ -28,12 +28,23 @@ namespace iot_hub_backend.Controllers
             return await _mediator.Send(cmd).ConfigureAwait(false);
         }
 
-        [HttpPost("AddRole")]
-        public async Task<IActionResult> AddRole(string roleKey)
+        [HttpPost("GetAllUsers")]
+        public async Task<IList<User>?> GetAllUsers()
         {
-            var role = new Domain.Core.Role { Key = roleKey };
-            await _roleRepository.AddAsync(role).ConfigureAwait(false);
-            return Ok();
+            return await _userRepository.GetAllAsync().ConfigureAwait(false);
+        }
+
+
+        [HttpPost("GrantUserRole")]
+        public async Task<GrantUserRoleCommandResult> GrantUserRole([FromBody] GrantUserRoleCommand cmd)
+        {
+            return await _mediator.Send(cmd).ConfigureAwait(false);
+        }
+
+        [HttpPost("RevokeUserRole")]
+        public async Task<RevokeUserRoleCommandResult> RemoveUserRole([FromBody] RevokeUserRoleCommand cmd)
+        {
+            return await _mediator.Send(cmd).ConfigureAwait(false);
         }
     }
 }

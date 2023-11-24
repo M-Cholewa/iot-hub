@@ -23,21 +23,26 @@ namespace Business.Repository
             return await _context.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
         }
 
-        public async Task AddDevice(User user, Device device)
+        public async Task AddDeviceAsync(User user, Device device)
         {
             user.Devices ??= new List<Device>();
             user.Devices.Add(device);
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddRole(User user, Role role)
+        public async Task GrantRoleAsync(User user, Role role)
         {
             user.Roles ??= new List<Role>();
             user.Roles.Add(role);
             await _context.SaveChangesAsync();
         }
 
-
+        public async Task RevokeRoleAsync(User user, Role role)
+        {
+            user.Roles ??= new List<Role>();
+            user.Roles.Remove(role);
+            await _context.SaveChangesAsync();
+        }
     }
 
 
