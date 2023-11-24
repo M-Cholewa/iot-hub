@@ -22,7 +22,7 @@ SET row_security = off;
 
 DROP DATABASE IF EXISTS iothub;
 --
--- TOC entry 3399 (class 1262 OID 16384)
+-- TOC entry 3399 (class 1262 OID 16385)
 -- Name: iothub; Type: DATABASE; Schema: -; Owner: dbuser
 --
 
@@ -45,7 +45,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 5 (class 2615 OID 24702)
+-- TOC entry 5 (class 2615 OID 2200)
 -- Name: public; Type: SCHEMA; Schema: -; Owner: pg_database_owner
 --
 
@@ -68,7 +68,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 215 (class 1259 OID 24703)
+-- TOC entry 215 (class 1259 OID 16386)
 -- Name: DeviceUser; Type: TABLE; Schema: public; Owner: dbuser
 --
 
@@ -81,7 +81,7 @@ CREATE TABLE public."DeviceUser" (
 ALTER TABLE public."DeviceUser" OWNER TO dbuser;
 
 --
--- TOC entry 216 (class 1259 OID 24706)
+-- TOC entry 216 (class 1259 OID 16389)
 -- Name: Devices; Type: TABLE; Schema: public; Owner: dbuser
 --
 
@@ -96,7 +96,7 @@ CREATE TABLE public."Devices" (
 ALTER TABLE public."Devices" OWNER TO dbuser;
 
 --
--- TOC entry 217 (class 1259 OID 24711)
+-- TOC entry 217 (class 1259 OID 16394)
 -- Name: MQTTUser; Type: TABLE; Schema: public; Owner: dbuser
 --
 
@@ -110,7 +110,7 @@ CREATE TABLE public."MQTTUser" (
 ALTER TABLE public."MQTTUser" OWNER TO dbuser;
 
 --
--- TOC entry 218 (class 1259 OID 24714)
+-- TOC entry 218 (class 1259 OID 16397)
 -- Name: RoleUser; Type: TABLE; Schema: public; Owner: dbuser
 --
 
@@ -123,7 +123,7 @@ CREATE TABLE public."RoleUser" (
 ALTER TABLE public."RoleUser" OWNER TO dbuser;
 
 --
--- TOC entry 219 (class 1259 OID 24717)
+-- TOC entry 219 (class 1259 OID 16400)
 -- Name: Roles; Type: TABLE; Schema: public; Owner: dbuser
 --
 
@@ -136,7 +136,7 @@ CREATE TABLE public."Roles" (
 ALTER TABLE public."Roles" OWNER TO dbuser;
 
 --
--- TOC entry 220 (class 1259 OID 24720)
+-- TOC entry 220 (class 1259 OID 16403)
 -- Name: Users; Type: TABLE; Schema: public; Owner: dbuser
 --
 
@@ -150,34 +150,37 @@ CREATE TABLE public."Users" (
 ALTER TABLE public."Users" OWNER TO dbuser;
 
 --
--- TOC entry 3388 (class 0 OID 24703)
+-- TOC entry 3388 (class 0 OID 16386)
 -- Dependencies: 215
 -- Data for Name: DeviceUser; Type: TABLE DATA; Schema: public; Owner: dbuser
 --
 
-INSERT INTO public."DeviceUser" ("DevicesId", "UserId") VALUES ('a261f788-e87f-4203-93f0-2f5a3a4bd2b2', '5a9516ad-ffc7-4f4b-be15-c9d63ebf1b25');
+INSERT INTO public."DeviceUser" ("DevicesId", "UserId") VALUES ('6220654d-cfdd-4ab6-9a62-60c31ed307ab', '5a9516ad-ffc7-4f4b-be15-c9d63ebf1b25');
 
 
 --
--- TOC entry 3389 (class 0 OID 24706)
+-- TOC entry 3389 (class 0 OID 16389)
 -- Dependencies: 216
 -- Data for Name: Devices; Type: TABLE DATA; Schema: public; Owner: dbuser
 --
 
-INSERT INTO public."Devices" ("Id", "Name", "DeviceTwin", "MQTTUserClientID") VALUES ('a261f788-e87f-4203-93f0-2f5a3a4bd2b2', 'Users device', NULL, 'fce9d0de-6728-49cd-ad4f-69702055318e');
+INSERT INTO public."Devices" ("Id", "Name", "DeviceTwin", "MQTTUserClientID") VALUES ('6220654d-cfdd-4ab6-9a62-60c31ed307ab', 'Room-ESP32', NULL, 'd201ab30-a86e-41af-8a4d-7589109c7fa8');
 
 
 --
--- TOC entry 3390 (class 0 OID 24711)
+-- TOC entry 3390 (class 0 OID 16394)
 -- Dependencies: 217
 -- Data for Name: MQTTUser; Type: TABLE DATA; Schema: public; Owner: dbuser
 --
 
-INSERT INTO public."MQTTUser" ("ClientID", "Username", "PasswordHash") VALUES ('fce9d0de-6728-49cd-ad4f-69702055318e', 'duu78X2!#+J-j0uis/fj?cfI0^d)+!', 'AQAAAAIAAYagAAAAECZlnBE5xaj5uoudP6tDvjHrwxtp8bf7gZKbnR3/+w25SJvGtLM5Xwoeak6rvReQlQ==');
+INSERT INTO public."MQTTUser" ("ClientID", "Username", "PasswordHash") VALUES ('4af771e3-b76e-4e96-84b9-fb79f0092cde', 'r?A&W>cX2j?KG%/oV!ch8[IcbQ^jJ$', 'AQAAAAIAAYagAAAAEIVHQICCWipcnbTkeYgV3CI9zCrx9H+JIpvOcSUHcQZsxbloV+JyQriVgn79XcAgIg==');
+INSERT INTO public."MQTTUser" ("ClientID", "Username", "PasswordHash") VALUES ('d201ab30-a86e-41af-8a4d-7589109c7fa8', 'NFG^QNpaZ0I9C4c/)6aPhja!a0&5IA', 'AQAAAAIAAYagAAAAEJdOeQ0DVpnSNuIbIxdsGQXOha9T3py3dGlG2JtpGBumol4PZlalqAHf+UGdAAE0EA==');
+INSERT INTO public."MQTTUser" ("ClientID", "Username", "PasswordHash") VALUES ('19a1805b-9d19-4f46-a34a-d055dde12560', 'MessageProcessingService', 'AQAAAAIAAYagAAAAECjoEVq2UDs4JV9mSRNoSbrZXOGSUalPiXYViLsblUAqw4cRDWd6gE3GzGO9UoF/KA==');
+INSERT INTO public."MQTTUser" ("ClientID", "Username", "PasswordHash") VALUES ('64f7f094-e0b9-4c52-935e-fd9d442d655e', 'IotHubApi', 'AQAAAAIAAYagAAAAEHvYVwOoKiYdHRjZDntVoYimP5h4wpwLzsZNN0X1K6vXBfMt7FQeRDBuUFQmZRpm3A==');
 
 
 --
--- TOC entry 3391 (class 0 OID 24714)
+-- TOC entry 3391 (class 0 OID 16397)
 -- Dependencies: 218
 -- Data for Name: RoleUser; Type: TABLE DATA; Schema: public; Owner: dbuser
 --
@@ -188,7 +191,7 @@ INSERT INTO public."RoleUser" ("RolesId", "UserId") VALUES ('c6438e61-2db3-47e6-
 
 
 --
--- TOC entry 3392 (class 0 OID 24717)
+-- TOC entry 3392 (class 0 OID 16400)
 -- Dependencies: 219
 -- Data for Name: Roles; Type: TABLE DATA; Schema: public; Owner: dbuser
 --
@@ -198,7 +201,7 @@ INSERT INTO public."Roles" ("Id", "Key") VALUES ('1e009e3d-dd99-4956-830c-e48926
 
 
 --
--- TOC entry 3393 (class 0 OID 24720)
+-- TOC entry 3393 (class 0 OID 16403)
 -- Dependencies: 220
 -- Data for Name: Users; Type: TABLE DATA; Schema: public; Owner: dbuser
 --
@@ -208,7 +211,7 @@ INSERT INTO public."Users" ("Id", "Email", "PasswordHash") VALUES ('5a9516ad-ffc
 
 
 --
--- TOC entry 3224 (class 2606 OID 24724)
+-- TOC entry 3224 (class 2606 OID 16407)
 -- Name: DeviceUser PK_DeviceUser; Type: CONSTRAINT; Schema: public; Owner: dbuser
 --
 
@@ -217,7 +220,7 @@ ALTER TABLE ONLY public."DeviceUser"
 
 
 --
--- TOC entry 3227 (class 2606 OID 24726)
+-- TOC entry 3227 (class 2606 OID 16409)
 -- Name: Devices PK_Devices; Type: CONSTRAINT; Schema: public; Owner: dbuser
 --
 
@@ -226,7 +229,7 @@ ALTER TABLE ONLY public."Devices"
 
 
 --
--- TOC entry 3230 (class 2606 OID 24728)
+-- TOC entry 3230 (class 2606 OID 16411)
 -- Name: MQTTUser PK_MQTTUser; Type: CONSTRAINT; Schema: public; Owner: dbuser
 --
 
@@ -235,7 +238,7 @@ ALTER TABLE ONLY public."MQTTUser"
 
 
 --
--- TOC entry 3233 (class 2606 OID 24730)
+-- TOC entry 3233 (class 2606 OID 16413)
 -- Name: RoleUser PK_RoleUser; Type: CONSTRAINT; Schema: public; Owner: dbuser
 --
 
@@ -244,7 +247,7 @@ ALTER TABLE ONLY public."RoleUser"
 
 
 --
--- TOC entry 3236 (class 2606 OID 24732)
+-- TOC entry 3236 (class 2606 OID 16415)
 -- Name: Roles PK_Roles; Type: CONSTRAINT; Schema: public; Owner: dbuser
 --
 
@@ -253,7 +256,7 @@ ALTER TABLE ONLY public."Roles"
 
 
 --
--- TOC entry 3239 (class 2606 OID 24734)
+-- TOC entry 3239 (class 2606 OID 16417)
 -- Name: Users PK_Users; Type: CONSTRAINT; Schema: public; Owner: dbuser
 --
 
@@ -262,7 +265,7 @@ ALTER TABLE ONLY public."Users"
 
 
 --
--- TOC entry 3222 (class 1259 OID 24735)
+-- TOC entry 3222 (class 1259 OID 16418)
 -- Name: IX_DeviceUser_UserId; Type: INDEX; Schema: public; Owner: dbuser
 --
 
@@ -270,7 +273,7 @@ CREATE INDEX "IX_DeviceUser_UserId" ON public."DeviceUser" USING btree ("UserId"
 
 
 --
--- TOC entry 3225 (class 1259 OID 24736)
+-- TOC entry 3225 (class 1259 OID 16419)
 -- Name: IX_Devices_MQTTUserClientID; Type: INDEX; Schema: public; Owner: dbuser
 --
 
@@ -278,7 +281,7 @@ CREATE INDEX "IX_Devices_MQTTUserClientID" ON public."Devices" USING btree ("MQT
 
 
 --
--- TOC entry 3228 (class 1259 OID 24737)
+-- TOC entry 3228 (class 1259 OID 16420)
 -- Name: IX_MQTTUser_Username; Type: INDEX; Schema: public; Owner: dbuser
 --
 
@@ -286,7 +289,7 @@ CREATE UNIQUE INDEX "IX_MQTTUser_Username" ON public."MQTTUser" USING btree ("Us
 
 
 --
--- TOC entry 3231 (class 1259 OID 24738)
+-- TOC entry 3231 (class 1259 OID 16421)
 -- Name: IX_RoleUser_UserId; Type: INDEX; Schema: public; Owner: dbuser
 --
 
@@ -294,7 +297,7 @@ CREATE INDEX "IX_RoleUser_UserId" ON public."RoleUser" USING btree ("UserId");
 
 
 --
--- TOC entry 3234 (class 1259 OID 24739)
+-- TOC entry 3234 (class 1259 OID 16422)
 -- Name: IX_Roles_Key; Type: INDEX; Schema: public; Owner: dbuser
 --
 
@@ -302,7 +305,7 @@ CREATE UNIQUE INDEX "IX_Roles_Key" ON public."Roles" USING btree ("Key");
 
 
 --
--- TOC entry 3237 (class 1259 OID 24740)
+-- TOC entry 3237 (class 1259 OID 16423)
 -- Name: IX_Users_Email; Type: INDEX; Schema: public; Owner: dbuser
 --
 
@@ -310,7 +313,7 @@ CREATE UNIQUE INDEX "IX_Users_Email" ON public."Users" USING btree ("Email");
 
 
 --
--- TOC entry 3240 (class 2606 OID 24741)
+-- TOC entry 3240 (class 2606 OID 16424)
 -- Name: DeviceUser FK_DeviceUser_Devices_DevicesId; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
 --
 
@@ -319,7 +322,7 @@ ALTER TABLE ONLY public."DeviceUser"
 
 
 --
--- TOC entry 3241 (class 2606 OID 24746)
+-- TOC entry 3241 (class 2606 OID 16429)
 -- Name: DeviceUser FK_DeviceUser_Users_UserId; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
 --
 
@@ -328,7 +331,7 @@ ALTER TABLE ONLY public."DeviceUser"
 
 
 --
--- TOC entry 3242 (class 2606 OID 24751)
+-- TOC entry 3242 (class 2606 OID 16434)
 -- Name: Devices FK_Devices_MQTTUser_MQTTUserClientID; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
 --
 
@@ -337,7 +340,7 @@ ALTER TABLE ONLY public."Devices"
 
 
 --
--- TOC entry 3243 (class 2606 OID 24756)
+-- TOC entry 3243 (class 2606 OID 16439)
 -- Name: RoleUser FK_RoleUser_Roles_RolesId; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
 --
 
@@ -346,7 +349,7 @@ ALTER TABLE ONLY public."RoleUser"
 
 
 --
--- TOC entry 3244 (class 2606 OID 24761)
+-- TOC entry 3244 (class 2606 OID 16444)
 -- Name: RoleUser FK_RoleUser_Users_UserId; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
 --
 
@@ -363,7 +366,7 @@ ALTER TABLE ONLY public."RoleUser"
 REVOKE USAGE ON SCHEMA public FROM PUBLIC;
 
 
--- Completed on 2023-11-22 21:47:35
+-- Completed on 2023-11-24 21:20:18
 
 --
 -- PostgreSQL database dump complete
