@@ -38,14 +38,14 @@ public class MessageProcessing : IHostedService
 
         _mqttClient.ApplicationMessageReceivedAsync += e =>
         {
-            Console.WriteLine("Received application message.");
+            Console.WriteLine($"Received application message from {e.ClientId}.");
 
             return Task.CompletedTask;
         };
 
         var mqttSubscribeOptions = mqttFactory
             .CreateSubscribeOptionsBuilder()
-            .WithTopicFilter(f => f.WithTopic("telemetry_queue/"))
+            .WithTopicFilter(f => f.WithTopic("telemetry_queue/+"))
             .Build();
 
         // try to connect to the broker
@@ -73,6 +73,7 @@ public class MessageProcessing : IHostedService
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
+        Console.WriteLine("MessageProcessing Exited");
         return Task.CompletedTask;
     }
 

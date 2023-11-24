@@ -70,5 +70,7 @@ public class MQTTServer : IHostedService
         {
             await mqttServer.StopAsync();
         }
+
+        Console.WriteLine("MqttServer Exited");
     }
 }

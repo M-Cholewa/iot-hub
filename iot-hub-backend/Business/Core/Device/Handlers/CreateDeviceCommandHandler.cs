@@ -1,6 +1,7 @@
 ﻿using Business.Core.Device.Commands;
 using Business.Infrastructure.Security;
 using Business.Repository;
+using Communication.MQTT.Config;
 using Domain.Core;
 using MediatR;
 using System;
@@ -17,13 +18,15 @@ namespace Business.Core.Device.Handlers
         private readonly MQTTUserRepository _mqttUserRepository;
         private readonly UserRepository _userRepository;
         private readonly Business.Infrastructure.Security.IPasswordHasher _passHasher;
+        private readonly MQTTConnectionConfig _mqttConnectionConfig;
 
-        public CreateDeviceCommandHandler(DeviceRepository deviceRepository, MQTTUserRepository mqttUserRepository, UserRepository userRepository, IPasswordHasher passHasher)
+        public CreateDeviceCommandHandler(DeviceRepository deviceRepository, MQTTUserRepository mqttUserRepository, UserRepository userRepository, IPasswordHasher passHasher, MQTTConnectionConfig mqttConnectionConfig)
         {
             _deviceRepository = deviceRepository;
             _mqttUserRepository = mqttUserRepository;
             _userRepository = userRepository;
             _passHasher = passHasher;
+            _mqttConnectionConfig = mqttConnectionConfig;
         }
 
         public async Task<CreateDeviceCommandResult> Handle(CreateDeviceCommand request, CancellationToken cancellationToken)
@@ -74,7 +77,7 @@ namespace Business.Core.Device.Handlers
                 return new CreateDeviceCommandResult() { IsSuccess = false, Message = "Failed to add device to user" };
             }
 
-            var _apiKey = $"ClientID={device.MQTTUser!.ClientID};User=${request.MqttUsername};Pass=${request.MqttPassword}";
+            var _apiKey = $"ClientID={device.MQTTUser!.ClientID};User={request.MqttUsername};Pass={request.MqttPassword};Server={_mqttConnectionConfig.ServerAddress}"; // in here the server address is constant but could be also round robin DNS or something else
 
             return new CreateDeviceCommandResult() { IsSuccess = true, ResultDevice = device, MqttApiKey = _apiKey };
         }
