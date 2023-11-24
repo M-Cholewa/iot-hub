@@ -100,6 +100,7 @@ void MqttTask::reconnect()
     while (!client.connected())
     {
         DebugSerial::Get()->print("Attempting MQTT connection...");
+
         // Attempt to connect
         if (client.connect(MqttConfig::DeviceId, MqttConfig::MqttLogin, MqttConfig::MqttPass))
         {
@@ -142,7 +143,7 @@ void MqttTask::Loop()
     {
         string _dbg = string("TelemetryMessage: " + telemetryMessage);
         DebugSerial::Get()->println(_dbg.c_str());
-        client.publish(MqttConfig::TelemetryTopic, telemetryMessage.c_str());
+        client.publish(MqttConfig::TelemetryTopic.c_str(), telemetryMessage.c_str());
     }
 
     telemetryMessages.clear();
