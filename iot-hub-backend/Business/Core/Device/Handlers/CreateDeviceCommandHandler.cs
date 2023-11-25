@@ -70,7 +70,7 @@ namespace Business.Core.Device.Handlers
 
             try
             {
-                await _userRepository.AddDevice(_owner, device);
+                await _userRepository.AddDeviceAsync(_owner, device);
             }
             catch
             {
