@@ -1,21 +1,33 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { serverAddress } from "./core/config/server.js";
+import React from "react";
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { darkTheme } from "./core/config/theme.js";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { DashboardPage } from "./pages/dashboard/dashboard.page.js";
+import { DeviceListPage } from "./pages/device/deviceList.page.js";
+import { DeviceDetailsPage } from "./pages/device/deviceDetails.page.js";
+import { LoginPage } from "./pages/auth/login.page.js";
+import { RegisterPage } from "./pages/auth/register.page.js";
+import { AdminPage } from "./pages/admin/admin.page.js";
+import { NotFoundPage } from "./pages/error/NotFound.page.js";
 
 export const App = () => {
-  const [weatherData, setweatherData] = useState("");
-  useEffect(() => {
-    axios
-      .get(`${serverAddress}/WeatherForecast`)
-      .then((res) => setweatherData(res))
-      .catch((err) => console.log(err));
-  }, []);
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>{JSON.stringify(weatherData)}</h1>
-      </header>
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/devices" element={<DeviceListPage />} />
+          <Route path="/device:id" element={<DeviceDetailsPage />} />
+          <Route path="/auth" element={<LoginPage />} />
+          <Route path="/auth/login" element={<LoginPage />} />
+          <Route path="/auth/register" element={<RegisterPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 };
