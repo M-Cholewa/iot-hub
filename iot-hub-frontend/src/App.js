@@ -6,8 +6,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { DashboardPage } from "./pages/dashboard/dashboard.page.js";
 import { DeviceListPage } from "./pages/device/deviceList.page.js";
 import { DeviceDetailsPage } from "./pages/device/deviceDetails.page.js";
-import { LoginPage } from "./pages/auth/login.page.js";
-import { RegisterPage } from "./pages/auth/register.page.js";
+import { LoginPage } from "./pages/login/login.page.js";
+import { RegisterPage } from "./pages/register/register.page.js";
 import { AdminPage } from "./pages/admin/admin.page.js";
 import { NotFoundPage } from "./pages/error/NotFound.page.js";
 
