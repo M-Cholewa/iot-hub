@@ -20,9 +20,8 @@ export const App = () => {
           <Route path="/" element={<DashboardPage />} />
           <Route path="/devices" element={<DeviceListPage />} />
           <Route path="/device:id" element={<DeviceDetailsPage />} />
-          <Route path="/auth" element={<LoginPage />} />
-          <Route path="/auth/login" element={<LoginPage />} />
-          <Route path="/auth/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="/admin" element={<AdminPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
