@@ -3,6 +3,7 @@ using Business.Core.User.Commands;
 using Business.Repository;
 using Domain.Core;
 using iot_hub_backend.Infrastructure.Security;
+using iot_hub_backend.Model;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,7 +28,7 @@ namespace iot_hub_backend.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<string>> Login([FromBody] LoginCommand cmd)
+        public async Task<ActionResult<LoginResult>> Login([FromBody] LoginCommand cmd)
         {
             var _login = await _mediator.Send(cmd).ConfigureAwait(false);
 
@@ -38,7 +39,7 @@ namespace iot_hub_backend.Controllers
 
             var token = JwtTokenMaker.Make(_login.User, _jwtSettings);
 
-            return StatusCode(StatusCodes.Status200OK, token);
+            return new LoginResult { User = _login.User, Token = token };
         }
     }
 }
