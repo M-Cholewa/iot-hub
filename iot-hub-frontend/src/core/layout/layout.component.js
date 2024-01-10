@@ -3,13 +3,22 @@ import { PageDrawer } from './pageDrawer.component';
 import { AppBar, Box, IconButton, Toolbar, Typography, Container } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useUserAuth } from '../hooks/useUserAuth';
+import { useNavigate } from "react-router-dom";
 
 export const Layout = ({ children }) => {
 
     const [drawerOpen, setDrawerOpen] = React.useState(false);
+    const { logout } = useUserAuth();
+    const navigate = useNavigate();
 
     const handleDrawerToggle = () => {
         setDrawerOpen(!drawerOpen);
+    };
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
     };
 
     return (
@@ -36,6 +45,7 @@ export const Layout = ({ children }) => {
                             size="large"
                             aria-label="Logout"
                             color="primary"
+                            onClick={handleLogout}
                         >
                             <LogoutIcon />
                         </IconButton>

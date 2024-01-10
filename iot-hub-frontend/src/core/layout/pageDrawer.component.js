@@ -1,46 +1,80 @@
 import * as React from 'react';
-import { drawerItemsAdmin } from './drawerConstants';
+import { drawerItems } from './drawerConstants';
 import {
     Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Toolbar
 } from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, useLocation } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { useUserAuth } from '../hooks/useUserAuth'
 
 const drawerWidth = 240;
 
 export const PageDrawer = ({ drawerOpen, handleDrawerToggle }) => {
     const location = useLocation();
+    const { getUserRoles, logout } = useUserAuth();
+    const navigate = useNavigate();
+    const userRoles = getUserRoles();
+    const isAdmin = userRoles.some(role => role.key === 'ADMIN');
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
 
     const drawer = (
         <div>
             <Toolbar />
             <List>
-                {drawerItemsAdmin.base.map((item) => (
-                    <Link to={item.path} style={{ textDecoration: 'none' }} key={item.path}>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <item.icon color='primary' />
-                                </ListItemIcon>
-                                <ListItemText primary={item.label} />
-                            </ListItemButton>
-                        </ListItem>
-                    </Link>
-                ))}
+                {drawerItems.base.map((item) => {
+
+                    if (item.path.includes('/admin') && !isAdmin) {
+                        return (null);
+                    }
+
+                    return (
+                        <Link to={item.path} style={{ textDecoration: 'none', color: '#FFF' }} key={item.path}>
+                            <ListItem disablePadding>
+                                <ListItemButton selected={location.pathname === item.path}>
+                                    <ListItemIcon>
+                                        <item.icon color='primary' />
+                                    </ListItemIcon>
+                                    <ListItemText primary={item.label} />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
+                    )
+                })}
             </List>
             <Divider />
             <List>
-                {drawerItemsAdmin.account.map((item) => (
-                    <Link to={item.path} style={{ textDecoration: 'none' }} key={item.path}>
-                        <ListItem disablePadding>
-                            <ListItemButton selected={location.pathname === item.path}>
-                                <ListItemIcon>
-                                    <item.icon color='primary' />
-                                </ListItemIcon>
-                                <ListItemText primary={item.label} />
-                            </ListItemButton>
-                        </ListItem>
-                    </Link>
-                ))}
+                {drawerItems.account.map((item) => {
+                    if (item.path.includes('/admin') && !isAdmin) {
+                        return (null);
+                    }
+
+                    return (
+                        <Link to={item.path} style={{ textDecoration: 'none', color: '#FFF' }} key={item.path}>
+                            <ListItem disablePadding>
+                                <ListItemButton selected={location.pathname === item.path} >
+                                    <ListItemIcon>
+                                        <item.icon color='primary' />
+                                    </ListItemIcon>
+                                    <ListItemText primary={item.label} />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
+                    )
+                })}
+
+                <ListItem disablePadding>
+                    <ListItemButton onClick={handleLogout} >
+                        <ListItemIcon>
+                            <LogoutIcon color='primary' />
+                        </ListItemIcon>
+                        <ListItemText primary="Logout" />
+                    </ListItemButton>
+                </ListItem>
             </List>
         </div>
     );
