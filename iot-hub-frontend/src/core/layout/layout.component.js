@@ -1,15 +1,29 @@
 import * as React from 'react';
 import { PageDrawer } from './pageDrawer.component';
-import { AppBar, Box, IconButton, Toolbar, Typography, Container } from '@mui/material';
+import { AppBar, Box, IconButton, Toolbar, Typography, Container, Stack, Chip } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useUserAuth } from '../hooks/useUserAuth';
 import { useNavigate } from "react-router-dom";
+import Link from '@mui/material/Link';
+
+function Copyright(props) {
+    return (
+        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+            {'Copyright © '}
+            <Link color="inherit" href="#">
+                IoT Hub
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
+}
 
 export const Layout = ({ children }) => {
 
     const [drawerOpen, setDrawerOpen] = React.useState(false);
-    const { logout } = useUserAuth();
+    const { logout, getUser } = useUserAuth();
     const navigate = useNavigate();
 
     const handleDrawerToggle = () => {
@@ -20,6 +34,10 @@ export const Layout = ({ children }) => {
         logout();
         navigate('/login');
     };
+
+    const user = getUser();
+
+    console.log(user)
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -41,6 +59,10 @@ export const Layout = ({ children }) => {
                     </Typography>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                        <Stack direction="row" spacing={1} alignItems="center">
+                            <Chip label={`Hello ${user.email}`} color="primary" />
+                            <Chip label="MQTT connected" color="success" />
+                        </Stack>
                         <IconButton
                             size="large"
                             aria-label="Logout"
@@ -58,9 +80,16 @@ export const Layout = ({ children }) => {
             />
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <Toolbar />
-                <Container>
-                    {children}
-                </Container>
+                <Stack
+                    sx={{ height: '100%' }}
+                    direction="column"
+                    justifyContent="space-between"
+                    alignItems="center" >
+                    <Container>
+                        {children}
+                    </Container>
+                    <Copyright />
+                </Stack>
             </Box>
         </Box>
     );
