@@ -24,7 +24,6 @@ export const PageDrawer = ({ drawerOpen, handleDrawerToggle }) => {
 
     const drawer = (
         <div>
-            <Toolbar />
             <List>
                 {drawerItems.base.map((item) => {
 
@@ -98,6 +97,7 @@ export const PageDrawer = ({ drawerOpen, handleDrawerToggle }) => {
                     '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                 }}
             >
+                <Toolbar />
                 <Stack
                     direction="column"
                     sx={{ height: "100%" }}
@@ -118,6 +118,7 @@ export const PageDrawer = ({ drawerOpen, handleDrawerToggle }) => {
                 }}
                 open
             >
+                <Toolbar />
                 <Stack
                     direction="column"
                     sx={{ height: "100%" }}

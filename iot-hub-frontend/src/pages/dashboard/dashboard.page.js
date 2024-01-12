@@ -13,8 +13,9 @@ export const DashboardPage = () => {
                 rowSpacing={2}
                 direction="row"
                 justifyContent="space-around"
-                alignItems="center">
-                <Grid item xs={5}>
+                alignItems="center"
+                mt={0.5}>
+                <Grid item xs={4}>
                     <DevicesOnline />
                 </Grid>
                 <Grid item xs={2}>
@@ -26,30 +27,22 @@ export const DashboardPage = () => {
                 <Grid item xs={2}>
                     <TotalMessages />
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={4}>
                     <MessagesLogged />
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={4}>
                     <ErrorCount />
                 </Grid>
 
-                <Grid item xs={12}>
-                    <Grid
-                        container
-                        direction="row"
-                        justifyContent="space-around"
-                        alignItems="center"
-                    >
-                        <Grid item>
-                            <LastOpenDevice />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <LastNotifications />
-                        </Grid>
-                    </Grid>
-                </Grid>
 
+                <Grid item>
+                    <LastOpenDevice />
+                </Grid>
+                <Grid item xs={6}>
+                    <LastNotifications />
+                </Grid>
             </Grid>
+
 
         </Layout>
     );

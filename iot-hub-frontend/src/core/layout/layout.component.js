@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PageDrawer } from './pageDrawer.component';
-import { AppBar, Box, IconButton, Toolbar, Typography, Container, Stack, Chip } from '@mui/material';
+import { AppBar, Box, IconButton, Toolbar, Typography, Stack, Chip } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useUserAuth } from '../hooks/useUserAuth';
@@ -9,7 +9,7 @@ import Link from '@mui/material/Link';
 
 function Copyright(props) {
     return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        <Typography variant="body2" color="text.secondary" align="center" mt={3} {...props}>
             {'Copyright © '}
             <Link color="inherit" href="#">
                 IoT Hub
@@ -41,8 +41,8 @@ export const Layout = ({ children }) => {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <AppBar
-                position="fixed" sx={{ background: '#101418', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+
+            <AppBar sx={{ background: '#101418', zIndex: (theme) => theme.zIndex.drawer + 1 }}
             >
                 <Toolbar>
                     <IconButton
@@ -74,22 +74,17 @@ export const Layout = ({ children }) => {
                     </Box>
                 </Toolbar>
             </AppBar>
+
             <PageDrawer
                 drawerOpen={drawerOpen}
                 handleDrawerToggle={handleDrawerToggle}
             />
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <Box component="main">
                 <Toolbar />
-                <Stack
-                    sx={{ height: '100%' }}
-                    direction="column"
-                    justifyContent="space-between"
-                    alignItems="center" >
-                    <Container>
-                        {children}
-                    </Container>
-                    <Copyright />
-                </Stack>
+                <div>
+                    {children}
+                </div>
+                <Copyright />
             </Box>
         </Box>
     );
