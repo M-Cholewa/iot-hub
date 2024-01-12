@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { drawerItems } from './drawerConstants';
 import {
-    Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Toolbar
+    Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Toolbar, Stack, Typography
 } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, useLocation } from 'react-router-dom';
@@ -98,7 +98,15 @@ export const PageDrawer = ({ drawerOpen, handleDrawerToggle }) => {
                     '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                 }}
             >
-                {drawer}
+                <Stack
+                    direction="column"
+                    sx={{ height: "100%" }}
+                    justifyContent="space-between">
+                    {drawer}
+                    <Typography variant="body2" color="text.secondary" m={1}>
+                        2.5.1-beta, 12.01.2024
+                    </Typography>
+                </Stack>
             </Drawer>
             <Drawer
                 variant="permanent"
@@ -110,8 +118,17 @@ export const PageDrawer = ({ drawerOpen, handleDrawerToggle }) => {
                 }}
                 open
             >
-                {drawer}
+                <Stack
+                    direction="column"
+                    sx={{ height: "100%" }}
+                    justifyContent="space-between">
+                    {drawer}
+                    <Typography variant="body2" color="text.secondary" m={1}>
+                        2.5.1-beta, 12.01.2024
+                    </Typography>
+                </Stack>
             </Drawer>
+
         </Box>
     );
 }
