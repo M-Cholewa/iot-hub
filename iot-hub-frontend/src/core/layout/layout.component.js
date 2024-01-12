@@ -79,7 +79,7 @@ export const Layout = ({ children }) => {
                 drawerOpen={drawerOpen}
                 handleDrawerToggle={handleDrawerToggle}
             />
-            <Box component="main">
+            <Box component="main" sx={{ width: "100%", }}>
                 <Toolbar />
                 <div>
                     {children}
