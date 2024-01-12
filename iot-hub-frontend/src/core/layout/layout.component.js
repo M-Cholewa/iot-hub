@@ -37,8 +37,6 @@ export const Layout = ({ children }) => {
 
     const user = getUser();
 
-    console.log(user)
-
     return (
         <Box sx={{ display: 'flex' }}>
 

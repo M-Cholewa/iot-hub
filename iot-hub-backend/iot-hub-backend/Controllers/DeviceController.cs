@@ -56,13 +56,13 @@ namespace iot_hub_backend.Controllers
         }
 
 
-        [HttpPost("GetDevice")]
+        [HttpGet("GetDevice")]
         public async Task<Device?> GetDevice(Guid id)
         {
             return await User.GetDevice(id, _userRepository);
         }
 
-        [HttpPost("GetDevices")]
+        [HttpGet("GetDevices")]
         public async Task<List<Device>?> GetDeviceList()
         {
             var user = await User.GetUser(_userRepository);

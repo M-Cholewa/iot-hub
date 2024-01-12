@@ -1,6 +1,6 @@
 import { Layout } from "../../core/layout/layout.component.js";
 import { Grid } from '@mui/material';
-import { DevicesOnline, ErrorCount, MessagesLogged } from "./charts/index.js";
+import { DevicesOnline, LogCount, MessagesLogged } from "./charts/index.js";
 import { LastOpenDevice, DevicesCountTile, DevicesOnlineCountTile, TotalMessages } from "./tiles/index.js";
 import { LastNotifications } from "./lastNotifications.js";
 
@@ -31,7 +31,7 @@ export const DashboardPage = () => {
                     <MessagesLogged />
                 </Grid>
                 <Grid item xs={4}>
-                    <ErrorCount />
+                    <LogCount />
                 </Grid>
 
 
