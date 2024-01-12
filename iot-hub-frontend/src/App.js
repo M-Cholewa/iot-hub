@@ -4,7 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { darkTheme } from "./core/config/theme.js";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { DashboardPage } from "./pages/dashboard/dashboard.page.js";
-import { DeviceListPage } from "./pages/device/deviceList.page.js";
+import { DeviceListPage } from "./pages/devices/deviceList.page.js";
 import { DeviceDetailsPage } from "./pages/device/deviceDetails.page.js";
 import { LoginPage } from "./pages/login/login.page.js";
 import { RegisterPage } from "./pages/register/register.page.js";
@@ -34,7 +34,7 @@ export const App = () => {
           <Route element={<ProtectedRoutes expectedRoles={['USER']} />}>
             <Route path="/" element={<DashboardPage />} />
             <Route path="/devices" element={<DeviceListPage />} />
-            <Route path="/device:id" element={<DeviceDetailsPage />} />
+            <Route path="/device/:id" element={<DeviceDetailsPage />} />
             <Route element={<ProtectedRoutes expectedRoles={['ADMIN']} />}>
               <Route path="/admin" element={<AdminPage />} />
             </Route>

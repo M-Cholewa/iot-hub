@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
-import { useDevicesData } from './hooks/useDevicesData.js';
+import { useDevicesData } from '../hooks/useDevicesData.js';
 import { Button } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 

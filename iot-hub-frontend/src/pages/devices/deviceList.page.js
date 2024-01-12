@@ -1,5 +1,5 @@
 import { Layout } from "../../core/layout/layout.component.js";
-import { DevicesDataGrid } from "./devicesDataGrid.component.js";
+import { DevicesDataGrid } from "./components/devicesDataGrid.component.js";
 import { LastOpenedDevices } from "./components/lastOpenedDevices.component.js";
 import { Container } from '@mui/material';
 
