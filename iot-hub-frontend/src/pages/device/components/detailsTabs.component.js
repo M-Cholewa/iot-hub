@@ -16,14 +16,16 @@ export const DetailsTabs = () => {
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={handleChange} aria-label="lab API tabs example">
-                        <Tab label="Item One" value="1" />
-                        <Tab label="Item Two" value="2" />
-                        <Tab label="Item Three" value="3" />
+                        <Tab label="Command line" value="1" />
+                        <Tab label="Charts and telemetry" value="2" />
+                        <Tab label="Logs" value="3" />
+                        <Tab label="Twin representation" value="4" />
                     </TabList>
                 </Box>
-                <TabPanel value="1">Item One</TabPanel>
-                <TabPanel value="2">Item Two</TabPanel>
-                <TabPanel value="3">Item Three</TabPanel>
+                <TabPanel value="1">Command line</TabPanel>
+                <TabPanel value="2">Charts and telemetry</TabPanel>
+                <TabPanel value="3">Logs</TabPanel>
+                <TabPanel value="4">Twin representation</TabPanel>
             </TabContext>
         </Box>
     );

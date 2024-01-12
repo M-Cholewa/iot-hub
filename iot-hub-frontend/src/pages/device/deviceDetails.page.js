@@ -3,15 +3,23 @@ import { Breadcrumbs, Link, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useDeviceData } from "./hooks/useDeviceData.js";
 import { DetailsTabs } from "./components/detailsTabs.component.js";
+import { useNavigate } from "react-router-dom";
 
 const NullDevice = () => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate('/devices');
+    }
+
     return (
         <Layout>
             <Breadcrumbs aria-label="breadcrumb">
                 <Link
                     underline="hover"
                     color="inherit"
-                    href="/devices"
+                    href="#"
+                    onClick={handleClick}
                 >
                     Devices
                 </Link>
@@ -28,6 +36,12 @@ export const DeviceDetailsPage = () => {
     const { id } = useParams();
     const { device } = useDeviceData(id);
 
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate('/devices');
+    }
+
     if (device === null) {
         return <NullDevice />
     }
@@ -38,7 +52,8 @@ export const DeviceDetailsPage = () => {
                 <Link
                     underline="hover"
                     color="inherit"
-                    href="/devices"
+                    href="#"
+                    onClick={handleClick}
                 >
                     Devices
                 </Link>

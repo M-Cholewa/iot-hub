@@ -15,7 +15,7 @@ export const useDeviceData = (deviceId) => {
             .catch((err) => {
                 setDevice(null);
             });
-    }, []);
+    }, [deviceId]);
 
     return { device };
 };
