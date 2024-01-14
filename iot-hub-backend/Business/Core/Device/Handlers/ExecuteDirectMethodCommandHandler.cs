@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Business.Core.Device.Commands;
+using Business.Repository;
 using Communication.MQTT;
 using Domain.MQTT;
 using MediatR;
@@ -15,16 +16,24 @@ namespace Business.Core.Device.Handlers
     public class ExecuteDirectMethodCommandHandler : IRequestHandler<ExecuteDirectMethodCommand, ExecuteDirectMethodCommandResult>
     {
         private readonly IRpcClient _rpcClient;
+        private readonly DeviceRepository _deviceRepository;
 
-        public ExecuteDirectMethodCommandHandler(IRpcClient rpcClient)
+        public ExecuteDirectMethodCommandHandler(IRpcClient rpcClient, DeviceRepository deviceRepository)
         {
             _rpcClient = rpcClient;
+            _deviceRepository = deviceRepository;
         }
 
         public async Task<ExecuteDirectMethodCommandResult> Handle(ExecuteDirectMethodCommand request, CancellationToken cancellationToken)
         {
+            var device = await _deviceRepository.GetByIdAsync(request.DeviceId);
 
-            var rpcCall = await _rpcClient.CallMethodAsync(request.DeviceId.ToString(), request.MethodName, request.Payload, cancellationToken);
+            if (device == null)
+            {
+                   return new ExecuteDirectMethodCommandResult { IsSuccess = false, ResultMsg = "Device does not exist" };
+            }
+
+            var rpcCall = await _rpcClient.CallMethodAsync(device.MQTTUser!.ClientID.ToString(), request.MethodName, request.Payload, cancellationToken);
             Console.WriteLine(" [.] Got '{0}'", rpcCall);
 
             bool _success = (rpcCall.result == RpcResult.SUCCESS);

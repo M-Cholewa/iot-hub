@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useDeviceData } from "./hooks/useDeviceData.js";
 import { DetailsTabs } from "./components/detailsTabs.component.js";
 import { useNavigate } from "react-router-dom";
+import { DeviceContext } from "./context/deviceContext.js";
 
 const NullDevice = () => {
     const navigate = useNavigate();
@@ -59,8 +60,9 @@ export const DeviceDetailsPage = () => {
                 </Link>
                 <Typography color="text.primary">{device.name}</Typography>
             </Breadcrumbs>
-
-            <DetailsTabs />
+            <DeviceContext.Provider value={device}>
+                <DetailsTabs />
+            </DeviceContext.Provider>
         </Layout>
     );
 }
