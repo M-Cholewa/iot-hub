@@ -68,7 +68,7 @@ ChartJS.register(
 
 export const DetailsChart = () => {
 
-    const [selectedParameters, setSelectedParameters] = useState([parameters[0], parameters[1], parameters[2], parameters[3]]);
+    const [selectedParameters, setSelectedParameters] = useState([parameters[0]]);
 
     const handleChange = (event) => {
         const {

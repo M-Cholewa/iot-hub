@@ -127,7 +127,7 @@ export const CliTab = () => {
                                 {item.method}: {item.payload}
                             </Typography>
                             <Typography variant="body2" gutterBottom>
-                                {(item.response.isSuccess == true)
+                                {(item.response.isSuccess === true)
                                     ? <span>
                                         {item.response.rpcResponse}
                                     </span>

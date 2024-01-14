@@ -1,7 +1,7 @@
 import { Grid, Typography, Card, CardContent } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import { DetailsChart } from "./telemetryTab/detailsChart.component";
-
+import { Console } from "./telemetryTab/console.component";
 const columns = [
     {
         field: 'parameter',
@@ -95,8 +95,10 @@ export const TelemetryTab = () => {
             </Grid>
         </Grid>
 
-        <Grid container mt={2} spacing={2}>
-            
+        <Grid container mt={1} spacing={2}>
+            <Grid item xs={12}>
+                <Console />
             </Grid>
+        </Grid>
     </div>);
 };
