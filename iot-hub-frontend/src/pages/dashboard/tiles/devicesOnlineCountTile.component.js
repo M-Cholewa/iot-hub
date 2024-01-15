@@ -8,7 +8,7 @@ export const DevicesOnlineCountTile = () => {
                     Online
                 </Typography>
                 <Typography variant="h4" gutterBottom align="center">
-                    3
+                    1
                 </Typography>
             </CardContent>
         </Card>);
