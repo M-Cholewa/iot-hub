@@ -22,8 +22,6 @@ export const AccountPage = () => {
     const user = getUser();
     const roleKeys = user.roles?.map(role => role.key) ?? [];
 
-    console.log(user);
-
     return (
         <Layout>
             <Container >
