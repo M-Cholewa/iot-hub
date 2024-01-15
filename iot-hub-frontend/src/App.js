@@ -12,7 +12,9 @@ import { AdminPage } from "./pages/admin/admin.page.js";
 import { NotFoundPage } from "./pages/error/NotFound.page.js";
 import { ProtectedRoutes } from "./core/router/protectedRoutes.js";
 import { AccountPage } from "./pages/account/account.page.js";
+import { AboutPage } from "./pages/about/about.page.js";
 import { useUserAuth } from "./core/hooks/useUserAuth.js";
+
 
 import axios from 'axios';
 
@@ -40,6 +42,7 @@ export const App = () => {
               <Route path="/admin" element={<AdminPage />} />
             </Route>
             <Route path="/account" element={<AccountPage />} />
+            <Route path="/about" element={<AboutPage />} />
           </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />

@@ -2,7 +2,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import PersonIcon from '@mui/icons-material/Person';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-
+import InfoIcon from '@mui/icons-material/Info';
 export const drawerItems = {
     base: [
         {
@@ -26,6 +26,11 @@ export const drawerItems = {
             label: "Account",
             icon: PersonIcon,
             path: "/account",
+        },
+        {
+            label: "About",
+            icon: InfoIcon,
+            path: "/about",
         },
     ],
 };
