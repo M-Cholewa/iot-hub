@@ -2,6 +2,11 @@
 #include "App/Core/MqttTask.hpp"
 #include "App/Serial/DebugSerial.hpp"
 
+#include "App/Domain/CO2Telemetry.hpp"
+#include "App/Domain/HumidityTelemetry.hpp"
+#include "App/Domain/TemperatureTelemetry.hpp"
+#include "App/Domain/LogTelemetry.hpp"
+
 using namespace std;
 
 long lastMsg = 0;
@@ -29,7 +34,7 @@ void loop()
   mqttTask.Loop();
 
   long now = millis();
-  if (now - lastMsg > 5000)
+  if (now - lastMsg > 25000)
   {
     lastMsg = now;
 
@@ -37,6 +42,15 @@ void loop()
     char tempString[8];
     dtostrf(temperature, 1, 2, tempString);
 
-    mqttTask.PushTelemetryMessage(string(tempString));
+    CO2Telemetry co2Telemetry = CO2Telemetry(temperature);
+    HumidityTelemetry humidityTelemetry = HumidityTelemetry(1);
+    TemperatureTelemetry temperatureTelemetry = TemperatureTelemetry(2);
+    LogTelemetry logTelemetry = LogTelemetry("test", "warning");
+
+    mqttTask.PushTelemetryMessage(&co2Telemetry);
+    mqttTask.PushTelemetryMessage(&humidityTelemetry);
+    mqttTask.PushTelemetryMessage(&temperatureTelemetry);
+
+    mqttTask.PushLogMessage(&logTelemetry);
   }
 }

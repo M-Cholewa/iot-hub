@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iot-hub-backend", "iot-hub-backend\iot-hub-backend.csproj", "{98B108A1-CD13-4B47-BF18-58351552A9A9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{ADB589EF-C805-4BB3-AF43-16346DF5CBD3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1B350C28-1159-41D4-AB33-BB1603C79C80} = {1B350C28-1159-41D4-AB33-BB1603C79C80}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Communication", "Communication\Communication.csproj", "{1128B8BD-9E6C-4F98-A7A7-E1B12B5067BD}"
 EndProject

@@ -12,6 +12,7 @@ using namespace std;
 
 MqttTask::MqttTask(WiFiClient &wifiClient)
 {
+
     client = PubSubClient(wifiClient);
 }
 
@@ -127,11 +128,6 @@ void MqttTask::reconnect()
     }
 }
 
-void MqttTask::PushTelemetryMessage(string jsonMessage)
-{
-    telemetryMessages.push_back(jsonMessage);
-}
-
 void MqttTask::Loop()
 {
     if (!client.connected())
@@ -139,14 +135,23 @@ void MqttTask::Loop()
         reconnect();
     }
 
-    for (string telemetryMessage : telemetryMessages)
+    if (!telemetryMessages.empty())
     {
-        string _dbg = string("TelemetryMessage: " + telemetryMessage);
+        string _dbg = string("TelemetryMessage: " + telemetryMessages.dump());
         DebugSerial::Get()->println(_dbg.c_str());
-        client.publish(MqttConfig::TelemetryTopic.c_str(), telemetryMessage.c_str());
+
+        client.publish(MqttConfig::TelemetryTopic.c_str(), telemetryMessages.dump().c_str());
+        telemetryMessages.clear();
     }
 
-    telemetryMessages.clear();
+    if (!logMessages.empty())
+    {
+        string _dbg = string("TelemetryMessage: " + logMessages.dump());
+        DebugSerial::Get()->println(_dbg.c_str());
+
+        client.publish(MqttConfig::LogTopic.c_str(), logMessages.dump().c_str());
+        logMessages.clear();
+    }
 
     client.loop();
 }

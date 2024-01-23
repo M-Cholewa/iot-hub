@@ -10,13 +10,14 @@
     <DockerComposeEnvFilePath>.env</DockerComposeEnvFilePath>
   </PropertyGroup>
   <ItemGroup>
-    <None Include=".env_Copy" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
     <None Include=".env" />
+    <None Include="dockerfiles\influxdb\Dockerfile" />
+    <None Include="Dockerfiles\InfluxDB\Scripts\BucketCreateScript.sh" />
     <None Include="Dockerfiles\PostgreSQL\Dockerfile" />
     <None Include="Dockerfiles\PostgreSQL\pgsql-dump.sql" />
   </ItemGroup>

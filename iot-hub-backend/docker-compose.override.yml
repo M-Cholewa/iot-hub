@@ -36,3 +36,19 @@ services:
       - 1883:1883
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+  influxdb:
+    container_name: "InfluxDB"
+    restart: always
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup 
+      - DOCKER_INFLUXDB_INIT_USERNAME=${DOCKER_INFLUXDB_INIT_USERNAME}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${DOCKER_INFLUXDB_INIT_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=${DOCKER_INFLUXDB_INIT_ORG}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${DOCKER_INFLUXDB_INIT_BUCKET}
+      # - DOCKER_INFLUXDB_INIT_CLI_CONFIG_NAME=cliconfigname
+    ports:
+      - 8086:8086
+    volumes:
+      - ./Dockerfiles/InfluxDB/influxdb2/:/var/lib/influxdb2
+      - ./Dockerfiles/InfluxDB/Scripts/BucketCreateScript.sh:/docker-entrypoint-initdb.d/BucketCreateScript.sh

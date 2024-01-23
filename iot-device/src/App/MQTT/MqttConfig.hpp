@@ -13,6 +13,7 @@ private:
 public:
     static const string RpcTopicBase;
     static const string TelemetryTopic;
+    static const string LogTopic;
 
     static const string DeviceIdString;
     static const string MqttLoginString;
@@ -42,5 +43,6 @@ const char *MqttConfig::MqttLogin = MqttConfig::MqttLoginString.c_str();
 const char *MqttConfig::MqttPass = MqttConfig::MqttPassString.c_str();
 const char *MqttConfig::MqttServer = MqttConfig::MqttServerString.c_str();
 
-const string MqttConfig::TelemetryTopic = "telemetry_queue/" + string(MqttConfig::DeviceId);
+const string MqttConfig::TelemetryTopic = "telemetry_queue/" + string(MqttConfig::DeviceId) + "/telemetry";
+const string MqttConfig::LogTopic = "telemetry_queue/" + string(MqttConfig::DeviceId) + "/log";
 const string MqttConfig::RpcTopicBase = "MQTTnet.RPC/+/" + string(MqttConfig::DeviceId) + ".";

@@ -9,6 +9,7 @@ using Domain.Data;
 using iot_hub_backend.Infrastructure.Extensions;
 using Common;
 using Business.Repository;
+using Business.InfluxRepository;
 
 namespace iot_hub_backend.Controllers
 {
@@ -20,11 +21,15 @@ namespace iot_hub_backend.Controllers
 
         private readonly IMediator _mediator;
         private readonly UserRepository _userRepository;
+        private readonly TelemetryRepository _telemetryRepository;
+        private readonly LogRepository _logRepository;
 
-        public DeviceController(IMediator mediator, UserRepository userRepository)
+        public DeviceController(IMediator mediator, UserRepository userRepository, TelemetryRepository telemetryRepository, LogRepository logRepository)
         {
             _mediator = mediator;
             _userRepository = userRepository;
+            _telemetryRepository = telemetryRepository;
+            _logRepository = logRepository;
         }
 
         [HttpPost("ExecuteDirectMethod")]
@@ -38,7 +43,7 @@ namespace iot_hub_backend.Controllers
         public async Task<CreateDeviceCommandResult> CreateDevice(string deviceName)
         {
 
-            var ownerId =  User.GetGuid();
+            var ownerId = User.GetGuid();
             var mqttUsername = Password.Generate(30, 2);
             var mqttPassword = Password.Generate(60, 4);
             var device = new Device { Name = deviceName };
@@ -74,6 +79,32 @@ namespace iot_hub_backend.Controllers
 
             return user.Devices?.ToList();
         }
+
+        [HttpGet("GetLogs")]
+        public List<Log> GetAllLogs(Guid deviceId)
+        {
+            return _logRepository.GetAll(deviceId);
+        }
+
+        [HttpGet("GetLastLogs")]
+        public List<Log> GetLastLogs(Guid deviceId, int limit)
+        {
+            return _logRepository.GetAll(deviceId, limit);
+        }
+
+        [HttpGet("GetTelemetry")]
+        public List<Telemetry> GetTelemetries(Guid deviceId, string fieldName, DateTime sinceUTC, DateTime toUTC)
+        {
+            return _telemetryRepository.Get(deviceId, fieldName, sinceUTC, toUTC);
+        }
+
+
+        [HttpGet("GetTelemetryFieldNames")]
+        public async Task<List<string>> GetTelemetryFieldNames(Guid deviceId)
+        {
+            return await _telemetryRepository.GetFieldNames(deviceId);
+        }
+
 
     }
 }

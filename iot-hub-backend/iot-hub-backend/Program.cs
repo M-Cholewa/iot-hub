@@ -1,10 +1,12 @@
 //#define CREATE_DB
 
 using Business.Core.Device.Commands;
+using Business.InfluxRepository;
 using Business.Interface;
 using Business.Repository;
 using Domain.Core;
 using Domain.Data;
+using InfluxDB.Client;
 using iot_hub_backend.Infrastructure.Security;
 using iot_hub_backend.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -73,6 +75,16 @@ foreach (var assembly in assemblies)
 {
     builder.Services.AddScoped(assembly);
 }
+
+// Influx repositories
+var influxRepositoryConnection = builder.Configuration.GetSection("InfluxRepositoryConnection").Get<InfluxRepositoryConnection>();
+builder.Services.AddSingleton(influxRepositoryConnection);
+
+
+builder.Services.AddScoped<Business.InfluxRepository.TelemetryRepository>();
+builder.Services.AddScoped<Business.InfluxRepository.LogRepository>();
+
+//builder.Services.AddSingleton(influxDBClient);
 
 // For user password
 builder.Services.AddScoped<Business.Infrastructure.Security.IPasswordHasher, Business.Infrastructure.Security.PasswordHasher>();

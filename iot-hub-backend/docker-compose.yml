@@ -25,3 +25,9 @@ services:
       context: .
       dockerfile: MQTTServer/Dockerfile
 
+  influxdb:
+     image: influxdb:latest
+     build:
+       context: .
+       dockerfile: Dockerfiles/InfluxDB/Dockerfile
+    
