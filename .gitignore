@@ -269,5 +269,5 @@ iot-hub-backend/.env_Copy
 
 # InfluxDB
 
-iot-hub-backend\Dockerfiles\InfluxDB\influxdb2/
-iot-hub-backend\Dockerfiles\InfluxDB\obj/
+iot-hub-backend/Dockerfiles/InfluxDB/influxdb2/
+iot-hub-backend/Dockerfiles/InfluxDB/obj/
