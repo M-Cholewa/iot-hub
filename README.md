@@ -1,6 +1,6 @@
 # IoT Hub
 
-IoT Hub is a full-stack application that mimics the functionality of Azure IoT Hub. It consists of a C# .NET Core 6.0 backend and a React frontend. The backend is containerized with Docker, along with RabbitMQ for message queuing.
+IoT Hub is a full-stack application that mimics the functionality of Azure IoT Hub. It consists of a C# .NET Core 6.0 backend and a React frontend. The backend is containerized with Docker, along with MQTTNet for message queuing.
 
 ## Table of Contents
 
