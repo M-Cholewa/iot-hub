@@ -274,7 +274,9 @@ This is a basic guide to get started with IoT Hub. For more advanced features an
 
 In below example I send command debugLed with payload {"On":true} to enable the blue diode on the ESP32-WROOM board.
 
-<video src="ReadmeFiles/debugLedSet.mp4" controls title="Title"></video>
+<video src="https://github.com/M-Cholewa/iot-hub/raw/master/ReadmeFiles/debugLedSet.mp4" controls title="Title">
+https://github.com/M-Cholewa/iot-hub/raw/master/ReadmeFiles/debugLedSet.mp4
+</video>
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
