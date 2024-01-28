@@ -24,7 +24,6 @@
     <a href="https://github.com/M-Cholewa/iot-hub/issues">Request Feature</a>
   </p>
 </div>
-
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -44,6 +43,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
+    <li><a href="#showcase">Showcase</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -266,6 +266,16 @@ Upon logging in, you'll be greeted by the dashboard. This provides a quick overv
 - If you encounter any issues or have questions, refer to the FAQ or contact support.
 
 This is a basic guide to get started with IoT Hub. For more advanced features and detailed instructions, please refer to the official documentation.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- SHOWCASE -->
+## Showcase
+
+In below example I send command debugLed with payload {"On":true} to enable the blue diode on the ESP32-WROOM board.
+
+<video src="ReadmeFiles/debugLedSet.mp4" controls title="Title"></video>
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
