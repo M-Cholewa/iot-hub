@@ -4,6 +4,7 @@
 #include "App/MQTT/RPC/RpcResponse.cpp"
 #include "nlohmann/json.hpp"
 #include "App/MQTT/RPC/Handlers/PingRpcHandler.cpp"
+#include "App/MQTT/RPC/Handlers/DebugLedRpcHandler.cpp"
 #include "App/Serial/DebugSerial.hpp"
 #include "App/Core/MqttTask.hpp"
 
@@ -158,4 +159,5 @@ void MqttTask::Loop()
 
 // maps incomming message on RPC topic to specific handler
 const std::map<string, std::shared_ptr<IRpcHandler>> MqttTask::topicHandlerMap = {
-    {"ping", std::make_shared<PingRpcHandler>()}};
+    {"ping", std::make_shared<PingRpcHandler>()},
+    {"debugLed", std::make_shared<DebugLedRpcHandler>()}};
