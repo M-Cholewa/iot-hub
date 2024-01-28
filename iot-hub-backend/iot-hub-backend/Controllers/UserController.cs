@@ -1,45 +1,44 @@
-﻿using Business.Core.Auth.Commands;
-using Business.Core.User.Commands;
+﻿using Business.Core.User.Commands;
 using Business.Repository;
 using Domain.Core;
-using iot_hub_backend.Infrastructure.Security;
-using iot_hub_backend.Model;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using iot_hub_backend.Infrastructure.Security.AuthorizeAttribute;
 
 namespace iot_hub_backend.Controllers
 {
+
+    [Route("[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public partial class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly JwtSettings _jwtSettings;
+        private readonly UserRepository _userRepository;
 
-        public UserController(IMediator mediator, JwtSettings jwtSettings)
+        public UserController(IMediator mediator, UserRepository userRepository)
         {
             _mediator = mediator;
-            _jwtSettings = jwtSettings;
+            _userRepository = userRepository;
         }
 
-        [HttpPost("Register")]
+        [HttpPut]
         public async Task<RegisterUserCommandResult> RegisterUser([FromBody] RegisterUserCommand cmd)
         {
             return await _mediator.Send(cmd).ConfigureAwait(false);
         }
 
-        [HttpPost("Login")]
-        public async Task<ActionResult<LoginResult>> Login([FromBody] LoginCommand cmd)
+        [HttpDelete]
+        [HasRole(Role.User)]
+        public async Task<RemoveUserCommandResult> RemoveUser([FromBody] RemoveUserCommand cmd)
         {
-            var _login = await _mediator.Send(cmd).ConfigureAwait(false);
+            return await _mediator.Send(cmd).ConfigureAwait(false);
+        }
 
-            if (!_login.IsSuccess || _login.User == null)
-            {
-                return StatusCode(StatusCodes.Status401Unauthorized, "");
-            }
-
-            var token = JwtTokenMaker.Make(_login.User, _jwtSettings);
-
-            return new LoginResult { User = _login.User, Token = token };
+        [HttpGet("All")]
+        [HasRole(Role.Admin)]
+        public async Task<IList<User>?> GetAllUsers()
+        {
+            return await _userRepository.GetAllAsync().ConfigureAwait(false);
         }
     }
 }

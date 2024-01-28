@@ -6,7 +6,7 @@ export const useDeviceData = (deviceId) => {
     const [device, setDevice] = useState(null);
 
     useEffect(() => {
-        axios.get(`${serverAddress}/GetDevice`, { params: { id: deviceId } })
+        axios.get(`${serverAddress}/Device`, { params: { id: deviceId } })
             .then((res) => {
                 res.data
                     ? setDevice(res.data)

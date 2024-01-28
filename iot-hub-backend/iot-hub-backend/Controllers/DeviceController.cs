@@ -15,21 +15,18 @@ namespace iot_hub_backend.Controllers
 {
     [Authorize]
     [HasRole(Role.User)]
+    [Route("[controller]")]
     [ApiController]
     public class DeviceController : ControllerBase
     {
 
         private readonly IMediator _mediator;
         private readonly UserRepository _userRepository;
-        private readonly TelemetryRepository _telemetryRepository;
-        private readonly LogRepository _logRepository;
 
-        public DeviceController(IMediator mediator, UserRepository userRepository, TelemetryRepository telemetryRepository, LogRepository logRepository)
+        public DeviceController(IMediator mediator, UserRepository userRepository)
         {
             _mediator = mediator;
             _userRepository = userRepository;
-            _telemetryRepository = telemetryRepository;
-            _logRepository = logRepository;
         }
 
         [HttpPost("ExecuteDirectMethod")]
@@ -39,7 +36,7 @@ namespace iot_hub_backend.Controllers
         }
 
 
-        [HttpPost("CreateDevice")]
+        [HttpPut]
         public async Task<CreateDeviceCommandResult> CreateDevice(string deviceName)
         {
 
@@ -54,20 +51,21 @@ namespace iot_hub_backend.Controllers
         }
 
 
-        [HttpPost("RemoveDevice")]
+        [HttpDelete]
         public async Task<RemoveDeviceCommandResult> RemoveDevice([FromBody] RemoveDeviceCommand cmd)
         {
             return await _mediator.Send(cmd).ConfigureAwait(false);
         }
 
 
-        [HttpGet("GetDevice")]
+        [HttpGet]
         public async Task<Device?> GetDevice(Guid id)
         {
             return await User.GetDevice(id, _userRepository);
         }
 
-        [HttpGet("GetDevices")]
+
+        [HttpGet("ThisUser")]
         public async Task<List<Device>?> GetDeviceList()
         {
             var user = await User.GetUser(_userRepository);
@@ -79,32 +77,6 @@ namespace iot_hub_backend.Controllers
 
             return user.Devices?.ToList();
         }
-
-        [HttpGet("GetLogs")]
-        public List<Log> GetAllLogs(Guid deviceId)
-        {
-            return _logRepository.GetAll(deviceId);
-        }
-
-        [HttpGet("GetLastLogs")]
-        public List<Log> GetLastLogs(Guid deviceId, int limit)
-        {
-            return _logRepository.GetAll(deviceId, limit);
-        }
-
-        [HttpGet("GetTelemetry")]
-        public List<Telemetry> GetTelemetries(Guid deviceId, string fieldName, DateTime sinceUTC, DateTime toUTC)
-        {
-            return _telemetryRepository.Get(deviceId, fieldName, sinceUTC, toUTC);
-        }
-
-
-        [HttpGet("GetTelemetryFieldNames")]
-        public async Task<List<string>> GetTelemetryFieldNames(Guid deviceId)
-        {
-            return await _telemetryRepository.GetFieldNames(deviceId);
-        }
-
 
     }
 }

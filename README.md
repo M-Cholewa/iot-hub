@@ -57,6 +57,7 @@
 ## About The Project
 
 <br>
+<img src="ReadmeFiles/Swagger.png" alt="view">
 <img src="ReadmeFiles/Page (2).png" alt="view">
 <img src="ReadmeFiles/Page (3).png" alt="view">
 <img src="ReadmeFiles/Page (8).png" alt="view">

@@ -37,7 +37,7 @@ export const LoginPage = () => {
 
         axios
             .post(
-                `${serverAddress}/login`,
+                `${serverAddress}/Auth/login`,
                 {
                     email: mail,
                     password: pass,
