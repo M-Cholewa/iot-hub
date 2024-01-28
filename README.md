@@ -274,10 +274,7 @@ This is a basic guide to get started with IoT Hub. For more advanced features an
 
 In below example I send command debugLed with payload {"On":true} to enable the blue diode on the ESP32-WROOM board.
 
-<video src="https://github.com/M-Cholewa/iot-hub/raw/master/ReadmeFiles/debugLedSet.mp4" controls title="Title">
-https://github.com/M-Cholewa/iot-hub/raw/master/ReadmeFiles/debugLedSet.mp4
-</video>
-
+https://github.com/M-Cholewa/iot-hub/assets/50336216/0e4cd475-84e4-43e0-978a-17e6a2409a87
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -293,7 +290,10 @@ Our project is continuously evolving, and here we outline our planned directions
 - [ ] **User Interface Development**: Improving UX/UI for easier and more intuitive navigation.
 - [ ] **Support for Mobile Devices**: Developing a mobile version of the user interface.
 - [ ] **Implementation of Additional Security Layers**: Introducing extra measures for the protection of user and device data.
-- [ ] **Telemetry Reporting and Analysis**: Expanding features for telemetry data reporting and analysis.
+- [ ] **Telemetry R
+
+
+eporting and Analysis**: Expanding features for telemetry data reporting and analysis.
 
 Check out the [open issues](https://github.com/YourGitHubUsername/iot-hub/issues) to see a full list of planned features (and known issues).
 
