@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MessageProcessing.Infrastructure
+namespace Domain.MQTT
 {
     public class BaseTelemetry
     {

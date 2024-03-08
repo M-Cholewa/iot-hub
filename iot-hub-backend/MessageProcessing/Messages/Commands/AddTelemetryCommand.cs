@@ -1,6 +1,6 @@
 ﻿using Domain.Core;
+using Domain.MQTT;
 using MediatR;
-using MessageProcessing.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;

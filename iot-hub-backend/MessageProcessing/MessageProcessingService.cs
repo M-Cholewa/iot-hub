@@ -6,7 +6,6 @@ using Business.Repository;
 using Communication.MQTT.Config;
 using Domain.MQTT;
 using MediatR;
-using MessageProcessing.Infrastructure;
 using MessageProcessing.Messages.Requests;
 using Microsoft.Extensions.Hosting;
 using MQTTnet;

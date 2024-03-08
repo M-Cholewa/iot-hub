@@ -14,7 +14,7 @@ HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 builder.Configuration.AddUserSecrets<Program>();
 
 // add main function
-builder.Services.AddHostedService<MQTTServer>();
+builder.Services.AddHostedService<Service.MQTTServer>();
 
 // PostgreSQL
 builder.Services.AddDbContext<IoTHubContext>(
