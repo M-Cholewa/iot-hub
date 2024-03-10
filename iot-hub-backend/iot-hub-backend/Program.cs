@@ -83,8 +83,8 @@ builder.Services.AddSingleton(influxRepositoryConnection);
 
 builder.Services.AddScoped<Business.InfluxRepository.TelemetryRepository>();
 builder.Services.AddScoped<Business.InfluxRepository.LogRepository>();
+builder.Services.AddScoped<Business.InfluxRepository.ConsoleRecordRepository>();
 
-//builder.Services.AddSingleton(influxDBClient);
 
 // For user password
 builder.Services.AddScoped<Business.Infrastructure.Security.IPasswordHasher, Business.Infrastructure.Security.PasswordHasher>();

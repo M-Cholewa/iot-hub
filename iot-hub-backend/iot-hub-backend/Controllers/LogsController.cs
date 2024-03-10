@@ -1,5 +1,6 @@
 ﻿using Business.InfluxRepository;
 using Domain.Core;
+using Domain.InfluxDB;
 using iot_hub_backend.Infrastructure.Security.AuthorizeAttribute;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

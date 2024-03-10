@@ -1,6 +1,6 @@
 ﻿using Business.InfluxRepository;
 using Business.Repository;
-using Domain.Core;
+using Domain.InfluxDB;
 using MediatR;
 using MessageProcessing.Messages.Requests;
 using System;

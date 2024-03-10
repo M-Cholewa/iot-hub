@@ -1,11 +1,8 @@
 ﻿using Business.Interface;
 using Domain.InfluxDB;
-using InfluxDB.Client;
 using InfluxDB.Client.Api.Domain;
-using InfluxDB.Client.Core;
 using InfluxDB.Client.Linq;
-using Microsoft.EntityFrameworkCore;
-using Remotion.Linq.Parsing.Structure.NodeTypeProviders;
+using InfluxDB.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,39 +11,39 @@ using System.Threading.Tasks;
 
 namespace Business.InfluxRepository
 {
-    public class LogRepository : IInfluxRepository
+    public class ConsoleRecordRepository : IInfluxRepository
     {
 
-        private readonly string BUCKET = "logs-bucket";
+        private readonly string BUCKET = "console-record-bucket";
         private readonly string ORG = "my-org";
 
         private readonly InfluxDBClient _influxDBClient;
 
 
-        public LogRepository(InfluxRepositoryConnection connection)
+        public ConsoleRecordRepository(InfluxRepositoryConnection connection)
         {
             _influxDBClient = new InfluxDBClient(connection.ServerAddress, connection.Username, connection.Password);
         }
 
 
-        public void Add(Log log)
+        public void Add(ConsoleRecord log)
         {
             using var writeApi = _influxDBClient.GetWriteApi();
             writeApi.WriteMeasurement(log, WritePrecision.Ns, BUCKET, ORG);
         }
 
-        public void Add(List<Log> logs)
+        public void Add(List<ConsoleRecord> logs)
         {
             using var writeApi = _influxDBClient.GetWriteApi();
             writeApi.WriteMeasurements(logs, WritePrecision.Ns, BUCKET, ORG);
         }
 
-        public List<Log> GetAll(Guid deviceId)
+        public List<ConsoleRecord> GetAll(Guid deviceId)
         {
 
             var queryApi = _influxDBClient.GetQueryApiSync();
 
-            var query = from s in InfluxDBQueryable<Log>.Queryable(BUCKET, ORG, queryApi)
+            var query = from s in InfluxDBQueryable<ConsoleRecord>.Queryable(BUCKET, ORG, queryApi)
                         where s.DeviceId == deviceId
                         select s;
 
@@ -57,11 +54,11 @@ namespace Business.InfluxRepository
 
         }
 
-        public List<Log> GetAll(Guid deviceId, int limit)
+        public List<ConsoleRecord> GetAll(Guid deviceId, int limit)
         {
             var queryApi = _influxDBClient.GetQueryApiSync();
 
-            var query = from s in InfluxDBQueryable<Log>.Queryable(BUCKET, ORG, queryApi)
+            var query = from s in InfluxDBQueryable<ConsoleRecord>.Queryable(BUCKET, ORG, queryApi)
                         where s.DeviceId == deviceId
                         select s;
 
@@ -70,6 +67,5 @@ namespace Business.InfluxRepository
 
             return logs;
         }
-
     }
 }

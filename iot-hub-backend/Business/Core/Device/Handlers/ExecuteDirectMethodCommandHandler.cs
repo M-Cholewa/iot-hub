@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Business.Core.Device.Commands;
+using Business.InfluxRepository;
 using Business.Repository;
 using Communication.MQTT;
 using Domain.MQTT;
@@ -17,11 +18,13 @@ namespace Business.Core.Device.Handlers
     {
         private readonly IRpcClient _rpcClient;
         private readonly DeviceRepository _deviceRepository;
+        private readonly ConsoleRecordRepository _consoleRecordRepository;
 
-        public ExecuteDirectMethodCommandHandler(IRpcClient rpcClient, DeviceRepository deviceRepository)
+        public ExecuteDirectMethodCommandHandler(IRpcClient rpcClient, DeviceRepository deviceRepository, ConsoleRecordRepository consoleRecordRepository)
         {
             _rpcClient = rpcClient;
             _deviceRepository = deviceRepository;
+            _consoleRecordRepository = consoleRecordRepository;
         }
 
         public async Task<ExecuteDirectMethodCommandResult> Handle(ExecuteDirectMethodCommand request, CancellationToken cancellationToken)
@@ -30,11 +33,23 @@ namespace Business.Core.Device.Handlers
 
             if (device == null)
             {
-                   return new ExecuteDirectMethodCommandResult { IsSuccess = false, ResultMsg = "Device does not exist" };
+                return new ExecuteDirectMethodCommandResult { IsSuccess = false, ResultMsg = "Device does not exist" };
             }
 
             var rpcCall = await _rpcClient.CallMethodAsync(device.MQTTUser!.ClientID.ToString(), request.MethodName, request.Payload, cancellationToken);
             Console.WriteLine(" [.] Got '{0}'", rpcCall);
+
+            // save record to influx
+
+            var consoleRecord = new Domain.InfluxDB.ConsoleRecord
+            {
+                DeviceId = request.DeviceId,
+                RpcResult = rpcCall.result.ToString(),
+                ResponseDataJson = rpcCall.response?.ResponseDataJson ?? "",
+                DateUTC = DateTime.UtcNow
+            };
+
+            _consoleRecordRepository.Add(consoleRecord);
 
             bool _success = (rpcCall.result == RpcResult.SUCCESS);
 

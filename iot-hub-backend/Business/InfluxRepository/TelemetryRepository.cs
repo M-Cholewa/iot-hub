@@ -14,12 +14,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using Microsoft.VisualBasic;
-using Domain.Core;
 using InfluxDB.Client.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Routing;
 using InfluxDB.Client.Configurations;
 using System.Net.Sockets;
+using Domain.InfluxDB;
 
 namespace Business.InfluxRepository
 {

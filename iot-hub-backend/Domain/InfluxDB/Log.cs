@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using InfluxDB.Client.Core;
 
-namespace Domain.Core
+namespace Domain.InfluxDB
 {
     public class Log
     {

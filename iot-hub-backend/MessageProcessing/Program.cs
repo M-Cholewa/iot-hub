@@ -48,6 +48,7 @@ builder.Services.AddSingleton(influxRepositoryConnection!);
 
 builder.Services.AddScoped<Business.InfluxRepository.TelemetryRepository>();
 builder.Services.AddScoped<Business.InfluxRepository.LogRepository>();
+builder.Services.AddScoped<Business.InfluxRepository.ConsoleRecordRepository>();
 
 // MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<AddLogCommand>());

@@ -1,6 +1,6 @@
 ﻿using Business.InfluxRepository;
 using Business.Repository;
-using Domain.Core;
+using Domain.InfluxDB;
 using InfluxDB.Client.Api.Domain;
 using MediatR;
 
