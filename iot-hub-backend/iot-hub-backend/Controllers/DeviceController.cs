@@ -10,6 +10,7 @@ using iot_hub_backend.Infrastructure.Extensions;
 using Common;
 using Business.Repository;
 using Business.InfluxRepository;
+using Domain.InfluxDB;
 
 namespace iot_hub_backend.Controllers
 {
@@ -22,11 +23,13 @@ namespace iot_hub_backend.Controllers
 
         private readonly IMediator _mediator;
         private readonly UserRepository _userRepository;
+        private readonly ConsoleRecordRepository _recordRepository;
 
-        public DeviceController(IMediator mediator, UserRepository userRepository)
+        public DeviceController(IMediator mediator, UserRepository userRepository, ConsoleRecordRepository recordRepository)
         {
             _mediator = mediator;
             _userRepository = userRepository;
+            _recordRepository = recordRepository;
         }
 
         [HttpPost("ExecuteDirectMethod")]
@@ -35,6 +38,11 @@ namespace iot_hub_backend.Controllers
             return await _mediator.Send(cmd).ConfigureAwait(false);
         }
 
+        [HttpGet("AllConsoleRecords")]
+        public List<ConsoleRecord> GetAllConsoleRecords(Guid deviceId)
+        {
+            return _recordRepository.GetAll(deviceId);
+        }
 
         [HttpPut]
         public async Task<CreateDeviceCommandResult> CreateDevice(string deviceName)
