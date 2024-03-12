@@ -31,7 +31,7 @@ option =>
     var pgconn = builder.Configuration.GetConnectionString("PostgreSQL");
     option.UseLazyLoadingProxies();
     option.UseNpgsql(pgconn);
-});
+}, ServiceLifetime.Transient);
 
 // Repositories
 var assemblies = Assembly
