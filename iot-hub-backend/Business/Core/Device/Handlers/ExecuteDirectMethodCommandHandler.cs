@@ -9,6 +9,7 @@ using Business.Core.Device.Commands;
 using Business.InfluxRepository;
 using Business.Repository;
 using Communication.MQTT;
+using Domain.InfluxDB;
 using Domain.MQTT;
 using MediatR;
 
@@ -19,12 +20,14 @@ namespace Business.Core.Device.Handlers
         private readonly IRpcClient _rpcClient;
         private readonly DeviceRepository _deviceRepository;
         private readonly ConsoleRecordRepository _consoleRecordRepository;
+        private readonly GeneralLogRepository _generalLogRepository;
 
-        public ExecuteDirectMethodCommandHandler(IRpcClient rpcClient, DeviceRepository deviceRepository, ConsoleRecordRepository consoleRecordRepository)
+        public ExecuteDirectMethodCommandHandler(IRpcClient rpcClient, DeviceRepository deviceRepository, ConsoleRecordRepository consoleRecordRepository, GeneralLogRepository generalLogRepository)
         {
             _rpcClient = rpcClient;
             _deviceRepository = deviceRepository;
             _consoleRecordRepository = consoleRecordRepository;
+            _generalLogRepository = generalLogRepository;
         }
 
         public async Task<ExecuteDirectMethodCommandResult> Handle(ExecuteDirectMethodCommand request, CancellationToken cancellationToken)
@@ -52,6 +55,19 @@ namespace Business.Core.Device.Handlers
             _consoleRecordRepository.Add(consoleRecord);
 
             bool _success = (rpcCall.result == RpcResult.SUCCESS);
+
+            if (_success)
+            {
+                var generalLog = new GeneralLog
+                {
+                    DeviceId = device.Id,
+                    DateUTC = DateTime.UtcNow,
+                    Message = "Received RPI response"
+                };
+
+                _generalLogRepository.Add(generalLog);
+            }
+
 
             return new ExecuteDirectMethodCommandResult { IsSuccess = _success, ResultMsg = rpcCall.result.ToString(), RpcResponse = rpcCall.response };
         }

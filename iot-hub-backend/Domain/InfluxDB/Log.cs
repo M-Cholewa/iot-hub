@@ -7,6 +7,13 @@ using InfluxDB.Client.Core;
 
 namespace Domain.InfluxDB
 {
+    public class LogSeverity
+    {
+        public const string INFO = "Info";
+        public const string WARNING = "Warning";
+        public const string ERROR = "Error";
+    }
+
     public class Log
     {
         [Column(IsMeasurement = true)]

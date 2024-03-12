@@ -7,6 +7,13 @@ using System.Threading.Tasks;
 
 namespace Domain.InfluxDB
 {
+    public class Telemetries
+    {
+        public static readonly string STATUS = "Status";
+        public static readonly string STATUS_ONLINE = "Online";
+        public static readonly string STATUS_OFFLINE = "Offline";
+    }
+
     public class Telemetry
     {
 

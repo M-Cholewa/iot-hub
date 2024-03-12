@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
+using System.Xml.Schema;
+using Domain.InfluxDB;
 
 namespace MQTTServer.Infrastructure
 {
@@ -35,7 +37,7 @@ namespace MQTTServer.Infrastructure
         {
             var logs = new List<LogTelemetry>
             {
-                new () {Message = statusMessage, Severity = "Info"}
+                new () {Message = statusMessage, Severity = LogSeverity.INFO}
             };
 
             var logsJson = JsonSerializer.Serialize(logs);

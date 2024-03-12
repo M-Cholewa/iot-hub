@@ -63,7 +63,7 @@ option =>
     var pgconn = builder.Configuration.GetConnectionString("PostgreSQL");
     option.UseLazyLoadingProxies();
     option.UseNpgsql(pgconn);
-});
+}, ServiceLifetime.Transient);
 
 // Repositories
 var assemblies = Assembly
@@ -80,10 +80,16 @@ foreach (var assembly in assemblies)
 var influxRepositoryConnection = builder.Configuration.GetSection("InfluxRepositoryConnection").Get<InfluxRepositoryConnection>();
 builder.Services.AddSingleton(influxRepositoryConnection);
 
+var influxAssemblies = Assembly
+       .GetAssembly(typeof(TelemetryRepository))!
+       .GetExportedTypes()
+       .Where(t => !t.IsAbstract && t.GetInterfaces().Any(iface => iface == typeof(Business.Interface.IInfluxRepository)));
 
-builder.Services.AddScoped<Business.InfluxRepository.TelemetryRepository>();
-builder.Services.AddScoped<Business.InfluxRepository.LogRepository>();
-builder.Services.AddScoped<Business.InfluxRepository.ConsoleRecordRepository>();
+
+foreach (var assembly in influxAssemblies)
+{
+    builder.Services.AddScoped(assembly);
+}
 
 
 // For user password

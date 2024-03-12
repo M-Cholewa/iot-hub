@@ -10,11 +10,13 @@ namespace MessageProcessing.Messages.Handlers
     {
         private readonly DeviceRepository _deviceRepository;
         private readonly TelemetryRepository _telemetryRepository;
+        private readonly GeneralLogRepository _generalLogRepository;
 
-        public AddTelemetryCommandHandler(DeviceRepository deviceRepository, TelemetryRepository telemetryRepository)
+        public AddTelemetryCommandHandler(DeviceRepository deviceRepository, TelemetryRepository telemetryRepository, GeneralLogRepository generalLogRepository)
         {
             _deviceRepository = deviceRepository;
             _telemetryRepository = telemetryRepository;
+            _generalLogRepository = generalLogRepository;
         }
 
         public async Task Handle(Requests.AddTelemetryCommand request, CancellationToken cancellationToken)
@@ -48,6 +50,15 @@ namespace MessageProcessing.Messages.Handlers
 
 
             _telemetryRepository.Add(telemetryData);
+
+            var generalLog = new GeneralLog
+            {
+                DeviceId = device.Id,
+                DateUTC = DateTime.UtcNow,
+                Message = "Received Telemetry message"
+            };
+
+            _generalLogRepository.Add(generalLog);
 
             Console.WriteLine($"Received Telemetry message.");
         }

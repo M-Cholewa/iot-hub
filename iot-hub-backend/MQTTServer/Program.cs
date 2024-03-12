@@ -14,7 +14,7 @@ HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 builder.Configuration.AddUserSecrets<Program>();
 
 // add main function
-builder.Services.AddHostedService<Service.MQTTServer>();
+builder.Services.AddHostedService<MQTTServer.Services.ServerService>();
 
 // PostgreSQL
 builder.Services.AddDbContext<IoTHubContext>(
@@ -23,7 +23,7 @@ option =>
     var pgconn = builder.Configuration.GetConnectionString("PostgreSQL");
     option.UseLazyLoadingProxies();
     option.UseNpgsql(pgconn);
-});
+}, ServiceLifetime.Transient);
 
 // Repositories
 var assemblies = Assembly

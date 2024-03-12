@@ -4,6 +4,7 @@ using Business.InfluxRepository;
 using Business.Repository;
 using Domain.Data;
 using MessageProcessing.Messages.Requests;
+using MessageProcessing.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +21,8 @@ var mqttConnectionConfig = builder.Configuration.GetSection("MQTTConnectionConfi
 builder.Services.AddSingleton(mqttConnectionConfig!);
 
 // add main function
-builder.Services.AddHostedService<MessageProcessingService>();
+builder.Services.AddHostedService<InterceptingService>();
+builder.Services.AddHostedService<GeneralTelemetryService>();
 
 // PostgreSQL
 builder.Services.AddDbContext<IoTHubContext>(
@@ -46,9 +48,16 @@ foreach (var assembly in assemblies)
 var influxRepositoryConnection = builder.Configuration.GetSection("InfluxRepositoryConnection").Get<InfluxRepositoryConnection>();
 builder.Services.AddSingleton(influxRepositoryConnection!);
 
-builder.Services.AddScoped<Business.InfluxRepository.TelemetryRepository>();
-builder.Services.AddScoped<Business.InfluxRepository.LogRepository>();
-builder.Services.AddScoped<Business.InfluxRepository.ConsoleRecordRepository>();
+var influxAssemblies = Assembly
+       .GetAssembly(typeof(TelemetryRepository))!
+       .GetExportedTypes()
+       .Where(t => !t.IsAbstract && t.GetInterfaces().Any(iface => iface == typeof(Business.Interface.IInfluxRepository)));
+
+
+foreach (var assembly in influxAssemblies)
+{
+    builder.Services.AddScoped(assembly);
+}
 
 // MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<AddLogCommand>());

@@ -1,5 +1,7 @@
 ﻿using Communication.MQTT.Config;
 using Communication.MQTT.Extensions;
+using Domain.Core;
+using Domain.InfluxDB;
 using Domain.MQTT;
 using Microsoft.Extensions.Logging;
 using MQTTnet;

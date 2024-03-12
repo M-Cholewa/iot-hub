@@ -15,11 +15,13 @@ namespace MessageProcessing.Messages.Handlers
     {
         private readonly DeviceRepository _deviceRepository;
         private readonly LogRepository _logRepository;
+        private readonly GeneralLogRepository _generalLogRepository;
 
-        public AddLogCommandHandler(DeviceRepository deviceRepository, LogRepository logRepository)
+        public AddLogCommandHandler(DeviceRepository deviceRepository, LogRepository logRepository, GeneralLogRepository generalLogRepository)
         {
             _deviceRepository = deviceRepository;
             _logRepository = logRepository;
+            _generalLogRepository = generalLogRepository;
         }
 
         public async Task Handle(AddLogCommand request, CancellationToken cancellationToken)
@@ -48,12 +50,12 @@ namespace MessageProcessing.Messages.Handlers
                     Severity = log.Severity
                 };
 
-                if(string.IsNullOrEmpty(logData.Severity))
+                if (string.IsNullOrEmpty(logData.Severity))
                 {
                     logData.Severity = "noSeverity";
                 }
 
-                if(string.IsNullOrEmpty(logData.Message))
+                if (string.IsNullOrEmpty(logData.Message))
                 {
                     logData.Message = "noMessage";
                 }
@@ -62,6 +64,15 @@ namespace MessageProcessing.Messages.Handlers
             }
 
             _logRepository.Add(logs);
+
+            var generalLog = new GeneralLog
+            {
+                DeviceId = device.Id,
+                DateUTC = DateTime.UtcNow,
+                Message = "Received Log message"
+            };
+
+            _generalLogRepository.Add(generalLog);
 
             Console.WriteLine($"Received Log message.");
 

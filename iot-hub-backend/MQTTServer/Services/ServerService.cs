@@ -6,22 +6,15 @@ using Business.Core.Auth.Commands;
 using MediatR;
 using MQTTServer.Infrastructure;
 
-namespace Service
+namespace MQTTServer.Services
 {
-    public class MQTTServer : IHostedService
+    public class ServerService : IHostedService
     {
         private MqttServer? mqttServer;
-        private ManualResetEvent _exitEvent;
         private readonly IMediator _mediator;
 
-        public MQTTServer(IMediator mediator)
+        public ServerService(IMediator mediator)
         {
-            _exitEvent = new ManualResetEvent(false);
-
-            Console.CancelKeyPress += (sender, eArgs) =>
-            {
-                _exitEvent.Set();
-            };
             _mediator = mediator;
         }
 
@@ -76,8 +69,6 @@ namespace Service
 
             await mqttServer.StartAsync();
             Console.WriteLine("MQTT Server started...");
-            Console.WriteLine(" Press [CTRL+C] to exit.");
-
         }
 
 
