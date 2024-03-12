@@ -45,7 +45,7 @@ void loop()
     CO2Telemetry co2Telemetry = CO2Telemetry(temperature);
     HumidityTelemetry humidityTelemetry = HumidityTelemetry(1);
     TemperatureTelemetry temperatureTelemetry = TemperatureTelemetry(2);
-    LogTelemetry logTelemetry = LogTelemetry("test", "warning");
+    LogTelemetry logTelemetry = LogTelemetry("test", "Warning");
 
     mqttTask.PushTelemetryMessage(&co2Telemetry);
     mqttTask.PushTelemetryMessage(&humidityTelemetry);
