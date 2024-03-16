@@ -6,6 +6,10 @@
 #include "App/Domain/HumidityTelemetry.hpp"
 #include "App/Domain/TemperatureTelemetry.hpp"
 #include "App/Domain/LogTelemetry.hpp"
+#include "App/Domain/FirmwareVersionTelemetry.hpp"
+#include "App/Domain/UptimeTelemetry.hpp"
+
+#include <uptime.h>
 
 using namespace std;
 
@@ -30,6 +34,7 @@ void setup()
 
 void loop()
 {
+  uptime::calculateUptime();
   wifiTask.Loop();
   mqttTask.Loop();
 
@@ -45,11 +50,16 @@ void loop()
     CO2Telemetry co2Telemetry = CO2Telemetry(temperature);
     HumidityTelemetry humidityTelemetry = HumidityTelemetry(1);
     TemperatureTelemetry temperatureTelemetry = TemperatureTelemetry(2);
+    FirmwareVersionTelemetry firmwareVersionTelemetry = FirmwareVersionTelemetry("1.0.0");
+    UptimeTelemetry uptimeTelemetry = UptimeTelemetry(uptime::getSeconds());
+
     LogTelemetry logTelemetry = LogTelemetry("test", "Warning");
 
     mqttTask.PushTelemetryMessage(&co2Telemetry);
     mqttTask.PushTelemetryMessage(&humidityTelemetry);
     mqttTask.PushTelemetryMessage(&temperatureTelemetry);
+    mqttTask.PushTelemetryMessage(&firmwareVersionTelemetry);
+    mqttTask.PushTelemetryMessage(&uptimeTelemetry);
 
     mqttTask.PushLogMessage(&logTelemetry);
   }
