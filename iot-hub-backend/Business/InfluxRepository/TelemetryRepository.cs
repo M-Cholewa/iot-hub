@@ -79,6 +79,26 @@ namespace Business.InfluxRepository
             return telemetries;
         }
 
+        public Telemetry? GetLatest(Guid deviceId, string fieldName)
+        {
+            var queryApi = _influxDBClient.GetQueryApiSync();
+
+            var query = from s in InfluxDBQueryable<Telemetry>.Queryable(BUCKET, ORG, queryApi)
+                        where s.DeviceId == deviceId
+                        && s.FieldName == fieldName
+                        orderby s.DateUTC descending
+                        select s;
+
+            var telemetries = query.Take(1).ToList();
+
+            if (telemetries.Count > 0)
+            {
+                return telemetries[0];
+            }
+
+            return null;
+        }
+
         public async Task<List<string>> GetFieldNames(Guid deviceId)
         {
             var query = $"from(bucket: \"{BUCKET}\")  " +

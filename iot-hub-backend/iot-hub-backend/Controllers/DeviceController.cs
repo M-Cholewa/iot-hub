@@ -11,6 +11,7 @@ using Common;
 using Business.Repository;
 using Business.InfluxRepository;
 using Domain.InfluxDB;
+using iot_hub_backend.Model;
 
 namespace iot_hub_backend.Controllers
 {
@@ -84,6 +85,36 @@ namespace iot_hub_backend.Controllers
             }
 
             return user.Devices?.ToList();
+        }
+
+        [HttpGet("UserDeviceTelemetries")]
+        public async Task<List<UserDeviceTelemetry>?> GetUserDeviceTelemetries()
+        {
+            var user = await User.GetUser(_userRepository);
+
+            if (user == null || user.Devices == null)
+            {
+                return null;
+            }
+
+            List<UserDeviceTelemetry> deviceTelemetries = new();
+
+            foreach (var device in user.Devices)
+            {
+                var cmd = new GetDeviceTelemetryCommand { DeviceId = device.Id };
+                var cmdResult = await _mediator.Send(cmd);
+                
+                if (cmdResult == null || cmdResult.DeviceTelemetry == null)
+                {
+                    continue;
+                }
+
+                var usrDeviceTelemetry = new UserDeviceTelemetry { Device = device, DeviceTelemetry = cmdResult.DeviceTelemetry };
+
+                deviceTelemetries.Add(usrDeviceTelemetry);
+            }
+
+            return deviceTelemetries;
         }
 
     }

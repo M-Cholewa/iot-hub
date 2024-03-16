@@ -12,6 +12,9 @@ namespace Domain.InfluxDB
         public static readonly string STATUS = "Status";
         public static readonly string STATUS_ONLINE = "Online";
         public static readonly string STATUS_OFFLINE = "Offline";
+        public static readonly string FW_VERSION = "FirmwareVersion";
+        public static readonly string UPTIME_S = "UptimeS";
+        public static readonly string LAST_ACTIVITY = "LastActivity";
     }
 
     public class Telemetry

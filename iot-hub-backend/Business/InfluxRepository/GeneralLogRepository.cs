@@ -81,5 +81,25 @@ namespace Business.InfluxRepository
 
             return logs;
         }
+
+
+        public GeneralLog? GetLastN(Guid deviceId, int n)
+        {
+            var queryApi = _influxDBClient.GetQueryApiSync();
+
+            var query = from s in InfluxDBQueryable<GeneralLog>.Queryable(BUCKET, ORG, queryApi)
+                        where s.DeviceId == deviceId
+                        orderby s.DateUTC descending
+                        select s;
+
+            var logs = query.Take(n).ToList();
+
+            if (logs.Count > 0)
+            {
+                return logs[0];
+            }
+
+            return null;
+        }
     }
 }
