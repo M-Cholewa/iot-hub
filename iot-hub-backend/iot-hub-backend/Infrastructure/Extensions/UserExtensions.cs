@@ -54,5 +54,27 @@ namespace iot_hub_backend.Infrastructure.Extensions
 
             return user.Devices.First(d => d.Id == deviceId);
         }
+
+
+        /// <summary>
+        /// Check if the user is an admin or the user with the given id
+        /// </summary>
+        /// <param name="controllerUser"></param>
+        /// <param name="userId"></param>
+        /// <param name="_userRepository"></param>
+        /// <returns></returns>
+        public async static Task<bool> IsAdminOrCertainUser(this ClaimsPrincipal controllerUser, Guid userId, UserRepository _userRepository)
+        {
+            var user = await controllerUser.GetUser(_userRepository);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            bool isAdmin = user.Roles?.Any(r => r.Key == Role.Admin) ?? false;
+
+            return isAdmin || user.Id == userId;
+        }
     }
 }

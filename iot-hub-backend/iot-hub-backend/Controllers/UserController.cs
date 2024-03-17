@@ -4,6 +4,7 @@ using Domain.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using iot_hub_backend.Infrastructure.Security.AuthorizeAttribute;
+using iot_hub_backend.Infrastructure.Extensions;
 
 namespace iot_hub_backend.Controllers
 {
@@ -31,6 +32,41 @@ namespace iot_hub_backend.Controllers
         [HasRole(Role.User)]
         public async Task<RemoveUserCommandResult> RemoveUser([FromBody] RemoveUserCommand cmd)
         {
+            bool _canRemove = await User.IsAdminOrCertainUser(cmd.Id, _userRepository);
+
+            if (!_canRemove)
+            {
+                return new RemoveUserCommandResult { IsSuccess = false, Message = "Unauthorized" };
+            }
+
+            return await _mediator.Send(cmd).ConfigureAwait(false);
+        }
+
+        [HttpPatch]
+        [HasRole(Role.User)]
+        public async Task<UpdateUserEmailCommandResult> UpdateUserEmail([FromBody] UpdateUserEmailCommand cmd)
+        {
+            bool _canUpdate = await User.IsAdminOrCertainUser(cmd.Id, _userRepository);
+
+            if (!_canUpdate)
+            {
+                return new UpdateUserEmailCommandResult { IsSuccess = false, Message = "Unauthorized" };
+            }
+
+            return await _mediator.Send(cmd).ConfigureAwait(false);
+        }
+
+        [HttpPatch]
+        [HasRole(Role.User)]
+        public async Task<UpdateUserPasswordCommandResult> UpdateUserPassword([FromBody] UpdateUserPasswordCommand cmd)
+        {
+            bool _canUpdate = await User.IsAdminOrCertainUser(cmd.Id, _userRepository);
+
+            if (!_canUpdate)
+            {
+                return new UpdateUserPasswordCommandResult { IsSuccess = false, Message = "Unauthorized" };
+            }
+
             return await _mediator.Send(cmd).ConfigureAwait(false);
         }
 
