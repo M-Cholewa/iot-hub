@@ -2,8 +2,8 @@
 
 #include "App/Domain/BaseTelemetry.hpp"
 
-class UptimeTelemetry : public BaseTelemetry<uint32_t>
+class UptimeTelemetry : public BaseTelemetry<unsigned long>
 {
 public:
-    UptimeTelemetry(uint32_t value) : BaseTelemetry(value, "UptimeSTelemetry", "") {}
+    UptimeTelemetry(unsigned long value) : BaseTelemetry(value, "UptimeSTelemetry", "s") {}
 };

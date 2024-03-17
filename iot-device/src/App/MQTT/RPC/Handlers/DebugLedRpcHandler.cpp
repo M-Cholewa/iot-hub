@@ -60,4 +60,9 @@ public:
             return response.to_json().dump();
         }
     }
+
+    string Help() override
+    {
+        return "debugLed: (On: bool) \n\tTurns debug led on or off. \n\tExample: {\"On\": true} or {\"On\": false}";
+    }
 };

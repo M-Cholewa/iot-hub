@@ -128,7 +128,7 @@ export const CliTab = () => {
                             </Typography>
                             <Typography variant="body2" gutterBottom>
                                 {(item.response.isSuccess === true)
-                                    ? <span>
+                                    ? <span style={{whiteSpace:"pre-wrap"}}>
                                         {item.response.rpcResponse}
                                     </span>
                                     : <span style={{ color: "#ef2929" }}>

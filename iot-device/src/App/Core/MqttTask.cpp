@@ -13,7 +13,6 @@ using namespace std;
 
 MqttTask::MqttTask(WiFiClient &wifiClient)
 {
-
     client = PubSubClient(wifiClient);
 }
 
@@ -50,25 +49,24 @@ void MqttTask::callback(char *topic, byte *message, unsigned int length)
         DebugSerial::Get()->print(String(reqString.c_str()));
         DebugSerial::Get()->println();
 
-        // auto it = topicHandlerMap.find(topic);
-
         bool _found = false;
 
-        for (auto const &x : topicHandlerMap)
+        String helpString = String("/") + MqttConfig::DeviceId + String(".help");
+
+        // check if topic ends with help
+
+        if (String(topic).endsWith(helpString))
         {
 
-            String topicString = String(topic);
-            String topisStringEnd = String("/") + MqttConfig::DeviceId + String(".") + x.first.c_str();
+            _found = true;
+            string helpString = string("Help: Available RPC functions: \n\n");
 
-            if (!topicString.endsWith(topisStringEnd))
+            for (auto const &x : topicHandlerMap)
             {
-                continue;
+                helpString += string("====> " + x.second->Help() + "\n\n");
             }
 
-            _found = true;
-
-            auto handlerResult = x.second->Handle(rpcRequest.ArgumentsJson);
-            RpcResponse rpcResponse = RpcResponse(handlerResult);
+            RpcResponse rpcResponse = RpcResponse(helpString);
 
             string responseStringJson = rpcResponse
                                             .to_json()
@@ -79,6 +77,39 @@ void MqttTask::callback(char *topic, byte *message, unsigned int length)
 
             client.publish(resTopicCharArray, resStringJsonCharArray);
         }
+
+        // check if topic ends with response
+
+        if (!_found)
+        {
+            for (auto const &x : topicHandlerMap)
+            {
+
+                String topicString = String(topic);
+                String topisStringEnd = String("/") + MqttConfig::DeviceId + String(".") + x.first.c_str();
+
+                if (!topicString.endsWith(topisStringEnd))
+                {
+                    continue;
+                }
+
+                _found = true;
+
+                auto handlerResult = x.second->Handle(rpcRequest.ArgumentsJson);
+                RpcResponse rpcResponse = RpcResponse(handlerResult);
+
+                string responseStringJson = rpcResponse
+                                                .to_json()
+                                                .dump();
+
+                const char *resTopicCharArray = MqttConfig::GetRpcResponseTopicName(topic).c_str();
+                const char *resStringJsonCharArray = responseStringJson.c_str();
+
+                client.publish(resTopicCharArray, resStringJsonCharArray);
+            }
+        }
+
+        // if no handler found
 
         if (!_found)
         {
@@ -117,6 +148,12 @@ void MqttTask::reconnect()
 
                 client.subscribe(topic.c_str());
             }
+
+            string topic = string(MqttConfig::RpcTopicBase) + "help"; // first -> key
+
+            DebugSerial::Get()->print("Subscribing to topic: ");
+            DebugSerial::Get()->println(topic.c_str());
+            client.subscribe(topic.c_str());
         }
         else
         {

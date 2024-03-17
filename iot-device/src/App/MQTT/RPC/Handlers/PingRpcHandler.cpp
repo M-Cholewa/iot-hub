@@ -11,4 +11,9 @@ public:
         DebugSerial::Get()->println("Executing PingRpcHandler");
         return "pong";
     }
+
+    string Help() override
+    {
+        return "ping: (no arguments) \n\t\treturns pong (used for testing connection to device.";
+    }
 };
