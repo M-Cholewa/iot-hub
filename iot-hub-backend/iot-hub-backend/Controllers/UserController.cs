@@ -42,7 +42,7 @@ namespace iot_hub_backend.Controllers
             return await _mediator.Send(cmd).ConfigureAwait(false);
         }
 
-        [HttpPatch]
+        [HttpPatch("Email")]
         [HasRole(Role.User)]
         public async Task<UpdateUserEmailCommandResult> UpdateUserEmail([FromBody] UpdateUserEmailCommand cmd)
         {
@@ -56,7 +56,7 @@ namespace iot_hub_backend.Controllers
             return await _mediator.Send(cmd).ConfigureAwait(false);
         }
 
-        [HttpPatch]
+        [HttpPatch("Password")]
         [HasRole(Role.User)]
         public async Task<UpdateUserPasswordCommandResult> UpdateUserPassword([FromBody] UpdateUserPasswordCommand cmd)
         {

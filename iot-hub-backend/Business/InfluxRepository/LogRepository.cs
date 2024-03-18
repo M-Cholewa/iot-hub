@@ -86,5 +86,15 @@ namespace Business.InfluxRepository
             return logs;
         }
 
+        public async Task DeleteAll(Guid deviceId)
+        {
+            var minDeleteDt = new DateTime(2023, 1, 1);
+
+            var deleteApi = _influxDBClient.GetDeleteApi();
+            await deleteApi.Delete(minDeleteDt, DateTime.UtcNow, $"DeviceId=\"{deviceId}\"", BUCKET, ORG);
+        }
+
+
+
     }
 }

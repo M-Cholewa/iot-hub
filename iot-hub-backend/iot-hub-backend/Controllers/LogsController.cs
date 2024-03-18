@@ -32,5 +32,13 @@ namespace iot_hub_backend.Controllers
         {
             return _logRepository.GetAll(deviceId, limit);
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAllLogs(Guid deviceId)
+        {
+            await _logRepository.DeleteAll(deviceId);
+
+            return Ok();
+        }
     }
 }
