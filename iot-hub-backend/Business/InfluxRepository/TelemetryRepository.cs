@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Routing;
 using InfluxDB.Client.Configurations;
 using System.Net.Sockets;
 using Domain.InfluxDB;
+using Domain.Core;
 
 namespace Business.InfluxRepository
 {
@@ -120,6 +121,31 @@ namespace Business.InfluxRepository
 
             return strings;
 
+        }
+
+        public async Task<List<Telemetry>> GetTelemetryMap(Guid deviceId)
+        {
+            var query = $"from(bucket: \"{BUCKET}\")" +
+                        "|> range(start: 0)  " +
+                        $"|> filter(fn: (r) => (r.DeviceId == \"{deviceId}\"))  " +
+                        "|> sort(columns: [\"_time\"], desc: true)" +
+                        "|> unique(column: \"_measurement\")";
+
+            List<Telemetry> telemetries = new();
+
+            var tables = await _influxDBClient.GetQueryApi()
+                .QueryAsync(new Query(query: query, dialect: QueryApi.Dialect), org: ORG);
+
+
+            foreach (var table in tables)
+            {
+                if (table.Records[0].GetValue() is Telemetry t)
+                {
+                    telemetries.Add(t);
+                }
+            }
+
+            return telemetries;
         }
 
     }

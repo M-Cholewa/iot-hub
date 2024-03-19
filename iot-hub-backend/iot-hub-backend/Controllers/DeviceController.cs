@@ -15,8 +15,8 @@ using iot_hub_backend.Model;
 
 namespace iot_hub_backend.Controllers
 {
-    [Authorize]
-    [HasRole(Role.User)]
+    //[Authorize]
+    //[HasRole(Role.User)]
     [Route("[controller]")]
     [ApiController]
     public class DeviceController : ControllerBase
@@ -25,12 +25,14 @@ namespace iot_hub_backend.Controllers
         private readonly IMediator _mediator;
         private readonly UserRepository _userRepository;
         private readonly ConsoleRecordRepository _recordRepository;
+        private readonly TelemetryRepository _telemetryRepository;
 
-        public DeviceController(IMediator mediator, UserRepository userRepository, ConsoleRecordRepository recordRepository)
+        public DeviceController(IMediator mediator, UserRepository userRepository, ConsoleRecordRepository recordRepository, TelemetryRepository telemetryRepository)
         {
             _mediator = mediator;
             _userRepository = userRepository;
             _recordRepository = recordRepository;
+            _telemetryRepository = telemetryRepository;
         }
 
         [HttpPost("ExecuteDirectMethod")]
@@ -115,6 +117,12 @@ namespace iot_hub_backend.Controllers
             }
 
             return deviceTelemetries;
+        }
+
+        [HttpGet("TelemetryMap")]
+        public async Task<List<Telemetry>?> GetTelemetryMap(Guid deviceId)
+        {
+            return await _telemetryRepository.GetTelemetryMap(deviceId);
         }
 
     }

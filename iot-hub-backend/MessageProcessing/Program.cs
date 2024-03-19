@@ -56,7 +56,7 @@ var influxAssemblies = Assembly
 
 foreach (var assembly in influxAssemblies)
 {
-    builder.Services.AddScoped(assembly);
+    builder.Services.AddTransient(assembly);
 }
 
 // MediatR

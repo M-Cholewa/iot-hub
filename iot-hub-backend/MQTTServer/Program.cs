@@ -33,7 +33,7 @@ var assemblies = Assembly
 
 foreach (var assembly in assemblies)
 {
-    builder.Services.AddScoped(assembly);
+    builder.Services.AddTransient(assembly);
 }
 
 // For user password
