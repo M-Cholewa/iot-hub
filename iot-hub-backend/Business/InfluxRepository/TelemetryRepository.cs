@@ -21,6 +21,7 @@ using InfluxDB.Client.Configurations;
 using System.Net.Sockets;
 using Domain.InfluxDB;
 using Domain.Core;
+using static Npgsql.PostgresTypes.PostgresCompositeType;
 
 namespace Business.InfluxRepository
 {
@@ -125,11 +126,16 @@ namespace Business.InfluxRepository
 
         public async Task<List<Telemetry>> GetTelemetryMap(Guid deviceId)
         {
-            var query = $"from(bucket: \"{BUCKET}\")" +
-                        "|> range(start: 0)  " +
-                        $"|> filter(fn: (r) => (r.DeviceId == \"{deviceId}\"))  " +
-                        "|> sort(columns: [\"_time\"], desc: true)" +
-                        "|> unique(column: \"_measurement\")";
+
+            var query = $"  from(bucket: \"{BUCKET}\")                                                        " +
+                         "    |> range(start: 0)                                                              " +
+                        $"    |> filter(fn: (r) => (r.DeviceId == \"{deviceId}\"))                            " +
+                         "    |> sort(columns: [\"_time\"], desc: true)                                       " +
+                         "    |> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")  " +
+                         "    |> drop(columns: [\"_start\", \"_stop\"])                                       " +
+                         "    |> group()                                                                      " +
+                         "    |> unique(column: \"_measurement\")                                             ";
+
 
             List<Telemetry> telemetries = new();
 
@@ -139,9 +145,25 @@ namespace Business.InfluxRepository
 
             foreach (var table in tables)
             {
-                if (table.Records[0].GetValue() is Telemetry t)
+                foreach (var record in table.Records)
                 {
-                    telemetries.Add(t);
+                    var deviceIdStr = record.GetValueByKey("DeviceId")?.ToString() ?? string.Empty;
+                    var recordDeviceId = Guid.Parse(deviceIdStr);
+
+                    var DateUTC = record.GetTimeInDateTime() ?? DateTime.MinValue;
+                    var FieldName = record.GetValueByKey("_measurement")?.ToString() ?? "";
+                    var FieldUnit = record.GetValueByKey("FieldUnit")?.ToString() ?? "";
+                    var FieldValue = record.GetValueByKey("FieldValue") ?? "";
+
+                    telemetries.Add(new Telemetry
+                    {
+                        DeviceId = recordDeviceId,
+                        DateUTC = DateUTC,
+                        FieldName = FieldName,
+                        FieldUnit = FieldUnit,
+                        FieldValue = FieldValue,
+                    });
+
                 }
             }
 

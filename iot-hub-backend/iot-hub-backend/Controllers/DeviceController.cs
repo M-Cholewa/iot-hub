@@ -15,8 +15,8 @@ using iot_hub_backend.Model;
 
 namespace iot_hub_backend.Controllers
 {
-    //[Authorize]
-    //[HasRole(Role.User)]
+    [Authorize]
+    [HasRole(Role.User)]
     [Route("[controller]")]
     [ApiController]
     public class DeviceController : ControllerBase
