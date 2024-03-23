@@ -57,12 +57,12 @@ namespace Business.Core.Device.Handlers
             };
 
             var mqttUserPasswordHash = _passHasher.HashPassword(request.MqttPassword);
-            var mqttUser = await _mqttUserRepository.AddAsync(new Domain.Core.MQTTUser { Username = request.MqttUsername, PasswordHash = mqttUserPasswordHash });
+            var mqttUser = new Domain.Core.MQTTUser { Username = request.MqttUsername, PasswordHash = mqttUserPasswordHash }; //await _mqttUserRepository.AddAsync();
 
-            if (mqttUser == null)
-            {
-                return new CreateDeviceCommandResult() { IsSuccess = false, Message = "Failed to create MQTT user" };
-            }
+            //if (mqttUser == null)
+            //{
+            //    return new CreateDeviceCommandResult() { IsSuccess = false, Message = "Failed to create MQTT user" };
+            //}
 
             var device = new Domain.Core.Device { Name = request.Device.Name, MQTTUser = mqttUser };
 
