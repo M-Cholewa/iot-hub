@@ -4,45 +4,48 @@ import { DeviceContext } from "../context/deviceContext.js";
 import SendIcon from '@mui/icons-material/Send';
 import { executeDirectMethod } from "../services/executeDirectMethod.js";
 import LoadingButton from '@mui/lab/LoadingButton';
+import { useCliData } from "../hooks/useCliData.js";
 
 export const CliTab = () => {
     const [method, setMethod] = useState("");
     const [payload, setPayload] = useState("{}");
-    const [cliContent, setCliContent] = useState([
-        {
-            date: "13.01.24 16:23:15",
-            method: "ping",
-            payload: "{}",
-            response: { isSuccess: true, resultMsg: "", rpcResponse: "Pong" }
-        },
-        {
-            date: "13.01.24 16:25:30",
-            method: "getStatus",
-            payload: "{}",
-            response: { isSuccess: true, resultMsg: "", rpcResponse: "Status OK" }
-        },
-        {
-            date: "13.01.24 16:31:10",
-            method: "updateConfig",
-            payload: "{ config: 'newConfig' }",
-            response: { isSuccess: true, resultMsg: "", rpcResponse: "Config updated successfully" }
-        },
-        {
-            date: "13.01.24 16:35:45",
-            method: "setLedStatus",
-            payload: "{ red: true, green: false, blue: true }",
-            response: { isSuccess: true, resultMsg: "", rpcResponse: "LED status updated successfully" }
-        },
-        {
-            date: "13.01.24 16:45:20",
-            method: "timeoutMethod",
-            payload: "{}",
-            response: { isSuccess: false, resultMsg: "Timeout error", rpcResponse: "" }
-        },
-    ]);
+    // const [cliContent, setCliContent] = useState([
+    //     {
+    //         date: "13.01.24 16:23:15",
+    //         method: "ping",
+    //         payload: "{}",
+    //         response: { isSuccess: true, resultMsg: "", rpcResponse: "Pong" }
+    //     },
+    //     {
+    //         date: "13.01.24 16:25:30",
+    //         method: "getStatus",
+    //         payload: "{}",
+    //         response: { isSuccess: true, resultMsg: "", rpcResponse: "Status OK" }
+    //     },
+    //     {
+    //         date: "13.01.24 16:31:10",
+    //         method: "updateConfig",
+    //         payload: "{ config: 'newConfig' }",
+    //         response: { isSuccess: true, resultMsg: "", rpcResponse: "Config updated successfully" }
+    //     },
+    //     {
+    //         date: "13.01.24 16:35:45",
+    //         method: "setLedStatus",
+    //         payload: "{ red: true, green: false, blue: true }",
+    //         response: { isSuccess: true, resultMsg: "", rpcResponse: "LED status updated successfully" }
+    //     },
+    //     {
+    //         date: "13.01.24 16:45:20",
+    //         method: "timeoutMethod",
+    //         payload: "{}",
+    //         response: { isSuccess: false, resultMsg: "Timeout error", rpcResponse: "" }
+    //     },
+    // ]);
+
 
     const scrollableBoxRef = useRef(null);
     const device = useContext(DeviceContext);
+    const { consoleRecords } = useCliData(device.id);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -54,7 +57,7 @@ export const CliTab = () => {
 
     useEffect(() => {
         scrollToBottom();
-    }, [cliContent]);
+    }, [consoleRecords]);
 
 
     const handleSend = () => {
@@ -76,26 +79,26 @@ export const CliTab = () => {
 
         setLoading(true);
 
-        executeDirectMethod(device.id, method, payload)
-            .then((res) => {
-                setCliContent([...cliContent, {
-                    date: new Date().toLocaleString(),
-                    method: method,
-                    payload: payload,
-                    response: {
-                        isSuccess: res.data.isSuccess,
-                        resultMsg: res.data.resultMsg,
-                        rpcResponse: res.data.rpcResponse?.responseDataJson
-                    }
-                }]);
+        // executeDirectMethod(device.id, method, payload)
+        //     .then((res) => {
+        //         setCliContent([...cliContent, {
+        //             date: new Date().toLocaleString(),
+        //             method: method,
+        //             payload: payload,
+        //             response: {
+        //                 isSuccess: res.data.isSuccess,
+        //                 resultMsg: res.data.resultMsg,
+        //                 rpcResponse: res.data.rpcResponse?.responseDataJson
+        //             }
+        //         }]);
 
-            })
-            .catch((err) => {
-                setError(err);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        //     })
+        //     .catch((err) => {
+        //         setError(err);
+        //     })
+        //     .finally(() => {
+        //         setLoading(false);
+        //     });
     };
 
     return (<Container>
@@ -115,11 +118,11 @@ export const CliTab = () => {
                     p={2}
                     ref={scrollableBoxRef}
                 >
-                    {cliContent.map((item, index) =>
+                    {consoleRecords.map((item, index) =>
                         <div key={index}>
                             <Typography variant="body2" gutterBottom>
                                 <span style={{ color: "#32afff" }}>
-                                    {item.date} &nbsp;
+                                    {item.dateUTC} &nbsp;
                                 </span>
                                 <span style={{ color: "#4AF626" }}>
                                     {device.name}: &nbsp;
@@ -127,12 +130,12 @@ export const CliTab = () => {
                                 {item.method}: {item.payload}
                             </Typography>
                             <Typography variant="body2" gutterBottom>
-                                {(item.response.isSuccess === true)
-                                    ? <span style={{whiteSpace:"pre-wrap"}}>
-                                        {item.response.rpcResponse}
+                                {(item.rpcResult === "SUCCESS")
+                                    ? <span style={{ whiteSpace: "pre-wrap" }}>
+                                        {item.responseDataJson}
                                     </span>
                                     : <span style={{ color: "#ef2929" }}>
-                                        {item.response.resultMsg}
+                                        {item.resultMsg}
                                     </span>}
 
                             </Typography>
