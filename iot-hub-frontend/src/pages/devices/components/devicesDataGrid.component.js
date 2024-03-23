@@ -67,54 +67,46 @@ export const DevicesDataGrid = () => {
 
     const columns = [
         {
-            field: 'id',
+            field: 'device.id',
             headerName: 'ID',
-            width: 250
+            flex: 0.5,
+            valueGetter: (params) =>
+                params.row.device?.id ?? `Unknown`
         },
         {
-            field: 'name',
+            field: 'device.name',
             headerName: 'Name',
-            width: 150,
+            flex: 1,
+            valueGetter: (params) =>
+                params.row.device?.name ?? `Unknown`
         },
         {
-            field: 'deviceTwin.fwVersion',
+            field: 'deviceTelemetry.firmwareVersion',
             headerName: 'Firmware version',
-            width: 150,
+            flex: 1,
             valueGetter: (params) =>
-                params.row.deviceTwin?.fwVersion ?? `Unknown`
+                params.row.deviceTelemetry?.firmwareVersion ?? `Unknown`
         },
         {
-            field: 'deviceTwin.updateTime',
+            field: 'deviceTelemetry.lastActivityUTC',
             headerName: 'Last activity',
-            width: 110,
+            flex: 1.5,
             valueGetter: (params) =>
-                params.row.deviceTwin?.updateTime ?? `Unknown`
+                params.row.deviceTelemetry?.lastActivityUTC ?? `Unknown`
         },
         {
-            field: 'deviceTwin.upTime',
-            headerName: 'Up time',
-            width: 110,
+            field: 'deviceTelemetry.uptimeS',
+            headerName: 'Up time (s)',
+            flex: 1,
             valueGetter: (params) =>
-                params.row.deviceTwin?.upTime ?? `Unknown`
+                params.row.deviceTelemetry?.uptimeS ?? `Unknown`
         },
         {
             field: 'status',
             headerName: 'Status',
-            width: 110,
-            valueGetter: (params) => {
-                if (!params.row.deviceTwin?.updateTime) {
-                    return "Unknown";
-                }
-                let updateDate = new Date(params.row.deviceTwin.updateTime);
-                let currentDate = new Date();
-                let diff = currentDate.getTime() - updateDate.getTime();
-
-                if (diff < 2 * 60) { // 2 minutes
-                    return "Online";
-                }
-
-                return "Offline";
-            }
+            flex: 0.7,
+            valueGetter: (params) =>
+                params.row.deviceTelemetry?.status ?? `Unknown`
         },
         {
             field: 'actions',
@@ -124,7 +116,7 @@ export const DevicesDataGrid = () => {
                 <GridActionsCellItem
                     icon={<DeleteIcon />}
                     label="Delete"
-                    onClick={() => handleDelete(params.row.id)}
+                    onClick={() => handleDelete(params.row.device.id)}
                     showInMenu
                 />,
             ],
@@ -134,10 +126,14 @@ export const DevicesDataGrid = () => {
             type: 'actions',
             width: 80,
             getActions: (params) => [
-                <ShowDeviceButton deviceId={params.row.id} />
+                <ShowDeviceButton deviceId={params.row.device.id} />
             ],
         },
     ];
+
+    function getRowId(row) {
+        return row.device.id;
+    }
 
     return (
         <>
@@ -243,6 +239,7 @@ export const DevicesDataGrid = () => {
                         },
                     },
                 }}
+                getRowId={getRowId}
                 pageSizeOptions={[5]}
                 checkboxSelection
                 disableRowSelectionOnClick

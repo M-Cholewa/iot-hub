@@ -25,7 +25,7 @@ export const useDevicesData = () => {
     };
 
     const refreshDevices = () => {
-        axios.get(`${serverAddress}/Device/ThisUser`)
+        axios.get(`${serverAddress}/Device/UserDeviceTelemetries`)
             .then((res) => {
                 res.data
                     ? setDevices(res.data)
