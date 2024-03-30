@@ -45,6 +45,7 @@ namespace Business.InfluxRepository
 
             var query = from s in InfluxDBQueryable<ConsoleRecord>.Queryable(BUCKET, ORG, queryApi)
                         where s.DeviceId == deviceId
+                        orderby s.DateUTC ascending
                         select s;
 
             var logs = query.ToList();

@@ -4,7 +4,7 @@ import { serverAddress } from '../../../core/config/server';
 
 export const useCliData = (deviceId) => {
     const [consoleRecords, setConsoleRecords] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [consoleLoading, setConsoleLoading] = useState(false);
 
     useEffect(() => {
         refreshConsoleRecords();
@@ -12,6 +12,7 @@ export const useCliData = (deviceId) => {
 
 
     const refreshConsoleRecords = () => {
+        setConsoleLoading(true);
         axios.get(`${serverAddress}/Device/AllConsoleRecords`, { params: { deviceId: deviceId } })
             .then((res) => {
                 console.log(res.data);
@@ -23,13 +24,10 @@ export const useCliData = (deviceId) => {
                 setConsoleRecords([]);
             })
             .finally(() => {
-                setLoading(false);
+                setConsoleLoading(false);
             });
     };
 
 
-
-
-
-    return { consoleRecords };
+    return { consoleLoading, consoleRecords, refreshConsoleRecords};
 };
