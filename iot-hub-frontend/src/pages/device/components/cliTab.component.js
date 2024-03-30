@@ -61,15 +61,16 @@ export const CliTab = () => {
 
     return (<Container>
 
-        <Grid container spacing={2} justifyContent="left" alignContent="center" sx={{ position: "relative" }}>
-            <Backdrop
-                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1, position: "absolute" }}
-                open={loading || consoleLoading}
-            >
-                <CircularProgress color="inherit" />
-            </Backdrop>
+        <Grid container spacing={2} justifyContent="left" alignContent="center">
 
-            <Grid item xs={12}>
+
+            <Grid item xs={12} sx={{ position: "relative" }}>
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1, position: "absolute" }}
+                    open={consoleLoading}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
                 <Box
                     sx={{
                         bgcolor: 'black',
@@ -87,7 +88,7 @@ export const CliTab = () => {
                         <div key={index}>
                             <Typography variant="body2" gutterBottom me={3}>
                                 <span style={{ color: "#32afff" }}>
-                                    {item.dateUTC} &nbsp;
+                                    {new Date(item.dateUTC).toLocaleString()} &nbsp;
                                 </span>
                                 <span style={{ color: "#4AF626" }}>
                                     {device.name}: &nbsp;
@@ -95,8 +96,10 @@ export const CliTab = () => {
                                 {item.method}: {item.payload}
                                 &nbsp;-&gt;&nbsp;
                                 {(item.rpcResult === "SUCCESS")
-                                    ? <span>{item.rpcResult}</span>
-                                    : <span style={{ color: "#ef2929" }}>
+                                    ? <span style={{ color: "#66bb6a" }}>
+                                        {item.rpcResult}
+                                    </span>
+                                    : <span style={{ color: "#f44336" }}>
                                         {item.rpcResult}
                                     </span>}
 
@@ -130,7 +133,7 @@ export const CliTab = () => {
             </Grid>
             <Grid item xs={1} alignContent="end" justifyContent="end">
                 <LoadingButton
-                    loading={loading || consoleLoading}
+                    loading={loading}
                     loadingPosition="end"
                     endIcon={<SendIcon />}
                     onClick={handleSend}>
