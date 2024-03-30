@@ -14,8 +14,12 @@ namespace Domain.InfluxDB
 
         [Column(IsMeasurement = true)]
         public string Measurement { get; set; } = "Console";
+        [Column("Method")]
+        public string Method { get; set; } = "";
+        [Column("Payload")]
+        public string Payload { get; set; } = "";
 
-        [Column("RpcResult", IsTag = true)]
+        [Column("RpcResult")]
         public string RpcResult { get; set; } = "";
 
         [Column("ResponseDataJson")]

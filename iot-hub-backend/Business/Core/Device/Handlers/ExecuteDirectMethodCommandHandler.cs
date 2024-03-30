@@ -47,6 +47,8 @@ namespace Business.Core.Device.Handlers
             var consoleRecord = new Domain.InfluxDB.ConsoleRecord
             {
                 DeviceId = request.DeviceId,
+                Method = request.MethodName,
+                Payload = request.Payload,
                 RpcResult = rpcCall.result.ToString(),
                 ResponseDataJson = rpcCall.response?.ResponseDataJson ?? "",
                 DateUTC = DateTime.UtcNow
