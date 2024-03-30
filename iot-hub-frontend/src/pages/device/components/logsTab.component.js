@@ -1,5 +1,8 @@
-import { Container, Button, AppBar, Grid, Toolbar, Alert, Card, CardContent, Typography } from '@mui/material';
+import { Container, Grid, Alert, Card, CardContent, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import { useLogsData } from '../hooks/useLogsData';
+import { useContext } from 'react';
+import { DeviceContext } from "../context/deviceContext.js";
 
 const CardItem = ({ title, value }) => {
     return (
@@ -16,10 +19,11 @@ const CardItem = ({ title, value }) => {
 }
 
 const columns = [
+
     {
         field: 'severity',
         headerName: 'Severity',
-        width: 200,
+        flex: 200,
         renderCell: ({ value }) => {
             if (value === 'Info') {
                 return (<Alert sx={{ width: "100%" }} severity="info">Info</Alert>);
@@ -35,60 +39,48 @@ const columns = [
         },
     },
     {
-        field: 'label',
-        headerName: 'Label',
-        width: 400,
+        field: 'message',
+        headerName: 'Message',
+        flex: 400,
     },
     {
-        field: 'timestampUTC',
+        field: 'dateUTC',
         headerName: 'Received at',
-        width: 200,
+        flex: 200,
+        valueGetter: (params) => {
+            const date = new Date(params.row.dateUTC);
+            return date.toLocaleString();
+        },
     },
 ];
 
-const rows = [
-    { id: 1, severity: 'Info', label: 'Device connected', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 2, severity: 'Info', label: 'Device disconnected', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 3, severity: 'Info', label: 'Device connected', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 4, severity: 'Warning', label: 'Low battery level (5%)', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 5, severity: 'Warning', label: 'Low battery level (10%)', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 6, severity: 'Warning', label: 'Low battery level (20%)', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 7, severity: 'Error', label: 'No data from temperature sensor', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 8, severity: 'Error', label: 'No data from temperature sensor', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 9, severity: 'Error', label: 'No data from temperature sensor', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 10, severity: 'Error', label: 'No data from temperature sensor', timestampUTC: '2021-10-10 12:00:00' },
-];
 
 export const LogsTab = () => {
+    const device = useContext(DeviceContext);
+
+    const { logs, loading } = useLogsData(device.id);
+
+    function getRowId(row) {
+        return row._mIdx;
+    }
+
+
     return (<Container>
-        <Grid container justifyContent="space-around">
+        <Grid container justifyContent="space-around" mb={3}>
             <Grid item xs={3}>
-                <CardItem title="Info" value={rows.filter(x => x.severity === "Info").length} />
+                <CardItem title="Info" value={logs.filter(x => x.severity === "Info").length} />
             </Grid>
             <Grid item xs={3}>
-                <CardItem title="Warning" value={rows.filter(x => x.severity === "Warning").length} />
+                <CardItem title="Warning" value={logs.filter(x => x.severity === "Warning").length} />
             </Grid>
             <Grid item xs={3}>
-                <CardItem title="Error" value={rows.filter(x => x.severity === "Error").length} />
+                <CardItem title="Error" value={logs.filter(x => x.severity === "Error").length} />
             </Grid>
         </Grid>
-        <AppBar
-            position="static"
-            sx={{ background: '#101418' }}
-            elevation={0}>
-            <Toolbar>
-                <Grid container justifyContent="flex-end">
-                    <Grid item>
-                        <Button variant='outlined'>
-                            Clear logs
-                        </Button>
-                    </Grid>
-                </Grid>
-            </Toolbar>
-        </AppBar>
+
         <DataGrid
-            mt={2}
-            rows={rows}
+            loading={loading}
+            rows={logs}
             columns={columns}
             initialState={{
                 pagination: {
@@ -97,6 +89,7 @@ export const LogsTab = () => {
                     },
                 },
             }}
+            getRowId={getRowId}
             pageSizeOptions={[5]}
             disableRowSelectionOnClick
         />

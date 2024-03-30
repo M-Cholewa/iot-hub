@@ -53,7 +53,7 @@ namespace Business.InfluxRepository
             var logs = query.ToList();
 
 
-            return logs;
+            return logs.OrderBy(x => x.DateUTC).Reverse().ToList();
 
         }
 
@@ -68,7 +68,7 @@ namespace Business.InfluxRepository
             var logs = query.Take(limit).ToList();
 
 
-            return logs;
+            return logs.OrderBy(x => x.DateUTC).Reverse().ToList();
         }
 
         public List<Log> GetAll(Guid deviceId, DateTime sinceUTC, DateTime toUTC)
@@ -83,7 +83,7 @@ namespace Business.InfluxRepository
             var logs = query.ToList();
 
 
-            return logs;
+            return logs.OrderBy(x => x.DateUTC).Reverse().ToList();
         }
 
         public async Task DeleteAll(Guid deviceId)

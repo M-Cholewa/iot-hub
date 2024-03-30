@@ -24,7 +24,7 @@ namespace iot_hub_backend.Controllers
         [HttpGet("All")]
         public List<Log> GetAllLogs(Guid deviceId)
         {
-            return _logRepository.GetAll(deviceId);
+            return _logRepository.GetAll(deviceId).OrderBy(x => x.DateUTC).Reverse().ToList();
         }
 
         [HttpGet("LastN")]

@@ -15,7 +15,6 @@ export const useCliData = (deviceId) => {
         setConsoleLoading(true);
         axios.get(`${serverAddress}/Device/AllConsoleRecords`, { params: { deviceId: deviceId } })
             .then((res) => {
-                console.log(res.data);
                 res.data
                     ? setConsoleRecords(res.data)
                     : setConsoleRecords([]);
@@ -29,5 +28,5 @@ export const useCliData = (deviceId) => {
     };
 
 
-    return { consoleLoading, consoleRecords, refreshConsoleRecords};
+    return { consoleLoading, consoleRecords };
 };
