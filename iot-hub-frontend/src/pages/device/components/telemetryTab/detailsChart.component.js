@@ -8,33 +8,40 @@ import {
     Title,
     Tooltip,
     Legend,
+    TimeScale
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import faker from 'faker';
-import { getLabels } from '../../../../core/utility/mocks';
-import { useState } from "react";
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { useChartsData } from "../../hooks/useChartsData";
+import { useContext } from "react";
+import { DeviceContext } from "../../context/deviceContext";
 import dayjs from 'dayjs';
-
-const parameters = [
-    'Temperature',
-    'Humidity',
-    'Battery',
-    'RSSI',
-    'Status',
-    'Last activity',
-    'Uptime',
-    'Power consumption [W]',
-    'LED 0 state',
-    'LED 1 state',
-    'LED 2 state',
-    'Light switch state',
-];
+import utc from 'dayjs/plugin/utc';
+import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 
 const options = {
     responsive: true,
+    scales: {
+        x: {
+            type: 'time',
+            time: {
+                displayFormats: {
+                    millisecond: 'HH:mm:ss.SSS',
+                    second: 'HH:mm:ss',
+                    minute: 'HH:mm',
+                    hour: 'HH',
+                    day: 'MMM DD',
+                    week: 'll',
+                    month: 'MMM YYYY',
+                    quarter: '[Q]Q - YYYY',
+                    year: 'YYYY',
+                },
+                tooltipFormat: 'll HH:mm',
+            }
+        },
+    },
     plugins: {
         legend: {
             position: 'top',
@@ -42,25 +49,13 @@ const options = {
     },
 };
 
-const labels = getLabels(60);
-
-const data = {
-    labels,
-    datasets: [
-        {
-            label: 'Temperature',
-            data: labels.map(() => faker.datatype.number({ min: 12, max: 15 })),
-            borderColor: 'rgb(53, 162, 235)',
-            backgroundColor: 'rgba(53, 162, 235, 0.5)',
-        },
-    ],
-};
 
 ChartJS.register(
     CategoryScale,
     LinearScale,
     PointElement,
     LineElement,
+    TimeScale,
     Title,
     Tooltip,
     Legend
@@ -68,34 +63,41 @@ ChartJS.register(
 
 export const DetailsChart = () => {
 
-    const [selectedParameters, setSelectedParameters] = useState([parameters[0]]);
+    dayjs.extend(utc);
+
+    const deviceFromContext = useContext(DeviceContext);
+    const { fieldNames, selectedFieldNames, setSelectedFieldNames, datasets, loading,
+        refreshDatasets, dateSince, setDateSince, dateTo, setDateTo } = useChartsData(deviceFromContext.id);
+
 
     const handleChange = (event) => {
         const {
             target: { value },
         } = event;
-        setSelectedParameters(
+        setSelectedFieldNames(
             // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
     };
 
-    const handleShow = () => { };
+    const handleShow = () => {
+        refreshDatasets(dateSince.utc(), dateTo.utc());
+    };
 
     return (
         <Grid container spacing={2}>
             <Grid item xs={4}>
                 <Stack direction="column" spacing={2}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <MobileDateTimePicker ampm={false} label="Since" defaultValue={dayjs().subtract(24, 'hours')} />
-                        <MobileDateTimePicker ampm={false} label="To" defaultValue={dayjs()} />
+                        <MobileDateTimePicker ampm={false} value={dateSince} onChange={setDateSince} label="Since" />
+                        <MobileDateTimePicker ampm={false} value={dateTo} onChange={setDateTo} label="To" />
                     </LocalizationProvider>
                     <FormControl>
                         <InputLabel id="chartParameter">Params</InputLabel>
                         <Select
                             labelId="chartParameter"
                             multiple
-                            value={selectedParameters}
+                            value={selectedFieldNames}
                             onChange={handleChange}
                             input={<OutlinedInput label="Params" />}
                             renderValue={(selected) => (
@@ -106,7 +108,7 @@ export const DetailsChart = () => {
                                 </Box>
                             )}
                         >
-                            {parameters.map((parameter) => (
+                            {fieldNames.map((parameter) => (
                                 <MenuItem
                                     key={parameter}
                                     value={parameter}
@@ -120,7 +122,7 @@ export const DetailsChart = () => {
                 </Stack>
             </Grid>
             <Grid item xs={8}>
-                <Line options={options} data={data} />
+                <Line options={options} data={datasets} />
             </Grid>
         </Grid>
     );

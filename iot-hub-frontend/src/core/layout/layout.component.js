@@ -59,7 +59,7 @@ export const Layout = ({ children }) => {
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <Stack direction="row" spacing={1} alignItems="center">
                             <Chip label={`Hello ${user.email}`} color="primary" />
-                            <Chip label="MQTT connected" color="success" />
+                            {/* <Chip label="MQTT connected" color="success" /> */}
                         </Stack>
                         <IconButton
                             size="large"

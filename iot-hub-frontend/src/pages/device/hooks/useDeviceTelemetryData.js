@@ -7,22 +7,22 @@ export const useDeviceTelemetryData = (deviceId) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const refreshTelemetryMap = () => {
+            setLoading(true);
+            axios.get(`${serverAddress}/Device/TelemetryMap`, { params: { deviceId: deviceId } })
+                .then((res) => {
+                    setTelemetryMap(res.data.map((item, index) => ({ ...item, _mIdx: index })));
+                })
+                .catch((err) => {
+                    setTelemetryMap([]);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+
         refreshTelemetryMap();
     }, [deviceId]);
-
-    const refreshTelemetryMap = () => {
-        setLoading(true);
-        axios.get(`${serverAddress}/Device/TelemetryMap`, { params: { deviceId: deviceId } })
-            .then((res) => {
-                setTelemetryMap(res.data.map((item, index) => ({ ...item, _mIdx: index })));
-            })
-            .catch((err) => {
-                setTelemetryMap([]);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    }
 
     const getTelemetry = (fieldName) => {
         return telemetryMap.find((item) => item.fieldName === fieldName);

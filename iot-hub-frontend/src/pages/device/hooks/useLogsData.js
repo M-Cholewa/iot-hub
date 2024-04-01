@@ -7,24 +7,27 @@ export const useLogsData = (deviceId) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+
+        const refreshLogs = () => {
+            setLoading(true);
+            axios.get(`${serverAddress}/Logs/All`, { params: { deviceId: deviceId } })
+                .then((res) => {
+                    res.data
+                        ? setLogs(res.data.map((obj, idx) => ({ ...obj, _mIdx: idx })))
+                        : setLogs([]);
+                })
+                .catch((err) => {
+                    setLogs([]);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+
         refreshLogs();
     }, []);
 
-    const refreshLogs = () => {
-        setLoading(true);
-        axios.get(`${serverAddress}/Logs/All`, { params: { deviceId: deviceId } })
-            .then((res) => {
-                res.data
-                    ? setLogs(res.data.map((obj, idx) => ({ ...obj, _mIdx: idx })))
-                    : setLogs([]);
-            })
-            .catch((err) => {
-                setLogs([]);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    }
+
 
     return { logs, loading };
 

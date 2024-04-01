@@ -28,5 +28,5 @@ export const useCliData = (deviceId) => {
     };
 
 
-    return { consoleLoading, consoleRecords };
+    return { consoleLoading, consoleRecords, refreshConsoleRecords };
 };
