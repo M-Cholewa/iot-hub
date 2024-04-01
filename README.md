@@ -181,17 +181,60 @@ Make sure you have the following installed:
 
    Create a `.env` file in the root of the project with the following content:
    ```
-   ASPNETCORE_ENVIRONMENT=Development
-
-   POSTGRES_DB=iothub
-   POSTGRES_USER=dbuser
-   POSTGRES_PASSWORD=dbpass
-
-   DOCKER_INFLUXDB_INIT_USERNAME=my-user
-   DOCKER_INFLUXDB_INIT_PASSWORD=my-password
-   DOCKER_INFLUXDB_INIT_ORG=my-org
-   DOCKER_INFLUXDB_INIT_BUCKET=my-bucket
+    ASPNETCORE_ENVIRONMENT=Development
+    
+    POSTGRES_DB=iothub
+    POSTGRES_USER=dbuser
+    POSTGRES_PASSWORD=dbpass
+    
+    DOCKER_INFLUXDB_INIT_USERNAME=my-user
+    DOCKER_INFLUXDB_INIT_PASSWORD=my-password
+    DOCKER_INFLUXDB_INIT_ORG=my-org
+    DOCKER_INFLUXDB_INIT_BUCKET=telemetry-bucket
    ```
+
+3. **Setting up Backend**
+
+  Add following `User Secret` to backend.
+  ```
+    {
+      "MQTTConnectionConfig:ServerAddress": "192.168.100.110",
+      "MQTTConnectionConfig:Password": "A5PM@]wB}rG}A*(F?1q>?1&X/61TavaNbh?:RDzW7]&Cz[xfP&R)gv&|c^iR",
+      "MQTTConnectionConfig:Login": "IotHubApi",
+      "MQTTConnectionConfig:ClientID": "64f7f094-e0b9-4c52-935e-fd9d442d655e",
+      "Kestrel:Certificates:Development:Password": "9ddbcc8b-55a8-4e5d-81ea-aef1f454d078",
+      "JwtSettings:Key": "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY5ODI1ODIwNiwiaWF0IjoxNjk4MjU4MjA2fQ.vmAbREUUuP6BaA3vwDpnxGtEAxzB5QONCfrKUZfQPuU,",
+      "JwtSettings:Issuer": "http://localhost:51186/",
+      "JwtSettings:Audience": "http://localhost:3000/",
+      "InfluxRepositoryConnection:Username": "my-user",
+      "InfluxRepositoryConnection:ServerAddress": "http://192.168.100.110:8086/",
+      "InfluxRepositoryConnection:Password": "my-password",
+      "ConnectionStrings:PostgreSQL": "Server=192.168.100.110;Database=iothub;Port=5432;User Id=dbuser;Password=dbpass;"
+    }
+  ```
+  Add following `User Secret` to MessageProcessing.
+  ```
+    {
+        "MQTTConnectionConfig": {
+            "ClientID": "19a1805b-9d19-4f46-a34a-d055dde12560",
+            "Login": "MessageProcessingService",
+            "Password": "9)!v?y|s6+6Np5@5v!U_u/UnuHKeHkO+6Z#(i1L)w%e6j)9(]Vg4|)^wSZ$J",
+            "ServerAddress": "192.168.100.110"
+        },
+        "InfluxRepositoryConnection": {
+            "ServerAddress": "http://192.168.100.110:8086/",
+            "Username": "my-user",
+            "Password": "my-password"
+        },
+        "ConnectionStrings:PostgreSQL": "Server=192.168.100.110;Database=iothub;Port=5432;User Id=dbuser;Password=dbpass;"
+    }
+  ```
+  Add following `User Secret` to MQTTServer.
+  ```
+    {
+        "ConnectionStrings:PostgreSQL": "Server=192.168.100.110;Database=iothub;Port=5432;User Id=dbuser;Password=dbpass;"
+    }
+  ```
 
 3. **Running the Backend**
 
