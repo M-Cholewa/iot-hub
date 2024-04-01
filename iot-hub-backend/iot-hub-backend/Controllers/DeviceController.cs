@@ -119,6 +119,15 @@ namespace iot_hub_backend.Controllers
             return deviceTelemetries;
         }
 
+        [HttpGet("UserDeviceTelemetry")]
+        public async Task<DeviceTelemetry?> GetDeviceTelemetry(Guid deviceId)
+        {
+            var cmd = new GetDeviceTelemetryCommand { DeviceId = deviceId };
+            var cmdResult = await _mediator.Send(cmd);
+
+            return cmdResult?.DeviceTelemetry;
+        }
+
         [HttpGet("TelemetryMap")]
         public async Task<List<Telemetry>?> GetTelemetryMap(Guid deviceId)
         {

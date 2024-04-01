@@ -52,7 +52,7 @@ namespace iot_hub_backend.Infrastructure.Extensions
                 return null;
             }
 
-            return user.Devices.First(d => d.Id == deviceId);
+            return user.Devices.FirstOrDefault(d => d.Id == deviceId);
         }
 
 

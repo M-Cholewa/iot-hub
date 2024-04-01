@@ -5,5 +5,5 @@
 class UptimeTelemetry : public BaseTelemetry<unsigned long>
 {
 public:
-    UptimeTelemetry(unsigned long value) : BaseTelemetry(value, "UptimeSTelemetry", "s") {}
+    UptimeTelemetry(unsigned long value) : BaseTelemetry(value, "UptimeS", "s") {}
 };

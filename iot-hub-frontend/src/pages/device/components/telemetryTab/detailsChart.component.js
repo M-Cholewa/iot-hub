@@ -80,13 +80,15 @@ export const DetailsChart = () => {
         );
     };
 
+    const handleShow = () => { };
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={4}>
                 <Stack direction="column" spacing={2}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <MobileDateTimePicker label="Since" defaultValue={dayjs('2022-04-17T15:30')} />
-                        <MobileDateTimePicker label="To" defaultValue={dayjs('2022-04-18T15:30')} />
+                        <MobileDateTimePicker ampm={false} label="Since" defaultValue={dayjs().subtract(24, 'hours')} />
+                        <MobileDateTimePicker ampm={false} label="To" defaultValue={dayjs()} />
                     </LocalizationProvider>
                     <FormControl>
                         <InputLabel id="chartParameter">Params</InputLabel>
@@ -114,7 +116,7 @@ export const DetailsChart = () => {
                             ))}
                         </Select>
                     </FormControl>
-                    <Button variant="outlined">show</Button>
+                    <Button variant="outlined" onClick={handleShow}>show</Button>
                 </Stack>
             </Grid>
             <Grid item xs={8}>

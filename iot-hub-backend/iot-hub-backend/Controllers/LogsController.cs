@@ -15,16 +15,18 @@ namespace iot_hub_backend.Controllers
     {
 
         private readonly LogRepository _logRepository;
+        private readonly GeneralLogRepository _generalLogRepository;
 
-        public LogsController(LogRepository logRepository)
+        public LogsController(LogRepository logRepository, GeneralLogRepository generalLogRepository)
         {
             _logRepository = logRepository;
+            _generalLogRepository = generalLogRepository;
         }
 
         [HttpGet("All")]
         public List<Log> GetAllLogs(Guid deviceId)
         {
-            return _logRepository.GetAll(deviceId).OrderBy(x => x.DateUTC).Reverse().ToList();
+            return _logRepository.GetAll(deviceId);
         }
 
         [HttpGet("LastN")]
@@ -40,5 +42,12 @@ namespace iot_hub_backend.Controllers
 
             return Ok();
         }
+
+        [HttpGet("AllGeneralLogs")]
+        public List<GeneralLog> GetAllGeneralLogs(Guid deviceId)
+        {
+            return _generalLogRepository.GetAll(deviceId).OrderBy(x=>x.DateUTC).ToList();
+        }
+
     }
 }

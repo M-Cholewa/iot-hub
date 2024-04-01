@@ -2,39 +2,38 @@ import { Grid, Typography, Card, CardContent } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import { DetailsChart } from "./telemetryTab/detailsChart.component";
 import { Console } from "./telemetryTab/console.component";
+import { useDeviceTelemetryData } from "../hooks/useDeviceTelemetryData";
+import { useDeviceData } from "../hooks/useDeviceData";
+import { useContext } from "react";
+import { DeviceContext } from "../context/deviceContext.js";
+
 const columns = [
     {
-        field: 'parameter',
+        field: 'fieldName',
         headerName: 'Parameter',
-        width: 180,
+        flex: 180,
     },
     {
-        field: 'value',
+        field: 'fieldValue',
         headerName: 'Value',
-        width: 150,
+        flex: 150,
     },
     {
-        field: 'timestampUTC',
+        field: 'fieldUnit',
+        headerName: 'Unit',
+        flex: 50,
+    },
+    {
+        field: 'dateUTC',
         headerName: 'Updated at',
-        width: 200,
+        flex: 200,
+        valueGetter: (params) => {
+            const date = new Date(params.row.dateUTC);
+            return date.toLocaleString();
+        },
     },
 ];
 
-const rows = [
-    { id: 1, parameter: 'Temperature', value: '25', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 2, parameter: 'Humidity', value: '50', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 3, parameter: 'Battery', value: '80', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 4, parameter: 'RSSI', value: '-20', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 5, parameter: 'Status', value: 'Online', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 6, parameter: 'Last activity', value: '13.01.24 16:45:20', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 7, parameter: 'Uptime', value: '25d 15h 10m 11s', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 8, parameter: 'Power consumption [W]', value: '0.3', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 9, parameter: 'LED 0 state', value: '0', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 10, parameter: 'LED 1 state', value: '0', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 11, parameter: 'LED 2 state', value: '0', timestampUTC: '2021-10-10 12:00:00' },
-    { id: 12, parameter: 'Light switch state', value: '0', timestampUTC: '2021-10-10 12:00:00' },
-
-]
 
 const CardItem = ({ title, value }) => {
     return (
@@ -52,25 +51,31 @@ const CardItem = ({ title, value }) => {
 
 
 export const TelemetryTab = () => {
+    const deviceFromContext = useContext(DeviceContext);
+    const { device } = useDeviceData(deviceFromContext.id);
+    const { telemetryMap, loading: telemetryMapLoading, getTelemetry } = useDeviceTelemetryData(deviceFromContext.id);
+
+    const getRowId = (row) => row._mIdx;
+
     return (<div>
         <Grid container spacing={2}>
             <Grid item xs={2}>
-                <CardItem title="Status" value="Online" />
+                <CardItem title="Status" value={getTelemetry("Status")?.fieldValue ?? "Unknown"} />
             </Grid>
             <Grid item xs={2}>
-                <CardItem title="Firmware" value="1.0.0_alpha" />
+                <CardItem title="Firmware" value={getTelemetry("FirmwareVersion")?.fieldValue ?? "Unknown"} />
+            </Grid>
+            <Grid item xs={3}>
+                <CardItem title="Last activity" value={new Date(device?.telemetry?.lastActivityUTC).toLocaleString() ?? "Unknown"} />
+            </Grid>
+            <Grid item xs={1}>
+                <CardItem title="Uptime [s]" value={getTelemetry("UptimeS")?.fieldValue ?? "Unknown"} />
             </Grid>
             <Grid item xs={2}>
-                <CardItem title="Last activity" value="13.01.24 16:45:20" />
+                <CardItem title="RSSI" value={getTelemetry("RSSI")?.fieldValue ?? "Unknown"} />
             </Grid>
             <Grid item xs={2}>
-                <CardItem title="Uptime" value="25d 15h 10m 11s" />
-            </Grid>
-            <Grid item xs={2}>
-                <CardItem title="RSSI" value="-20" />
-            </Grid>
-            <Grid item xs={2}>
-                <CardItem title="Battery" value="100%" />
+                <CardItem title="Battery [%]" value={getTelemetry("Battery")?.fieldValue ?? "Unknown"} />
             </Grid>
         </Grid>
 
@@ -80,7 +85,8 @@ export const TelemetryTab = () => {
             </Grid>
             <Grid item xs={4}>
                 <DataGrid
-                    rows={rows}
+                    loading={telemetryMapLoading}
+                    rows={telemetryMap}
                     columns={columns}
                     initialState={{
                         pagination: {
@@ -91,6 +97,7 @@ export const TelemetryTab = () => {
                     }}
                     pageSizeOptions={[5]}
                     disableRowSelectionOnClick
+                    getRowId={getRowId}
                 />
             </Grid>
         </Grid>

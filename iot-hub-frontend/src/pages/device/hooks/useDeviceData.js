@@ -7,10 +7,16 @@ export const useDeviceData = (deviceId) => {
 
     useEffect(() => {
         axios.get(`${serverAddress}/Device`, { params: { id: deviceId } })
-            .then((res) => {
-                res.data
-                    ? setDevice(res.data)
-                    : setDevice(null);
+            .then(async (res) => {
+
+                if (res.data == null) {
+                    setDevice(null);
+                    return;
+                }
+
+                const telemetry = await axios.get(`${serverAddress}/Device/UserDeviceTelemetry`, { params: { deviceId: deviceId } });
+                setDevice({ ...res.data, telemetry: telemetry?.data ?? {} });
+
             })
             .catch((err) => {
                 setDevice(null);
