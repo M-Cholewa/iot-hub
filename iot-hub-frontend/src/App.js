@@ -14,6 +14,7 @@ import { ProtectedRoutes } from "./core/router/protectedRoutes.js";
 import { AccountPage } from "./pages/account/account.page.js";
 import { AboutPage } from "./pages/about/about.page.js";
 import { useUserAuth } from "./core/hooks/useUserAuth.js";
+import { CookiesProvider } from 'react-cookie';
 
 
 import axios from 'axios';
@@ -30,26 +31,28 @@ export const App = () => {
   }, []);
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <Routes>
-          <Route element={<ProtectedRoutes expectedRoles={['USER']} />}>
-            <Route path="/" element={<DashboardPage />} />
-            <Route path="/devices" element={<DeviceListPage />} />
-            <Route path="/device/:id" element={<DeviceDetailsPage />} />
-            <Route element={<ProtectedRoutes expectedRoles={['ADMIN']} />}>
-              <Route path="/admin" element={<AdminPage />} />
+    <CookiesProvider>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <BrowserRouter>
+          <Routes>
+            <Route element={<ProtectedRoutes expectedRoles={['USER']} />}>
+              <Route path="/" element={<DashboardPage />} />
+              <Route path="/devices" element={<DeviceListPage />} />
+              <Route path="/device/:id" element={<DeviceDetailsPage />} />
+              <Route element={<ProtectedRoutes expectedRoles={['ADMIN']} />}>
+                <Route path="/admin" element={<AdminPage />} />
+              </Route>
+              <Route path="/account" element={<AccountPage />} />
+              <Route path="/about" element={<AboutPage />} />
             </Route>
-            <Route path="/account" element={<AccountPage />} />
-            <Route path="/about" element={<AboutPage />} />
-          </Route>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
 
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </CookiesProvider>
   );
 };

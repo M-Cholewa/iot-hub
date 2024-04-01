@@ -5,6 +5,8 @@ import { useDeviceData } from "./hooks/useDeviceData.js";
 import { DetailsTabs } from "./components/detailsTabs.component.js";
 import { useNavigate } from "react-router-dom";
 import { DeviceContext } from "./context/deviceContext.js";
+import { useCookies } from 'react-cookie';
+import { useEffect, useState } from "react";
 
 const NullDevice = () => {
     const navigate = useNavigate();
@@ -36,6 +38,33 @@ const NullDevice = () => {
 export const DeviceDetailsPage = () => {
     const { id } = useParams();
     const { device } = useDeviceData(id);
+    const [cookies, setCookie] = useCookies(['lastViewed']);
+    const [isCookieSet, setIsCookieSet] = useState(false);
+
+
+    useEffect(() => {
+
+        if (isCookieSet) {
+            return;
+        }
+
+        if (device === null) {
+            return;
+        }
+
+        setIsCookieSet(true);
+
+        let lastViewedDevices = [];
+
+        try {
+            lastViewedDevices = cookies.lastViewed ?? [];
+        } catch { };
+
+        lastViewedDevices.splice(0, 0, device);
+        lastViewedDevices = lastViewedDevices.slice(0, 3);
+
+        setCookie('lastViewed', lastViewedDevices, { path: '/' });
+    }, [device]);
 
     const navigate = useNavigate();
 
