@@ -91,8 +91,10 @@ export const DevicesDataGrid = () => {
             field: 'deviceTelemetry.lastActivityUTC',
             headerName: 'Last activity',
             flex: 1.5,
-            valueGetter: (params) =>
-                params.row.deviceTelemetry?.lastActivityUTC ?? `Unknown`
+            valueGetter: (params) => {
+                const date = new Date(params.row.deviceTelemetry?.lastActivityUTC ?? `Unknown`);
+                return date.toLocaleString();
+            }
         },
         {
             field: 'deviceTelemetry.uptimeS',
