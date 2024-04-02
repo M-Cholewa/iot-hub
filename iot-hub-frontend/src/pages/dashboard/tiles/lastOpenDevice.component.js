@@ -1,9 +1,9 @@
-import { Typography, Button, Stack, Card, CardContent } from "@mui/material";
+import { Typography, Button, Stack, Card, CardContent, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
 export const LastOpenDevice = () => {
-    const [cookies, setCookie] = useCookies(['lastViewed']);
+    const [cookies] = useCookies(['lastViewed']);
 
     const navigate = useNavigate();
 

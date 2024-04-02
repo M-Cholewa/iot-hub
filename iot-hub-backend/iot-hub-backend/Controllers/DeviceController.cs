@@ -89,6 +89,19 @@ namespace iot_hub_backend.Controllers
             return user.Devices?.ToList();
         }
 
+        [HttpGet("UserDevicesOnlineCount")]
+        public async Task<int> GetDevicesOnline()
+        {
+            var deviceTelemetries = await GetUserDeviceTelemetries();
+
+            if (deviceTelemetries == null)
+            {
+                return 0;
+            }
+
+            return deviceTelemetries.Where(x => x.DeviceTelemetry?.Status == Telemetries.STATUS_ONLINE).Count();
+        }
+
         [HttpGet("UserDeviceTelemetries")]
         public async Task<List<UserDeviceTelemetry>?> GetUserDeviceTelemetries()
         {
@@ -99,24 +112,16 @@ namespace iot_hub_backend.Controllers
                 return null;
             }
 
-            List<UserDeviceTelemetry> deviceTelemetries = new();
-
-            foreach (var device in user.Devices)
+            var cmdResults = await Task.WhenAll(user.Devices.Select(async device =>
             {
                 var cmd = new GetDeviceTelemetryCommand { DeviceId = device.Id };
                 var cmdResult = await _mediator.Send(cmd);
-                
-                if (cmdResult == null || cmdResult.DeviceTelemetry == null)
-                {
-                    continue;
-                }
 
-                var usrDeviceTelemetry = new UserDeviceTelemetry { Device = device, DeviceTelemetry = cmdResult.DeviceTelemetry };
+                return new UserDeviceTelemetry { Device = device, DeviceTelemetry = cmdResult.DeviceTelemetry };
+            }));
 
-                deviceTelemetries.Add(usrDeviceTelemetry);
-            }
 
-            return deviceTelemetries;
+            return cmdResults.ToList();
         }
 
         [HttpGet("UserDeviceTelemetry")]

@@ -8,16 +8,20 @@ import {
     Title,
     Tooltip,
     Legend,
+    TimeScale
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import faker from 'faker';
-import { getLabels } from '../../../core/utility/mocks';
+import { useMessagesLoggedChartData } from '../hooks/useMessagesLoggedChartData';
+import { CircularProgress } from '@mui/material';
+import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
+
 
 ChartJS.register(
     CategoryScale,
     LinearScale,
     PointElement,
     LineElement,
+    TimeScale,
     Title,
     Tooltip,
     Legend
@@ -30,22 +34,35 @@ const options = {
             position: 'top',
         },
     },
-};
-
-const labels = getLabels(60);
-
-const data = {
-    labels,
-    datasets: [
-        {
-            label: 'Messages logged',
-            data: labels.map(() => faker.datatype.number({ min: 12, max: 15 })),
-            borderColor: 'rgb(53, 162, 235)',
-            backgroundColor: 'rgba(53, 162, 235, 0.5)',
+    interaction: {
+        mode: 'index',
+        intersect: false,
+    },
+    scales: {
+        x: {
+            type: 'time',
+            time: {
+                displayFormats: {
+                    millisecond: 'HH:mm:ss.SSS',
+                    second: 'HH:mm:ss',
+                    minute: 'HH:mm',
+                    hour: 'HH',
+                    day: 'MMM DD',
+                    week: 'll',
+                    month: 'MMM YYYY',
+                    quarter: '[Q]Q - YYYY',
+                    year: 'YYYY',
+                },
+                tooltipFormat: 'll HH:mm',
+            }
         },
-    ],
+    },
 };
 
 export function MessagesLogged() {
-    return <Line options={options} data={data} />;
+    const { dataset, loading } = useMessagesLoggedChartData();
+    if (loading) {
+        return <CircularProgress />
+    }
+    return <Line options={options} data={dataset} />;
 }

@@ -63,12 +63,14 @@ namespace Business.InfluxRepository
 
             var query = from s in InfluxDBQueryable<Log>.Queryable(BUCKET, ORG, queryApi)
                         where s.DeviceId == deviceId
+                        //orderby s.DateUTC descending
                         select s;
 
-            var logs = query.Take(limit).ToList();
+            var logs = query.TakeLast(limit).ToList();
+            var ret = logs.OrderBy(x => x.DateUTC).Reverse().Take(limit).ToList();
 
 
-            return logs.OrderBy(x => x.DateUTC).Reverse().ToList();
+            return ret;
         }
 
         public List<Log> GetAll(Guid deviceId, DateTime sinceUTC, DateTime toUTC)

@@ -5,6 +5,7 @@ using MQTTnet.Protocol;
 using Business.Core.Auth.Commands;
 using MediatR;
 using MQTTServer.Infrastructure;
+using Domain.InfluxDB;
 
 namespace MQTTServer.Services
 {
@@ -51,7 +52,7 @@ namespace MQTTServer.Services
             mqttServer.ClientConnectedAsync += async e =>
             {
                 //push telemetry message
-                await mqttServer.SendStatusTelemetry(e.ClientId, "Online");
+                await mqttServer.SendStatusTelemetry(e.ClientId, Telemetries.STATUS_ONLINE);
 
                 // push log message
                 await mqttServer.SendStatusLog(e.ClientId, "Device connected");
@@ -61,7 +62,7 @@ namespace MQTTServer.Services
             mqttServer.ClientDisconnectedAsync += async e =>
             {
                 //push telemetry message
-                await mqttServer.SendStatusTelemetry(e.ClientId, "Offline");
+                await mqttServer.SendStatusTelemetry(e.ClientId, Telemetries.STATUS_OFFLINE);
 
                 // push log message
                 await mqttServer.SendStatusLog(e.ClientId, "Device disconnected");

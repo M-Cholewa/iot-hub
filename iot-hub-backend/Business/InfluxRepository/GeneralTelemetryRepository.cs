@@ -98,6 +98,22 @@ namespace Business.InfluxRepository
             return telemetries;
         }
 
+        public List<GeneralTelemetry>? GetLastN(Guid userId, string fieldName, int n)
+        {
+            var queryApi = _influxDBClient.GetQueryApiSync();
+
+            var query = from s in InfluxDBQueryable<GeneralTelemetry>.Queryable(BUCKET, ORG, queryApi)
+                        where s.UserId == userId
+                        && s.FieldName == fieldName
+                        orderby s.DateUTC descending
+                        select s;
+
+            var telemetries = query.Take(n).ToList();
+
+
+            return telemetries;
+        }
+
         public GeneralTelemetry? GetLatest(Guid userId, string fieldName)
         {
             var queryApi = _influxDBClient.GetQueryApiSync();

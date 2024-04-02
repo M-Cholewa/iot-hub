@@ -1,8 +1,18 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
-import faker from 'faker';
-import { getLabels } from '../../../core/utility/mocks';
-import { useTheme } from '@mui/material';
+import { Line } from 'react-chartjs-2';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+    TimeScale,
+} from 'chart.js';
+import { useLogsChartData } from '../hooks/useLogsChartData';
+import { CircularProgress } from '@mui/material';
+import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 
 const options = {
     responsive: true,
@@ -11,42 +21,46 @@ const options = {
             position: 'top',
         },
     },
+    interaction: {
+        mode: 'index',
+        intersect: false,
+    },
+    scales: {
+        x: {
+            type: 'time',
+            time: {
+                displayFormats: {
+                    millisecond: 'HH:mm:ss.SSS',
+                    second: 'HH:mm:ss',
+                    minute: 'HH:mm',
+                    hour: 'HH',
+                    day: 'MMM DD',
+                    week: 'll',
+                    month: 'MMM YYYY',
+                    quarter: '[Q]Q - YYYY',
+                    year: 'YYYY',
+                },
+                tooltipFormat: 'll HH:mm',
+            }
+        },
+    },
+
 };
 
-const labels = getLabels(120);
-
-
-
-const data = {
-    labels,
-    datasets: [
-        {
-            label: 'Infos',
-            data: labels.map(() => faker.datatype.number({ min: 0, max: 3 })),
-        },
-        {
-            label: 'Warnings',
-            data: labels.map(() => faker.datatype.number({ min: 0, max: 2 })),
-        },
-        {
-            label: 'Alarms',
-            data: labels.map(() => faker.datatype.number({ min: 0, max: 1 })),
-        },
-
-    ],
-};
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    LineElement,
+    TimeScale,
+    Title,
+    Tooltip,
+    Legend
+);
 
 export function LogCount() {
-    const theme = useTheme();
-
-    // Kolory zgodne z MUI
-    const infoColor = theme.palette.info.main;
-    const warningColor = theme.palette.warning.main;
-    const errorColor = theme.palette.error.main;
-
-    data.datasets[0].backgroundColor = infoColor;
-    data.datasets[1].backgroundColor = warningColor;
-    data.datasets[2].backgroundColor = errorColor;
-
-    return <Bar options={options} data={data} />;
+    const { datasets, loading } = useLogsChartData();
+    if (loading) {
+        return <CircularProgress />
+    }
+    return <Line options={options} data={datasets} />;
 }
