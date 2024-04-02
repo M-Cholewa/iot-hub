@@ -1,13 +1,12 @@
 import React from 'react';
 import faker from 'faker';
 import { getLabels } from '../../../core/utility/mocks';
-import { Line } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
     BarElement,
-    LineElement,
     Title,
     Tooltip,
     Legend,
@@ -19,7 +18,7 @@ import { CircularProgress } from '@mui/material';
 ChartJS.register(
     CategoryScale,
     LinearScale,
-    LineElement,
+    BarElement,
     TimeScale,
     Title,
     Tooltip,
@@ -41,6 +40,8 @@ const options = {
         x: {
             type: 'time',
             time: {
+                unit: 'hour',
+                round: 'hour',
                 displayFormats: {
                     millisecond: 'HH:mm:ss.SSS',
                     second: 'HH:mm:ss',
@@ -58,20 +59,6 @@ const options = {
     },
 };
 
-const labels = getLabels(60);
-
-const data = {
-    labels,
-    datasets: [
-        {
-            label: 'Devices online',
-            data: labels.map(() => faker.datatype.number({ min: 3, max: 5 })),
-            backgroundColor: 'rgba(53, 162, 235, 0.8)',
-        },
-
-    ],
-};
-
 export function DevicesOnline() {
     const { dataset, loading } = useDevicesOnlineChartData();
 
@@ -79,7 +66,6 @@ export function DevicesOnline() {
         return <CircularProgress />
     }
 
-
-    return <Line options={options} data={dataset} />;
+    return <Bar options={options} data={dataset} />;
 }
 

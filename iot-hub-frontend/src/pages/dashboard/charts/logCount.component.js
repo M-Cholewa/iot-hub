@@ -1,10 +1,10 @@
 import React from 'react';
-import { Line } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
-    LineElement,
+    BarElement,
     Title,
     Tooltip,
     Legend,
@@ -29,6 +29,8 @@ const options = {
         x: {
             type: 'time',
             time: {
+                unit: 'hour',
+                round: 'hour',
                 displayFormats: {
                     millisecond: 'HH:mm:ss.SSS',
                     second: 'HH:mm:ss',
@@ -50,7 +52,7 @@ const options = {
 ChartJS.register(
     CategoryScale,
     LinearScale,
-    LineElement,
+    BarElement,
     TimeScale,
     Title,
     Tooltip,
@@ -62,5 +64,5 @@ export function LogCount() {
     if (loading) {
         return <CircularProgress />
     }
-    return <Line options={options} data={datasets} />;
+    return <Bar options={options} data={datasets} />;
 }
