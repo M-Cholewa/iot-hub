@@ -20,7 +20,7 @@ namespace Business.Core.User.Handlers
 
         public async Task<UpdateUserEmailCommandResult> Handle(UpdateUserEmailCommand request, CancellationToken cancellationToken)
         {
-            var _user = await _userRepository.GetByIdAsync(request.Id);
+            var _user = await _userRepository.GetByIdAsync(request.UserId);
 
             if (_user == null)
             {

@@ -20,7 +20,7 @@ namespace Business.Core.User.Handlers
 
         public async Task<RemoveUserCommandResult> Handle(RemoveUserCommand request, CancellationToken cancellationToken)
         {
-            var usr = await _userRepository.GetByIdAsync(request.Id);
+            var usr = await _userRepository.GetByIdAsync(request.UserId);
 
             if (usr == null)
             {

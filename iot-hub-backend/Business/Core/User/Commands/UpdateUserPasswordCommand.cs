@@ -15,7 +15,7 @@ namespace Business.Core.User.Commands
 
     public class UpdateUserPasswordCommand : IRequest<UpdateUserPasswordCommandResult>
     {
-        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
         public string OldPassword { get; set; } = "";
         public string NewPassword { get; set; } = "";
     }

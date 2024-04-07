@@ -22,16 +22,16 @@ namespace Business.Core.User.Handlers
 
         public async Task<UpdateUserPasswordCommandResult> Handle(UpdateUserPasswordCommand request, CancellationToken cancellationToken)
         {
-            var _user = await _userRepository.GetByIdAsync(request.Id);
+            var _user = await _userRepository.GetByIdAsync(request.UserId);
 
             if (_user == null)
             {
                 return new UpdateUserPasswordCommandResult() { IsSuccess = false, Message = "User does not exist" };
             }
 
-            string pwdHash = _passHasher.HashPassword(request.OldPassword);
+            var isPwdCorrect = _passHasher.VerifyHashedPassword(_user.PasswordHash!, request.OldPassword);
 
-            if (pwdHash != _user.PasswordHash)
+            if (!isPwdCorrect)
             {
                 return new UpdateUserPasswordCommandResult() { IsSuccess = false, Message = "Old password is incorrect" };
             }

@@ -15,7 +15,7 @@ namespace Business.Core.User.Commands
 
     public class UpdateUserEmailCommand : IRequest<UpdateUserEmailCommandResult>
     {
-        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
         public string Email { get; set; } = "";
     }
 }

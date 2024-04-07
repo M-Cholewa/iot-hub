@@ -15,6 +15,6 @@ namespace Business.Core.User.Commands
 
     public class RemoveUserCommand : IRequest<RemoveUserCommandResult>
     {
-        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
     }
 }

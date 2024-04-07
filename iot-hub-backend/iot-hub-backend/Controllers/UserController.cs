@@ -37,7 +37,7 @@ namespace iot_hub_backend.Controllers
         [HasRole(Role.User)]
         public async Task<RemoveUserCommandResult> RemoveUser([FromBody] RemoveUserCommand cmd)
         {
-            bool _canRemove = await User.IsAdminOrCertainUser(cmd.Id, _userRepository);
+            bool _canRemove = await User.IsAdminOrCertainUser(cmd.UserId, _userRepository);
 
             if (!_canRemove)
             {
@@ -47,11 +47,12 @@ namespace iot_hub_backend.Controllers
             return await _mediator.Send(cmd).ConfigureAwait(false);
         }
 
+
         [HttpPatch("Email")]
         [HasRole(Role.User)]
         public async Task<UpdateUserEmailCommandResult> UpdateUserEmail([FromBody] UpdateUserEmailCommand cmd)
         {
-            bool _canUpdate = await User.IsAdminOrCertainUser(cmd.Id, _userRepository);
+            bool _canUpdate = await User.IsAdminOrCertainUser(cmd.UserId, _userRepository);
 
             if (!_canUpdate)
             {
@@ -61,11 +62,12 @@ namespace iot_hub_backend.Controllers
             return await _mediator.Send(cmd).ConfigureAwait(false);
         }
 
+
         [HttpPatch("Password")]
         [HasRole(Role.User)]
         public async Task<UpdateUserPasswordCommandResult> UpdateUserPassword([FromBody] UpdateUserPasswordCommand cmd)
         {
-            bool _canUpdate = await User.IsAdminOrCertainUser(cmd.Id, _userRepository);
+            bool _canUpdate = await User.IsAdminOrCertainUser(cmd.UserId, _userRepository);
 
             if (!_canUpdate)
             {

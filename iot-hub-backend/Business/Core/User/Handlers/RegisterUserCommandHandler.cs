@@ -27,23 +27,23 @@ namespace Business.Core.User.Handlers
         public async Task<RegisterUserCommandResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
 
-            if(request.Password == null || request.Email == null)
+            if (request.Password == null || request.Email == null)
             {
                 return new RegisterUserCommandResult() { IsSuccess = false, Message = "Bad email or password" };
             }
 
-            var userRole = await _roleRepository.GetByKeyAsync(Domain.Core.Role.User).ConfigureAwait(false);
-            var roles = new List<Domain.Core.Role>();
-
-            if (userRole != null)
-            {
-                roles.Add(userRole);
-            }
-
             string pwdHash = _passHasher.HashPassword(request.Password);
-            var user = new Domain.Core.User { Email = request.Email, PasswordHash = pwdHash, Roles = roles };
+            var user = new Domain.Core.User { Email = request.Email, PasswordHash = pwdHash };
 
             user = await _userRepository.AddAsync(user);
+            var userRole = await _roleRepository.GetByKeyAsync(Domain.Core.Role.User).ConfigureAwait(false);
+
+            if(userRole == null)
+            {
+                return new RegisterUserCommandResult() { IsSuccess = false, Message = "User role not found" };
+            }
+
+            await _userRepository.GrantRoleAsync(user, userRole).ConfigureAwait(false);
 
             return new RegisterUserCommandResult() { IsSuccess = true, ResultUser = user };
         }
