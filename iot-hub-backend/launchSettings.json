@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "influxdb": "StartWithoutDebugging",
+        "iot-hub-backend": "StartDebugging",
+        "messageprocessing": "StartDebugging",
+        "mqttserver": "StartDebugging",
+        "postgresql": "StartWithoutDebugging",
+        "systemtest": "StartDebugging"
+      }
+    }
+  }
+}

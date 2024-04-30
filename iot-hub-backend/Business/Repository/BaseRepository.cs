@@ -1,9 +1,10 @@
-﻿using Domain.Data;
+﻿using Business.Interface;
+using Domain.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Business.Repository
 {
-    public class BaseRepository<T> where T : class
+    public class BaseRepository<T> : IRepository<T> where T : class
     {
         protected readonly IoTHubContext _context;
 

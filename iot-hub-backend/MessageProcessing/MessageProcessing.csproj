@@ -23,4 +23,9 @@
     <ProjectReference Include="..\Communication\Communication.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="SystemTest" />
+	</ItemGroup>
+
+
 </Project>

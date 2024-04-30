@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Business.Repository
 {
-    public class UserRepository : BaseRepository<User>, IRepository
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
         public UserRepository(IoTHubContext context) : base(context)
         {

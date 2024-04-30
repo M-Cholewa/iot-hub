@@ -1,5 +1,6 @@
 ﻿using Business.Core.Auth.Commands;
 using Business.Infrastructure.Security;
+using Business.Interface;
 using Business.Repository;
 using Domain.Data;
 using MediatR;
@@ -8,13 +9,13 @@ using System.Text;
 
 namespace Business.Core.Auth.Handlers
 {
-    internal class LoginCommandHandler : IRequestHandler<LoginCommand, LoginCommandResult>
+    public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginCommandResult>
     {
 
         private readonly Business.Infrastructure.Security.IPasswordHasher _passHasher;
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
 
-        public LoginCommandHandler(IPasswordHasher passHasher, UserRepository userRepository)
+        public LoginCommandHandler(IPasswordHasher passHasher, IUserRepository userRepository)
         {
             _passHasher = passHasher;
             _userRepository = userRepository;

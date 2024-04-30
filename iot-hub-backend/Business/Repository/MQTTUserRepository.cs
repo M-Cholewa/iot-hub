@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Business.Repository
 {
-    public class MQTTUserRepository : BaseRepository<MQTTUser>, IRepository
+    public class MQTTUserRepository : BaseRepository<MQTTUser>
     {
         public MQTTUserRepository(IoTHubContext context) : base(context)
         {

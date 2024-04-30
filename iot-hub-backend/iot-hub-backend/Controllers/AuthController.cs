@@ -20,6 +20,13 @@ namespace iot_hub_backend.Controllers
             _jwtSettings = jwtSettings;
         }
 
+        /// <summary>
+        /// Zaloguj użytkownika.
+        /// </summary>
+        /// <param name="cmd">Obiekt LoginCommand zawierający nazwę użytkownika i hasło.</param>
+        /// <returns>Obiekt LoginResult zawierający użytkownika i token.</returns>
+        /// <response code="200">Zwraca nowo utworzony token</response>
+        /// <response code="401">Jeśli użytkownik nie jest autoryzowany</response>  
         [HttpPost("Login")]
         public async Task<ActionResult<LoginResult>> Login([FromBody] LoginCommand cmd)
         {

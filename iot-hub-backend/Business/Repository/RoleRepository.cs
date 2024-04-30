@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Business.Repository
 {
-    public class RoleRepository : BaseRepository<Domain.Core.Role>, IRepository
+    public class RoleRepository : BaseRepository<Domain.Core.Role>
     {
 
         public RoleRepository(IoTHubContext context) : base(context)

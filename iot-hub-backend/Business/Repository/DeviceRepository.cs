@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Business.Repository
 {
-    public class DeviceRepository : BaseRepository<Device>, IRepository
+    public class DeviceRepository : BaseRepository<Device>
     {
         public DeviceRepository(IoTHubContext context) : base(context)
         {
