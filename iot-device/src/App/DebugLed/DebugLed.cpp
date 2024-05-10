@@ -1,4 +1,4 @@
-#include "App/Hardware/DebugLed.hpp"
+#include "App/DebugLed/DebugLed.hpp"
 #include "Arduino.h"
 
 DebugLed *DebugLed::_instance = nullptr;

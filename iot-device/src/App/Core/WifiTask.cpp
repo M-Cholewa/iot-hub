@@ -1,4 +1,4 @@
-#include "App/WIFI/WifiConfig.hpp"
+#include "App/Config/WifiConfig.hpp"
 #include "App/Serial/DebugSerial.hpp"
 #include "App/Core/WifiTask.hpp"
 

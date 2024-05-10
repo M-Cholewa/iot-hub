@@ -1,6 +1,6 @@
 #pragma once
 
-#include "App/Domain/BaseTelemetry.hpp"
+#include "App/MQTT/Telemetry/BaseTelemetry.hpp"
 
 class TemperatureTelemetry : public BaseTelemetry<float>
 {

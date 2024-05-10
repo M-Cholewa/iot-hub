@@ -1,6 +1,6 @@
 #include "IRpcHandler.hpp"
 #include "App/Serial/DebugSerial.hpp"
-#include "App/Hardware/DebugLed.hpp"
+#include "App/DebugLed/DebugLed.hpp"
 #include "nlohmann/json.hpp"
 
 using json = nlohmann::json;

@@ -3,9 +3,9 @@
 #include <PubSubClient.h>
 #include <map>
 #include <vector>
-#include "App/MQTT/RPC/Handlers/IRpcHandler.hpp"
-#include "App/Domain/BaseTelemetry.hpp"
-#include "App/Domain/LogTelemetry.hpp"
+#include "App/MQTT/Handlers/IRpcHandler.hpp"
+#include "App/MQTT/Telemetry/BaseTelemetry.hpp"
+#include "App/MQTT/Telemetry/LogTelemetry.hpp"
 
 using namespace std;
 

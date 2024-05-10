@@ -1,10 +1,10 @@
 
-#include "App/MQTT/MqttConfig.hpp"
-#include "App/MQTT/RPC/RpcRequest.cpp"
-#include "App/MQTT/RPC/RpcResponse.cpp"
+#include "App/Config/MqttConfig.hpp"
+#include "App/MQTT/RpcRequest.cpp"
+#include "App/MQTT/RpcResponse.cpp"
 #include "nlohmann/json.hpp"
-#include "App/MQTT/RPC/Handlers/PingRpcHandler.cpp"
-#include "App/MQTT/RPC/Handlers/DebugLedRpcHandler.cpp"
+#include "App/MQTT/Handlers/PingRpcHandler.cpp"
+#include "App/MQTT/Handlers/DebugLedRpcHandler.cpp"
 #include "App/Serial/DebugSerial.hpp"
 #include "App/Core/MqttTask.hpp"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "App/Domain/BaseTelemetry.hpp"
+#include "App/MQTT/Telemetry/BaseTelemetry.hpp"
 
 class UptimeTelemetry : public BaseTelemetry<unsigned long>
 {
